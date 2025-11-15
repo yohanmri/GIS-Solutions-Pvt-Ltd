@@ -1,0 +1,72 @@
+.main-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.main-nav.scrolled {
+  background-color: var(--calcite-color-foreground-1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.desktop-menu {
+  display: flex;
+  gap: 4px;
+}
+
+.desktop-menu calcite-menu-item {
+  --calcite-color-text-1: var(--calcite-color-text-2);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.desktop-menu calcite-menu-item:hover {
+  --calcite-color-text-1: var(--calcite-color-brand);
+}
+
+.cta-button {
+  --calcite-button-background-color: var(--calcite-color-brand);
+  font-weight: 600;
+}
+
+.mobile-menu-toggle {
+  display: none;
+}
+
+.mobile-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--calcite-color-foreground-1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+}
+
+.mobile-menu-dropdown calcite-menu {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .desktop-menu {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .cta-button {
+    display: none;
+  }
+}

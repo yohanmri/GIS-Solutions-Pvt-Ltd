@@ -1,0 +1,516 @@
+/* Solutions Page Styles */
+
+.solutions-page {
+  min-height: 100vh;
+  background-color: var(--calcite-color-background);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Hero Section */
+.solutions-hero {
+  padding: 120px 0 60px;
+  background: linear-gradient(135deg, 
+    var(--calcite-color-brand-press) 0%, 
+    var(--calcite-color-brand) 50%, 
+    var(--calcite-color-brand-hover) 100%);
+}
+
+.hero-content {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--calcite-color-text-inverse);
+  margin-bottom: 16px;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--calcite-color-text-inverse);
+  opacity: 0.9;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-green {
+  background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Products Section */
+.products-section {
+  padding: 60px 0;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.product-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, 
+    var(--calcite-color-foreground-1) 0%, 
+    var(--calcite-color-foreground-2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  padding: 8px;
+}
+
+.product-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.product-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.product-description {
+  font-size: 0.875rem;
+  color: var(--calcite-color-text-3);
+  line-height: 1.5;
+}
+
+/* Tools Section */
+.tools-section {
+  padding: 80px 0;
+  background-color: var(--calcite-color-foreground-1);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--calcite-color-text-3);
+}
+
+/* Product Circle */
+.product-circle-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  min-height: 600px;
+}
+
+.circle-wrapper {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  flex-shrink: 0;
+}
+
+.gradient-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    rgba(16, 185, 129, 0.1) 50%, 
+    transparent 100%);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+.circle-svg {
+  position: relative;
+  z-index: 1;
+}
+
+.center-circle {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 4px 12px rgba(0, 121, 193, 0.3));
+}
+
+.center-circle:hover {
+  transform: scale(1.1);
+}
+
+.center-text {
+  font-size: 32px;
+  font-weight: 300;
+  fill: white;
+  cursor: pointer;
+  pointer-events: none;
+  
+}
+
+.tool-circle {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tool-circle:hover {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.tooltip-text {
+  font-size: 12px;
+  fill: var(--calcite-color-text-1);
+  pointer-events: none;
+}
+
+/* Details Panel */
+.details-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.tool-details-card {
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.tool-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.tool-icon-large {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: 0 2px 12px rgba(0, 121, 193, 0.3);
+}
+
+.tool-icon-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.tooltip-text {
+  font-size: 12px;
+  fill: var(--calcite-color-text-1);
+  pointer-events: none;
+  paint-order: stroke;
+  stroke: white;
+  stroke-width: 4px;
+}
+
+.tool-info {
+  flex: 1;
+}
+
+.tool-info h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tool-description {
+  font-size: 0.875rem;
+  color: var(--calcite-color-text-3);
+  line-height: 1.6;
+  margin: 16px 0;
+}
+
+.tool-features h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--calcite-color-text-2);
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--calcite-color-text-3);
+  padding: 40px;
+}
+
+.empty-state calcite-icon {
+  color: var(--calcite-color-brand);
+  margin-bottom: 16px;
+}
+
+.empty-state h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--calcite-color-text-2);
+}
+
+.empty-state p {
+  font-size: 0.875rem;
+}
+
+/* Developer Section */
+.developer-section {
+  padding: 80px 0;
+}
+
+.developer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.developer-text {
+  margin-bottom: 48px;
+}
+
+.developer-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.developer-description {
+  font-size: 1.125rem;
+  color: var(--calcite-color-text-3);
+  margin-top: 16px;
+  max-width: 800px;
+}
+
+.developer-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Developer Left Column */
+.developer-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.resource-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.card-title-row h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+  color: var(--calcite-color-text-3);
+}
+
+.features-list {
+  margin: 16px 0;
+}
+
+.feature-text {
+  font-weight: 500;
+}
+
+.card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Developer Right Column */
+.developer-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.code-card {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #2d2d2d;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.code-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.red {
+  background-color: #ff5f56;
+}
+
+.dot.yellow {
+  background-color: #ffbd2e;
+}
+
+.dot.green {
+  background-color: #27c93f;
+}
+
+.code-filename {
+  font-size: 0.75rem;
+  color: #858585;
+}
+
+.code-content {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.code-content pre {
+  margin: 0;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.code-content code {
+  color: #d4d4d4;
+}
+
+.quickstart-card {
+  background: linear-gradient(135deg, 
+    rgba(168, 85, 247, 0.1) 0%, 
+    rgba(59, 130, 246, 0.1) 100%);
+  border: 1px solid var(--calcite-color-brand-underline);
+}
+
+.quickstart-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.platform-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .developer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-circle-container {
+    flex-direction: column;
+  }
+
+  .circle-wrapper {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .developer-title {
+    font-size: 2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-circle-container {
+    padding: 0;
+  }
+
+  .circle-wrapper {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .circle-svg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+}
