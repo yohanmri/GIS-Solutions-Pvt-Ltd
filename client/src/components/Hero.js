@@ -36,7 +36,7 @@ export default function Hero() {
       )}
 
       <div className={`gis-main-content ${showContent ? 'visible' : ''}`}>
-        <nav className="gis-secondary-nav">
+        {/* <nav className="gis-secondary-nav">
           <div className="gis-nav-container">
             <div className="gis-nav-left">
               <img 
@@ -59,7 +59,7 @@ export default function Hero() {
               </calcite-button>
             </div>
           </div>
-        </nav>
+        </nav> */}
 
         <section className="gis-hero-section">
           <video 
