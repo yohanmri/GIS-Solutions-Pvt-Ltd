@@ -49,6 +49,7 @@ export default function HomeCapabilities() {
               kind="brand" 
               scale="m"
               icon-end="arrow-right"
+              onClick={() => window.open('https://www.esri.com/en-us/arcgis/geospatial-platform/how-arcgis-works', '_blank')}
             >
               Learn how ArcGIS works
             </calcite-button>
@@ -84,6 +85,7 @@ export default function HomeCapabilities() {
             kind="brand" 
             scale="m"
             icon-end="arrow-right"
+            onClick={() => window.open('https://www.esri.com/en-us/arcgis/geospatial-platform/how-arcgis-works', '_blank')}
           >
             Learn how ArcGIS works
           </calcite-button>

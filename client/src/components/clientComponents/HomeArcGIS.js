@@ -53,12 +53,12 @@ export default function HomeArcGIS() {
           </div>
 
           <div className="hero-actions">
-            <calcite-button appearance="solid" kind="brand" scale="l">
+            <calcite-button appearance="solid" kind="brand" scale="l" onClick={() => window.open('https://www.esri.com/en-us/about/about-esri', '_blank')}>
               Learn about Esri
               <calcite-icon icon="arrow-right" slot="icon-end"></calcite-icon>
             </calcite-button>
             
-            <calcite-button appearance="outline" kind="brand" scale="l">
+            <calcite-button appearance="outline" kind="brand" scale="l" onClick={() => window.open('https://www.esri.com/en-us/arcgis/about-arcgis/overview', '_blank')}>
               Explore GIS
               <calcite-icon icon="arrow-right" slot="icon-end"></calcite-icon>
             </calcite-button>

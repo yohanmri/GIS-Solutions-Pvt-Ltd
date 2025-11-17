@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
 
-export default function ProductsComponent() {
+export default function ProductsComponent({ setPage }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   // Organized by Esri's three major product categories
@@ -15,37 +15,50 @@ export default function ProductsComponent() {
           icon: "/assets/arcGISonline.png", 
           title: "ArcGIS Online", 
           desc: "Cloud-based mapping platform for creating, sharing, and managing web maps and spatial data across organizations.",
-          features: ["Cloud Storage", "Collaboration", "Web Maps", "Data Management"]
+          features: ["Cloud Storage", "Collaboration", "Web Maps", "Data Management"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-online/overview"
         },
         { 
           icon: "/assets/survey.png", 
           title: "Survey123", 
           desc: "Create smart forms to collect field data quickly with customizable surveys that work online and offline.",
-          features: ["Custom Forms", "Offline Mode", "Photo Capture", "GPS Integration"]
+          features: ["Custom Forms", "Offline Mode", "Photo Capture", "GPS Integration"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-survey123/overview"
         },
         { 
           icon: "/assets/dashboards.png", 
           title: "ArcGIS Dashboards", 
           desc: "Build compelling data visualizations with interactive charts, maps, and indicators for real-time monitoring.",
-          features: ["Real-time Data", "Interactive Charts", "KPI Indicators", "Custom Themes"]
+          features: ["Real-time Data", "Interactive Charts", "KPI Indicators", "Custom Themes"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-dashboards/overview"
         },
         { 
           icon: "/assets/field-maps.png", 
           title: "Field Maps", 
           desc: "Mobile app for field data collection and asset management with offline capabilities and custom forms.",
-          features: ["Offline Maps", "Asset Management", "Navigation", "Data Collection"]
+          features: ["Offline Maps", "Asset Management", "Navigation", "Data Collection"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-field-maps/overview"
         },
         { 
           icon: "/assets/storymap.png", 
           title: "StoryMaps", 
           desc: "Transform your maps into immersive narrative experiences that combine text, multimedia, and interactive content.",
-          features: ["Narrative Maps", "Multimedia", "Templates", "Sharing"]
+          features: ["Narrative Maps", "Multimedia", "Templates", "Sharing"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-storymaps/overview"
         },
         { 
           icon: "/assets/quickCapture.png", 
           title: "QuickCapture", 
           desc: "Rapidly collect field observations with one-tap buttons for fast data capture at walking or driving speeds.",
-          features: ["One-tap Capture", "High-speed Collection", "Custom Buttons", "GPS Tracking"]
+          features: ["One-tap Capture", "High-speed Collection", "Custom Buttons", "GPS Tracking"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-quickcapture/overview"
+        },
+        { 
+          icon: "/assets/product6.png", 
+          title: "ArcGIS Insights", 
+          desc: "Perform spatial analytics and data science workflows with an intuitive drag-and-drop interface.",
+          features: ["Spatial Analytics", "Data Science", "Visualization", "Drag & Drop"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-insights/overview"
         }
       ]
     },
@@ -58,19 +71,8 @@ export default function ProductsComponent() {
           icon: "/assets/arcgis-pro.png", 
           title: "ArcGIS Pro", 
           desc: "Professional desktop GIS application for advanced mapping, spatial analysis, data management, and visualization workflows.",
-          features: ["Advanced Analytics", "3D Mapping", "Geoprocessing", "Publishing"]
-        },
-        { 
-          icon: "/assets/product6.png", 
-          title: "ArcGIS Insights", 
-          desc: "Perform spatial analytics and data science workflows with an intuitive drag-and-drop interface.",
-          features: ["Spatial Analytics", "Data Science", "Visualization", "Drag & Drop"]
-        },
-        { 
-          icon: "/assets/product9.png", 
-          title: "ArcGIS Urban", 
-          desc: "3D urban planning solution for designing, planning, and visualizing city development projects.",
-          features: ["3D Planning", "Urban Design", "Visualization", "Zoning"]
+          features: ["Advanced Analytics", "3D Mapping", "Geoprocessing", "Publishing"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview"
         }
       ]
     },
@@ -83,31 +85,43 @@ export default function ProductsComponent() {
           icon: "/assets/product1.png", 
           title: "ArcGIS Enterprise", 
           desc: "Complete enterprise GIS platform for secure deployment and management of geospatial services within your infrastructure.",
-          features: ["On-Premise", "Security", "Scalability", "Enterprise Ready"]
+          features: ["On-Premise", "Security", "Scalability", "Enterprise Ready"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-enterprise/overview"
         },
         { 
           icon: "/assets/experience-builderlogo.png", 
           title: "Experience Builder", 
           desc: "Build custom web applications with drag-and-drop widgets without writing code for map-centric experiences.",
-          features: ["No-code Builder", "Drag & Drop", "Custom Widgets", "Responsive Design"]
+          features: ["No-code Builder", "Drag & Drop", "Custom Widgets", "Responsive Design"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-experience-builder/overview"
         },
         { 
           icon: "/assets/product2.png", 
           title: "ArcGIS Hub", 
           desc: "Community engagement platform to share data, apps, and initiatives with citizens and stakeholders.",
-          features: ["Community Portal", "Data Sharing", "Collaboration", "Engagement"]
+          features: ["Community Portal", "Data Sharing", "Collaboration", "Engagement"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-hub/overview"
         },
         { 
           icon: "/assets/product8.png", 
           title: "ArcGIS Velocity", 
           desc: "Real-time and big data analytics platform for processing streaming IoT and sensor data.",
-          features: ["Real-time Analytics", "IoT Integration", "Stream Processing", "Big Data"]
+          features: ["Real-time Analytics", "IoT Integration", "Stream Processing", "Big Data"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-velocity/overview"
         },
         { 
           icon: "/assets/product10.png", 
           title: "ArcGIS Indoors", 
           desc: "Indoor mapping and space management platform for facilities, campuses, and indoor navigation.",
-          features: ["Indoor Maps", "Space Management", "Wayfinding", "Facilities"]
+          features: ["Indoor Maps", "Space Management", "Wayfinding", "Facilities"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-indoors/overview"
+        },
+        { 
+          icon: "/assets/product9.png", 
+          title: "ArcGIS Urban", 
+          desc: "3D urban planning solution for designing, planning, and visualizing city development projects.",
+          features: ["3D Planning", "Urban Design", "Visualization", "Zoning"],
+          link: "https://www.esri.com/en-us/arcgis/products/arcgis-urban/overview"
         }
       ]
     }
@@ -363,7 +377,9 @@ export default function ProductsComponent() {
                         ? `0 16px 48px ${category.color}30` 
                         : '0 2px 8px rgba(0,0,0,0.08)',
                       transform: hoveredCard === cardKey ? 'translateY(-8px)' : 'translateY(0)',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      display: 'flex',
+                      flexDirection: 'column'
                     }}
                   >
                     {/* Color Bar */}
@@ -376,7 +392,10 @@ export default function ProductsComponent() {
 
                     {/* Card Content */}
                     <div style={{ 
-                      padding: '2rem'
+                      padding: '2rem',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flex: 1
                     }}>
                       {/* Product Icon */}
                       <div style={{
@@ -421,7 +440,7 @@ export default function ProductsComponent() {
                         color: '#666',
                         lineHeight: '1.7',
                         marginBottom: '1.5rem',
-                        minHeight: '80px'
+                        flex: 1
                       }}>
                         {product.desc}
                       </p>
@@ -464,10 +483,13 @@ export default function ProductsComponent() {
                         width="full"
                         appearance={hoveredCard === cardKey ? 'solid' : 'outline'}
                         icon-end="arrow-right"
+                        onClick={() => window.open(product.link, '_blank')}
                         style={{
                           '--calcite-button-background': category.color,
                           '--calcite-button-text-color': hoveredCard === cardKey ? '#fff' : category.color,
-                          '--calcite-button-border-color': category.color
+                          '--calcite-button-border-color': category.color,
+                          cursor: 'pointer',
+                          marginTop: 'auto'
                         }}
                       >
                         Learn More
@@ -579,7 +601,7 @@ export default function ProductsComponent() {
             }}>
               {[
                 { icon: 'ribbon', label: 'Authorized Distributor', desc: 'Official ESRI partner since 2012, providing genuine ArcGIS licenses and complete platform access.' },
-                { icon: 'user-group', label: 'Expert Support', desc: 'Dedicated local technical team offering ongoing support and guidance.' },
+                { icon: 'users', label: 'Expert Support', desc: 'Dedicated local technical team offering ongoing support and guidance.' },
                 { icon: 'book', label: 'Training Programs', desc: 'Comprehensive certification courses to maximize capabilities.' },
                 { icon: 'wrench', label: 'Implementation', desc: 'Full deployment support and custom solutions.' }
               ].map((item, idx) => (
@@ -654,9 +676,16 @@ export default function ProductsComponent() {
                 appearance="solid"
                 scale="l"
                 icon-end="arrow-right"
+                onClick={() => {
+                  if (setPage) {
+                    setPage('solutions');
+                    window.scrollTo(0, 0);
+                  }
+                }}
                 style={{
                   '--calcite-button-background': '#7b5fa6',
-                  '--calcite-button-text-color': '#ffffff'
+                  '--calcite-button-text-color': '#ffffff',
+                  cursor: 'pointer'
                 }}
               >
                 Explore Solutions
@@ -665,9 +694,16 @@ export default function ProductsComponent() {
                 appearance="outline"
                 scale="l"
                 icon-end="phone"
+                onClick={() => {
+                  if (setPage) {
+                    setPage('contact');
+                    window.scrollTo(0, 0);
+                  }
+                }}
                 style={{
                   '--calcite-button-border-color': '#7b5fa6',
-                  '--calcite-button-text-color': '#7b5fa6'
+                  '--calcite-button-text-color': '#7b5fa6',
+                  cursor: 'pointer'
                 }}
               >
                 Contact Sales
@@ -677,7 +713,7 @@ export default function ProductsComponent() {
         </div>
       </div>
 
-      {/* Why Choose Section */}
+      {/* View All Products Section */}
       <div style={{
         background: 'linear-gradient(135deg, #7b5fa6 0%, #6d4f96 100%)',
         padding: '5rem 2rem',
@@ -687,17 +723,41 @@ export default function ProductsComponent() {
           maxWidth: '1200px',
           margin: '0 auto'
         }}>
-
-          
-          
-          
-         
           <div style={{
-            textAlign: 'center',
-            marginTop: '4rem'
+            textAlign: 'center'
           }}>
-        
-     
+            <h2 style={{
+              fontSize: 'clamp(2rem, 4vw, 2.8rem)',
+              fontWeight: '400',
+              marginBottom: '1.5rem'
+            }}>
+              Explore the Complete ArcGIS Platform
+            </h2>
+            <p style={{
+              fontSize: '1.125rem',
+              lineHeight: '1.7',
+              fontWeight: '300',
+              marginBottom: '2.5rem',
+              opacity: 0.95,
+              maxWidth: '800px',
+              margin: '0 auto 2.5rem'
+            }}>
+              Discover all ArcGIS products and find the perfect solution for your organization's needs. 
+              From mobile apps to enterprise platforms, Esri offers comprehensive tools for every aspect of GIS work.
+            </p>
+            <calcite-button
+              appearance="outline-fill"
+              scale="l"
+              icon-end="launch"
+              onClick={() => window.open('https://www.esri.com/en-us/arcgis/products/index', '_blank')}
+              style={{
+                '--calcite-button-border-color': '#ffffff',
+                '--calcite-button-text-color': '#ffffff',
+                cursor: 'pointer'
+              }}
+            >
+              View All Esri Products
+            </calcite-button>
           </div>
         </div>
       </div>
@@ -719,12 +779,16 @@ export default function ProductsComponent() {
           }
           
           /* Full-width section responsive */
-          div[style*="gridTemplateColumns: '1fr 1fr'"][style*="minHeight: '600px'"] {
+          div[style*="gridTemplateColumns: '45% 55%'"] {
             grid-template-columns: 1fr !important;
           }
           
-          div[style*="gridTemplateColumns: '1fr 1fr'"][style*="minHeight: '600px'"] > div:first-child {
+          div[style*="gridTemplateColumns: '45% 55%'"] > div:first-child {
             display: none;
+          }
+          
+          div[style*="gridTemplateColumns: 'repeat(2, 1fr)'"] {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>

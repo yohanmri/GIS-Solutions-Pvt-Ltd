@@ -6,24 +6,28 @@ export default function HomeInitiatives() {
       title: 'Sustainable Development Goals',
       description: 'Collect, analyze, and share SDG data for planning, policymaking, and decision-making with GIS.',
       link: 'More on SDGs',
+      url: 'https://www.esri.com/en-us/industries/sustainable-development/sdg',
       gradient: 'linear-gradient(135deg, #0d4d6b 0%, #1e5a7a 100%)'
     },
     {
       title: 'Humanitarian Assistance',
       description: 'Prepare, manage, and deliver effective humanitarian assistance programs with GIS.',
       link: 'More on assistance',
+      url: 'https://www.esri.com/en-us/industries/humanitarian/overview',
       gradient: 'linear-gradient(135deg, #1e5a7a 0%, #2a6d8f 100%)'
     },
     {
       title: 'Conservation',
       description: 'Preserve biodiversity with GIS.',
       link: 'More on conservation',
+      url: 'https://www.esri.com/en-us/industries/conservation/overview',
       gradient: 'linear-gradient(135deg, #2a6d8f 0%, #3680a4 100%)'
     },
     {
       title: 'Racial Equity',
       description: 'Advance racial equity and social justice with GIS.',
       link: 'More on racial equity',
+      url: 'https://www.esri.com/en-us/racial-equity/overview',
       gradient: 'linear-gradient(135deg, #3680a4 0%, #4293b9 100%)'
     }
   ];
@@ -45,13 +49,19 @@ export default function HomeInitiatives() {
               <h3 className="initiative-heading">{initiative.title}</h3>
               <p className="initiative-description">{initiative.description}</p>
             </div>
-            <a href="#" className="initiative-link">
+            <a 
+              href={initiative.url} 
+              className="initiative-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {initiative.link} →
             </a>
           </div>
         ))}
       </div>
 
+  
       <style>{`
         .initiatives-section {
           background: #ffffff;
