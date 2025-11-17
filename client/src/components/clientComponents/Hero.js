@@ -1,66 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
+import '@esri/calcite-components/components/calcite-notice';
 
 export default function Hero() {
-  const [showContent, setShowContent] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
 
-  const handleStartExperience = () => {
-    setTimeout(() => {
-      setShowContent(true);
-    }, 300);
-  };
+  useEffect(() => {
+    // Show notification after 1 second
+    const timer = setTimeout(() => {
+      setShowNotification(true);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+const handleNavigateToEvents = () => {
+  setShowNotification(false);
+  // Navigate to events section
+  setTimeout(() => {
+    const servicesSection = document.querySelector('.services-section');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+      // Trigger the Events tab after scrolling
+      setTimeout(() => {
+        const eventsTabs = document.querySelectorAll('calcite-tab-title');
+        eventsTabs.forEach(tab => {
+          if (tab.textContent.includes('Events')) {
+            tab.click();
+          }
+        });
+      }, 1000);
+    }
+  }, 100);
+};
 
   return (
     <>
-      {!showContent && (
-        <div className="gis-start-screen">
-          <div className="gis-start-content">
-            <img 
-              src="/assets/logoGIS.png" 
-              alt="GIS Solutions Logo" 
-              className="gis-start-logo"
-            />
-            <h2 className="gis-start-title">GIS Solutions</h2>
-            <p className="gis-start-subtitle">Experience Geographic Intelligence</p>
-            <calcite-button 
-              appearance="solid" 
-              kind="brand" 
-              scale="l"
-              onClick={handleStartExperience}
-            >
-              Enter Site
-            </calcite-button>
-          </div>
-        </div>
-      )}
-
-      <div className={`gis-main-content ${showContent ? 'visible' : ''}`}>
-        {/* <nav className="gis-secondary-nav">
-          <div className="gis-nav-container">
-            <div className="gis-nav-left">
-              <img 
-                src="/assets/logoGIS.png" 
-                alt="GIS Solutions Logo" 
-                className="gis-nav-logo"
-              />
-              <span className="gis-nav-section-title">GIS Solutions</span>
-            </div>
-            <div className="gis-nav-links">
-              <a href="#overview" className="gis-nav-link active">Overview</a>
-              <a href="#focus-areas" className="gis-nav-link">Focus Areas</a>
-              <a href="#events" className="gis-nav-link">Events</a>
-              <a href="#community" className="gis-nav-link">Community</a>
-              <a href="#program" className="gis-nav-link">Program</a>
-            </div>
-            <div className="gis-nav-right">
-              <calcite-button appearance="solid" kind="brand" scale="s">
-                Apply Now
-              </calcite-button>
-            </div>
-          </div>
-        </nav> */}
-
+      <div className="gis-main-content visible">
         <section className="gis-hero-section">
           <video 
             className="gis-video-background" 
@@ -113,6 +90,91 @@ export default function Hero() {
               </div>
             </div>
           </div>
+
+          {/* Event Notification Popup */}
+          {showNotification && (
+            <div className="event-notification-popup">
+              <div className="event-notification-content">
+                <button 
+                  className="event-notification-close"
+                  onClick={() => setShowNotification(false)}
+                  aria-label="Close notification"
+                >
+                  <calcite-icon icon="x" scale="s"></calcite-icon>
+                </button>
+                
+                <div className="event-notification-grid">
+  {/* Left - Image */}
+  <div className="event-notification-image">
+    <img 
+      src="/assets/storymap.jpeg" 
+      alt="GIS Day 2025 Event"
+      onError={(e) => {
+        e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
+      }}
+    />
+  </div>
+
+  {/* Right - Content */}
+  <div className="event-notification-text">
+    <div className="event-notification-header">
+      <calcite-icon icon="まつり" scale="s"></calcite-icon>
+      <span className="event-notification-badge">Upcoming Event</span>
+    </div>
+    
+    <h3 className="event-notification-title">
+      GIS Day 2025 Celebration
+    </h3>
+    
+    <p className="event-notification-description">
+      Join our StoryMaps Competition & Online Webinar celebrating the beauty of Sri Lanka!
+    </p>
+
+    <div className="event-notification-details">
+      <div className="event-detail-item">
+        <calcite-icon icon="calendar" scale="s"></calcite-icon>
+        <span>November 19, 2025</span>
+      </div>
+      <div className="event-detail-item">
+        <calcite-icon icon="award" scale="s"></calcite-icon>
+        <span>Win Exciting Prizes</span>
+      </div>
+    </div>
+
+    <div className="event-notification-actions">
+      <calcite-button
+        appearance="solid"
+        kind="brand"
+        scale="s"
+        icon-end="arrow-right"
+        onClick={handleNavigateToEvents}
+      >
+        View Event Details
+      </calcite-button>
+      <calcite-button
+        appearance="outline"
+        kind="brand"
+        scale="s"
+        icon-end="launch"
+        onClick={() => window.open('https://arcg.is/0DvGT4', '_blank')}
+      >
+        Register Now
+      </calcite-button>
+      <calcite-button
+        appearance="outline"
+        kind="neutral"
+        scale="s"
+        icon-end="launch"
+        onClick={() => window.open('https://storymaps.gislk.com/', '_blank')}
+      >
+        Competition Website
+      </calcite-button>
+    </div>
+  </div>
+</div>
+              </div>
+            </div>
+          )}
         </section>
       </div>
 
@@ -123,181 +185,31 @@ export default function Hero() {
           box-sizing: border-box;
         }
 
-        .gis-start-screen {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(135deg, #0a2540 0%, #1a365d 50%, #2d4a6e 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 10000;
-          animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .gis-start-content {
-          text-align: center;
-          animation: slideUp 0.8s ease-out;
-        }
-
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .gis-start-logo {
-          width: 180px;
-          height: auto;
-          margin-bottom: 2rem;
-          filter: drop-shadow(0 4px 12px rgba(0, 212, 255, 0.3));
-          animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-          0%, 100% {
-            transform: scale(1);
-            filter: drop-shadow(0 4px 12px rgba(0, 212, 255, 0.3));
-          }
-          50% {
-            transform: scale(1.05);
-            filter: drop-shadow(0 8px 20px rgba(0, 212, 255, 0.5));
-          }
-        }
-
-        .gis-start-title {
-          font-size: 3.5rem;
-          font-weight: 300;
-          color: #ffffff;
-          margin-bottom: 1rem;
-          letter-spacing: -0.02em;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .gis-start-subtitle {
-          font-size: 1.25rem;
-          color: #b0d4f1;
-          font-weight: 300;
-          margin-bottom: 3rem;
-          text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-        }
-
         .gis-main-content {
-          opacity: 0;
-          transition: opacity 0.8s ease-in;
-        }
-
-        .gis-main-content.visible {
           opacity: 1;
         }
 
-        .gis-secondary-nav {
-          background-color: rgba(21, 21, 21, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          position: sticky;
-          top: 0;
-          z-index: 100;
+        .gis-hero-section {
+          position: relative;
+          width: 100%;
+          height: 100vh;
+          overflow: hidden;
+          padding: 0;
           margin: 0;
-        }
-
-        .gis-nav-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 2rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 60px;
-        }
-
-        .gis-nav-left {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .gis-nav-logo {
-          height: 35px;
-          width: auto;
-          filter: brightness(1.1);
-        }
-
-        .gis-nav-section-title {
-          color: #ffffff;
-          font-size: 1.1rem;
-          font-weight: 500;
-          margin-left: 0.5rem;
-        }
-
-        .gis-nav-links {
-          display: flex;
-          align-items: center;
-          gap: 0;
-          flex: 1;
-          margin-left: 3rem;
-        }
-
-        .gis-nav-link {
-          color: #d4d4d4;
-          text-decoration: none;
-          padding: 1.25rem 1.5rem;
-          font-size: 0.95rem;
-          font-weight: 400;
-          border-bottom: 3px solid transparent;
-          transition: all 0.3s ease;
-          height: 60px;
           display: flex;
           align-items: center;
         }
 
-        .gis-nav-link:hover {
-          color: #ffffff;
-          background-color: rgba(255, 255, 255, 0.08);
+        .gis-video-background {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          height: 100vh;
+          object-fit: cover;
+          transform: translate(-50%, -50%);
+          z-index: 1;
         }
-
-        .gis-nav-link.active {
-          color: #ffffff;
-          border-bottom-color: #00d4ff;
-          background-color: rgba(0, 212, 255, 0.1);
-        }
-
-        .gis-nav-right {
-          margin-left: auto;
-        }
-
-.gis-hero-section {
-  position: relative;
-  width: 100%;
-  height: 100vh;      /* FULL SCREEN */
-  overflow: hidden;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-.gis-video-background {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;        /* ensures full width */
-  height: 100vh;      /* video takes full height */
-  object-fit: cover;  /* keeps proportions */
-  transform: translate(-50%, -50%); /* centers correctly */
-  z-index: 1;
-}
 
         .gis-hero-container {
           max-width: 1400px;
@@ -418,16 +330,163 @@ export default function Hero() {
           box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
         }
 
+        /* Event Notification Popup Styles */
+        .event-notification-popup {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          z-index: 1000;
+          animation: slideInRight 0.6s ease-out;
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(100px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+.event-notification-content {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+  position: relative;
+  max-width: 620px;
+}
+
+        .event-notification-close {
+          position: absolute;
+          top: 0.75rem;
+          right: 0.75rem;
+          background: rgba(255, 255, 255, 0.9);
+          border: 1px solid #d4d4d4;
+          border-radius: 4px;
+          width: 28px;
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          z-index: 10;
+          transition: all 0.2s ease;
+          padding: 0;
+        }
+
+        .event-notification-close:hover {
+          background: #f0f0f0;
+          border-color: #323232;
+        }
+
+        .event-notification-close calcite-icon {
+          color: #323232;
+        }
+
+.event-notification-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0;
+}
+
+.event-notification-image {
+  background: #f8f9fa;
+  overflow: hidden;
+  padding: 0.75rem;
+}
+
+.event-notification-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+        .event-notification-text {
+          padding: 1.25rem 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.75rem;
+        }
+
+        .event-notification-header {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+
+        .event-notification-header calcite-icon {
+          color: #0079c1;
+        }
+
+        .event-notification-badge {
+          background: linear-gradient(135deg, #0079c1 0%, #005a8f 100%);
+          color: #ffffff;
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.7rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .event-notification-title {
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #151515;
+          margin: 0;
+          line-height: 1.3;
+        }
+
+        .event-notification-description {
+          font-size: 0.875rem;
+          color: #6a6a6a;
+          margin: 0;
+          line-height: 1.5;
+        }
+
+        .event-notification-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 0.75rem 0;
+          border-top: 1px solid #e0e0e0;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .event-detail-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          font-size: 0.8rem;
+          color: #323232;
+        }
+
+        .event-detail-item calcite-icon {
+          color: #0079c1;
+        }
+
+.event-notification-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+        .event-notification-actions calcite-button {
+          --calcite-button-padding-x-s: 1rem;
+          --calcite-button-padding-y-s: 0.5rem;
+        }
+
+        .event-notification-actions calcite-button::part(button) {
+          font-size: 0.875rem;
+        }
+
         @media (max-width: 1024px) {
-          .gis-nav-links {
-            margin-left: 2rem;
-          }
-
-          .gis-nav-link {
-            padding: 1rem 1rem;
-            font-size: 0.9rem;
-          }
-
           .gis-video-background {
             width: 50%;
           }
@@ -440,46 +499,17 @@ export default function Hero() {
             width: 100px;
           }
 
-          .gis-start-title {
-            font-size: 2.75rem;
+          .event-notification-popup {
+            right: 1rem;
+            bottom: 1rem;
           }
 
-          .gis-start-logo {
-            width: 140px;
+          .event-notification-content {
+            max-width: 450px;
           }
         }
 
         @media (max-width: 768px) {
-          .gis-nav-container {
-            flex-wrap: wrap;
-            height: auto;
-            padding: 0.75rem 1.5rem;
-          }
-
-          .gis-nav-left {
-            width: 100%;
-            justify-content: center;
-            margin-bottom: 0.75rem;
-          }
-
-          .gis-nav-links {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-left: 0;
-            justify-content: flex-start;
-          }
-
-          .gis-nav-link {
-            white-space: nowrap;
-            padding: 0.85rem 1rem;
-            font-size: 0.875rem;
-          }
-
-          .gis-nav-right {
-            display: none;
-          }
-
           .gis-hero-section {
             height: auto;
             min-height: 100vh;
@@ -508,14 +538,6 @@ export default function Hero() {
             width: 90px;
           }
 
-          .gis-start-title {
-            font-size: 2.25rem;
-          }
-
-          .gis-start-logo {
-            width: 120px;
-          }
-
           .gis-hero-actions {
             flex-direction: column;
             width: 100%;
@@ -523,6 +545,28 @@ export default function Hero() {
 
           calcite-button {
             width: 100%;
+          }
+
+          .event-notification-popup {
+            left: 1rem;
+            right: 1rem;
+            bottom: 1rem;
+          }
+
+          .event-notification-content {
+            max-width: 100%;
+          }
+
+          .event-notification-grid {
+            grid-template-columns: 120px 1fr;
+          }
+
+          .event-notification-text {
+            padding: 1rem;
+          }
+
+          .event-notification-title {
+            font-size: 1rem;
           }
         }
 
@@ -543,16 +587,16 @@ export default function Hero() {
             width: 80px;
           }
 
-          .gis-start-title {
-            font-size: 1.875rem;
+          .event-notification-grid {
+            grid-template-columns: 1fr;
           }
 
-          .gis-start-subtitle {
-            font-size: 1rem;
+          .event-notification-image {
+            height: 120px;
           }
 
-          .gis-start-logo {
-            width: 100px;
+          .event-notification-text {
+            padding: 1rem;
           }
         }
       `}</style>
