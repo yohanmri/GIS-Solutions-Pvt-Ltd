@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
 import '@esri/calcite-components/components/calcite-chip';
@@ -10,6 +11,8 @@ import '@esri/calcite-components/components/calcite-input';
 import '@esri/calcite-components/components/calcite-label';
 import '@esri/calcite-components/components/calcite-card';
 import '../../styles/clientStyles/services.css';
+
+
 
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -254,6 +257,20 @@ export default function Services() {
     ? services 
     : services.filter(service => service.category === activeCategory);
 
+    useEffect(() => {
+  const shouldOpenEvents = sessionStorage.getItem('openEventsTab');
+  if (shouldOpenEvents === 'true') {
+    sessionStorage.removeItem('openEventsTab');
+    setTimeout(() => {
+      const eventsTabs = document.querySelectorAll('calcite-tab-title');
+      eventsTabs.forEach(tab => {
+        if (tab.textContent.includes('Events')) {
+          tab.click();
+        }
+      });
+    }, 500);
+  }
+}, []);
   return (
     <section className="services-section">
       {/* Hero Header */}

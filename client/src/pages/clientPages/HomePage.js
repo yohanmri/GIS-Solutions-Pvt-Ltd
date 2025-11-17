@@ -19,7 +19,7 @@ export default function HomePage({ setPage }) {
       overflow: 'hidden'
     }}>
       <Navbar setPage={setPage} activePage="home" />
-      <Hero />
+      <Hero setPage={setPage} />
       <HomeInitiatives />
       <HomeArcGIS />
       <HomeCapabilities />

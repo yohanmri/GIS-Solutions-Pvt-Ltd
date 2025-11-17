@@ -3,7 +3,7 @@ import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
 import '@esri/calcite-components/components/calcite-notice';
 
-export default function Hero() {
+export default function Hero({ setPage }) {
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
@@ -17,22 +17,10 @@ export default function Hero() {
 
 const handleNavigateToEvents = () => {
   setShowNotification(false);
-  // Navigate to events section
-  setTimeout(() => {
-    const servicesSection = document.querySelector('.services-section');
-    if (servicesSection) {
-      servicesSection.scrollIntoView({ behavior: 'smooth' });
-      // Trigger the Events tab after scrolling
-      setTimeout(() => {
-        const eventsTabs = document.querySelectorAll('calcite-tab-title');
-        eventsTabs.forEach(tab => {
-          if (tab.textContent.includes('Events')) {
-            tab.click();
-          }
-        });
-      }, 1000);
-    }
-  }, 100);
+  sessionStorage.setItem('openEventsTab', 'true');
+  if (setPage) {
+    setPage('services');
+  }
 };
 
   return (
