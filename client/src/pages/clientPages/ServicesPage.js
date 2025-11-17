@@ -9,7 +9,7 @@ export default function ServicesPage({ setPage }) {
     <div className="services-page">
       <Navbar setPage={setPage} activePage="services" />
       <ServicesComponent />
-      <Footer setPage={setPage} />
+     <Footer setPage={setPage} />
     </div>
   );
 }

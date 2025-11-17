@@ -10,8 +10,8 @@ export default function AboutPage({ setPage }) {
     <div className="about-page">
       <Navbar setPage={setPage} activePage="about" /> 
        <AboutDetails />
-       <AboutExperts/>
-       <AboutPeople />
+       {/* <AboutExperts/>
+       <AboutPeople /> */}
       <Footer />
     </div>
   );

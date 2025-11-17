@@ -115,8 +115,10 @@ export default function ContactComponent() {
                 marginBottom: '1rem'
               }}>
                 <strong>GIS Solutions (Pvt) Ltd</strong><br />
-                123 GIS Street, Tech Park<br />
-                Colombo 00100, Sri Lanka
+ 
+                370 Galle - Colombo Rd, 
+                <br />
+                Colombo 00300
               </p>
               <calcite-button
                 appearance="outline"
@@ -158,15 +160,14 @@ export default function ContactComponent() {
               }}>
                 <div>
                   <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Hotline</p>
-                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+94 11 234 5678</p>
+                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+0112 575 297</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Mobile</p>
-                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+94 77 123 4567</p>
+                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+94 77 525 5133</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Fax</p>
-                  <p style={{ fontSize: '1rem', color: '#555' }}>+94 11 234 5679</p>
+             
                 </div>
               </div>
             </div>
@@ -373,10 +374,10 @@ export default function ContactComponent() {
             gap: '2rem'
           }}>
             {[
-              { icon: 'shopping-cart', dept: 'Sales Inquiries', email: 'sales@gislk.com', desc: 'Product pricing and licensing' },
+              // { icon: 'shopping-cart', dept: 'Sales Inquiries', email: 'sales@gislk.com', desc: 'Product pricing and licensing' },
               { icon: 'wrench', dept: 'Technical Support', email: 'support@gislk.com', desc: 'Technical assistance and troubleshooting' },
-              { icon: 'learning', dept: 'Training & Partnerships', email: 'training@gislk.com', desc: 'Training programs and collaborations' },
-              { icon: 'organization', dept: 'Media & PR', email: 'media@gislk.com', desc: 'Press inquiries and media relations' }
+              // { icon: 'learning', dept: 'Training & Partnerships', email: 'training@gislk.com', desc: 'Training programs and collaborations' },
+              { icon: 'organization', dept: 'Media & PR', email: 'info@gislk.com', desc: 'Press inquiries and media relations' }
             ].map((contact, idx) => (
               <div
                 key={idx}
