@@ -2,7 +2,7 @@ import React from 'react';
 import '@esri/calcite-components/components/calcite-card';
 import '@esri/calcite-components/components/calcite-icon';
 import '@esri/calcite-components/components/calcite-chip';
-import '../styles/solutions.css';
+import '../../styles/clientStyles/solutions.css';
 
 export default function Solutions() {
   const solutions = [

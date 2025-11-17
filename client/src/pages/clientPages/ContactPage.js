@@ -1,7 +1,7 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Contact from '../components/Contact';
+import Navbar from '../../components/clientComponents/Navbar';
+import Contact from '../../components/clientComponents/Contact';
+import Footer from '../../components/clientComponents/Footer';
 
 export default function ContactPage({ setPage }) {  // ← ADD { setPage }
   return (

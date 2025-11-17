@@ -8,7 +8,7 @@ import '@esri/calcite-components/components/calcite-tab-nav';
 import '@esri/calcite-components/components/calcite-tab-title';
 import '@esri/calcite-components/components/calcite-input';
 import '@esri/calcite-components/components/calcite-label';
-import '../styles/services.css';
+import '../../styles/clientStyles/services.css';
 
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState('all');

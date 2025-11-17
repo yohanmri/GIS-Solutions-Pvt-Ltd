@@ -2,7 +2,7 @@ import React from 'react';
 import '@esri/calcite-components/components/calcite-icon';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-input';
-import '../styles/footer.css';
+import '../../styles/clientStyles/footer.css';
 
 export default function Footer() {
   return (

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import HomePage from './pages/HomePage';
-import SolutionsPage from './pages/SolutionsPage';
-import ServicesPage from './pages/ServicesPage';
-import ContactPage from './pages/ContactPage';
-import ProductsPage from './pages/ProductsPage';
-import AboutPage from './pages/AboutPage';
-import ProjectsPage from './pages/ProjectsPage';
+import HomePage from './pages/clientPages/HomePage';
+import ProductsPage from './pages/clientPages/ProductsPage';
+import SolutionsPage from './pages/clientPages/SolutionsPage';
+import ServicesPage from './pages/clientPages/ServicesPage';
+import ContactPage from './pages/clientPages/ContactPage';
+import AboutPage from './pages/clientPages/AboutPage'; 
+import ProjectsPage from './pages/clientPages/ProjectsPage';
 import './styles/global.css';
 import { defineCustomElements } from '@esri/calcite-components/loader';
 

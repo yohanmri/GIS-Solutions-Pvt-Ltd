@@ -5,7 +5,7 @@ import '@esri/calcite-components/components/calcite-menu';
 import '@esri/calcite-components/components/calcite-menu-item';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-action';
-import '../styles/navbar.css';
+import '../../styles/clientStyles/navbar.css';
 
 export default function Navbar({ setPage, activePage = 'home' }) {
   const [scrolled, setScrolled] = useState(false);
