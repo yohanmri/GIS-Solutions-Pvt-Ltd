@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
 
-export default function HomeTwo() {
+export default function HomeArcGIS() {
   const videoRef = useRef(null);
 
   useEffect(() => {

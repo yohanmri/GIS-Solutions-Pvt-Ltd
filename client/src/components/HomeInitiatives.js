@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HomeOne() {
+export default function HomeInitiatives() {
   const initiatives = [
     {
       title: 'Sustainable Development Goals',

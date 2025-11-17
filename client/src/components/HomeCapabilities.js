@@ -2,7 +2,7 @@ import React from 'react';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
 
-export default function HomeThree() {
+export default function HomeCapabilities() {
   const capabilities = [
     {
       image: 'https://www.esri.com/content/dam/esrisites/en-us/arcgis/about-arcgis/images/about-arcgis-mts-cap-mapping.jpg',

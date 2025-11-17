@@ -5,9 +5,9 @@ import Services from '../components/Services';
 import Solutions from '../components/Solutions';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
-import HomeTwo from '../components/HomeTwo';
-import HomeThree from '../components/HomeThree';
-import HomeOne from '../components/HomeOne';
+import HomeArcGIS from '../components/HomeArcGIS';
+import HomeCapabilities from '../components/HomeCapabilities';
+import HomeInitiatives from '../components/HomeInitiatives';
 
 export default function HomePage({ setPage }) {
   return (
@@ -20,9 +20,9 @@ export default function HomePage({ setPage }) {
     }}>
       <Navbar setPage={setPage} activePage="home" />
       <Hero />
-      <HomeOne />
-      <HomeTwo />
-      <HomeThree />
+      <HomeInitiatives />
+      <HomeArcGIS />
+      <HomeCapabilities />
       <Footer />
     </div>
   );
