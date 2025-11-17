@@ -8,6 +8,7 @@ import '@esri/calcite-components/components/calcite-tab-nav';
 import '@esri/calcite-components/components/calcite-tab-title';
 import '@esri/calcite-components/components/calcite-input';
 import '@esri/calcite-components/components/calcite-label';
+import '@esri/calcite-components/components/calcite-card';
 import '../../styles/clientStyles/services.css';
 
 export default function Services() {
@@ -266,7 +267,7 @@ export default function Services() {
           </div>
           <div className="services-hero-image">
             <img 
-              src="https://www.esri.com/content/dam/esrisites/en-us/common/imagery/homepage-2022/gis-technology-for-smarter-faster-decisions.jpg" 
+              src="https://www.esri.com/content/dam/esrisites/en-us/industries/2022/telecommunications/assets/overview/industry-telecom-2024-overview-banner-medium-foreground.png" 
               alt="GIS mapping and spatial analysis visualization"
               loading="eager"
             />
@@ -286,6 +287,9 @@ export default function Services() {
               <calcite-tab-title className="tab-title-large tab-title-training">
                 <calcite-icon icon="learning" scale="m"></calcite-icon>
                 Training Programs
+              </calcite-tab-title>
+              <calcite-tab-title className="tab-title-large tab-title-events">
+                Events
               </calcite-tab-title>
             </calcite-tab-nav>
             
@@ -600,51 +604,169 @@ export default function Services() {
                 </div>
               </div>
             </calcite-tab>
-          </calcite-tabs>
-        </div>
-            {/* CTA Section */}
-                <div className="services-cta">
-                  <div className="services-cta-grid">
-                    <div className="services-cta-content">
-                      <img 
-                        src="/assets/logoGIS.png" 
-                        alt="GIS Solutions Logo" 
-                        className="cta-logo"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
-                      />
-                      <h2 className="cta-title">Let's Work Together</h2>
-                      <p className="cta-description">
-                        Partner with us to unlock the full potential of your spatial data. Our expert team is ready to deliver innovative GIS solutions tailored to your unique challenges.
-                      </p>
-                      <div className="cta-buttons">
+            
+            {/* TAB 3: EVENTS */}
+            <calcite-tab>
+              <div className="tab-content events-tab-content">
+                <div className="events-header">
+                  <h2 className="section-title">Upcoming Events</h2>
+                  <p className="section-description">
+                    Join us in celebrating innovation, creativity, and the power of geographic storytelling. 
+                    Explore our upcoming events and competitions designed to inspire the GIS community.
+                  </p>
+                </div>
+
+                {/* Event Card Container */}
+                <calcite-card class="event-main-card">
+                  <div className="event-card-grid">
+                    {/* Left Side - Event Details */}
+                    <div className="event-details-side">
+                      <div className="event-celebration-header">
+                        <calcite-icon icon="globe" scale="s"></calcite-icon>
+                        Celebrate GIS Day 2025!
+                        <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                      </div>
+
+                      <h3 className="event-card-title">Online Webinar & StoryMaps Competition</h3>
+                      <p className="event-theme">"Mapping the Beauty of Sri Lanka through StoryMaps"</p>
+
+                      <div className="event-card-description">
+                        <p>
+                          Join us for a special online webinar and StoryMaps Competition celebrating GIS Day 2025! 
+                          Discover how location intelligence and creativity come together to tell powerful stories 
+                          about Sri Lanka's breathtaking beauty.
+                        </p>
+                        <p>
+                          GIS Solutions (Pvt) Ltd, the sole distributor for Esri's ArcGIS platform in Sri Lanka, 
+                          invites creative storytellers to showcase tourism destinations through the power of 
+                          maps and location-based storytelling.
+                        </p>
+                        <div className="event-prize-highlight">
+                          <calcite-icon icon="star" scale="s"></calcite-icon>
+                          Stand a chance to win exciting prizes! Open to all participants who want to celebrate 
+                          GIS Day with innovation and imagination!
+                        </div>
+                      </div>
+
+                      <div className="event-info-grid">
+                        <div className="event-info-item">
+                          <calcite-icon icon="organization" scale="s"></calcite-icon>
+                          <div className="event-info-text">
+                            <h4>Organized By</h4>
+                            <p>GIS Solutions (Pvt) Ltd</p>
+                          </div>
+                        </div>
+
+                        <div className="event-info-item">
+                          <calcite-icon icon="calendar" scale="s"></calcite-icon>
+                          <div className="event-info-text">
+                            <h4>Date</h4>
+                            <p>November 19, 2025</p>
+                          </div>
+                        </div>
+
+                        <div className="event-info-item">
+                          <calcite-icon icon="globe" scale="s"></calcite-icon>
+                          <div className="event-info-text">
+                            <h4>Theme</h4>
+                            <p>Tourism Stories of Sri Lanka</p>
+                          </div>
+                        </div>
+
+                        <div className="event-info-item">
+                          <calcite-icon icon="award" scale="s"></calcite-icon>
+                          <div className="event-info-text">
+                            <h4>Prizes</h4>
+                            <p>Valuable Awards & Certificates</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="event-card-actions">
                         <calcite-button
                           appearance="solid"
-                          kind="inverse"
+                          kind="brand"
                           scale="l"
+                          icon-end="rocket"
+                          onClick={() => window.open('https://arcg.is/0DvGT4', '_blank')}
                         >
-                          Get in Touch
+                          Register Now
                         </calcite-button>
                         <calcite-button
                           appearance="outline"
-                          kind="inverse"
+                          kind="brand"
                           scale="l"
-                          icon-start="book"
+                          icon-end="launch"
+                          onClick={() => window.open('https://storymaps.gislk.com/', '_blank')}
                         >
-                          View Our Work
+                          Competition Website
                         </calcite-button>
                       </div>
                     </div>
-                    <div className="services-cta-image">
-                      {/* <img 
-                        src="https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-online/assets/arcgis-online.jpg" 
-                        alt="ArcGIS Online platform visualization"
-                        loading="lazy"
-                      /> */}
+
+                    {/* Right Side - Event Poster */}
+                    <div className="event-poster-side">
+                      <img 
+                        src="/assets/storymap.jpeg" 
+                        alt="GIS Day 2025 StoryMaps Competition Poster"
+                        className="event-poster-image"
+                        onError={(e) => {
+                          e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
+                        }}
+                      />
                     </div>
                   </div>
+                </calcite-card>
+
+                {/* Additional Events Placeholder */}
+                <div className="events-coming-soon">
+                  <calcite-icon icon="information" scale="l"></calcite-icon>
+                  <h4>More Events Coming Soon</h4>
+                  <p>Stay tuned for upcoming workshops, webinars, and community events.</p>
                 </div>
+              </div>
+            </calcite-tab>
+          </calcite-tabs>
+        </div>
+        
+        {/* CTA Section */}
+        <div className="services-cta">
+          <div className="services-cta-grid">
+            <div className="services-cta-content">
+              <img 
+                src="/assets/logoGIS.png" 
+                alt="GIS Solutions Logo" 
+                className="cta-logo"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                }}
+              />
+              <h2 className="cta-title">Let's Work Together</h2>
+              <p className="cta-description">
+                Partner with us to unlock the full potential of your spatial data. Our expert team is ready to deliver innovative GIS solutions tailored to your unique challenges.
+              </p>
+              <div className="cta-buttons">
+                <calcite-button
+                  appearance="solid"
+                  kind="inverse"
+                  scale="l"
+                >
+                  Get in Touch
+                </calcite-button>
+                <calcite-button
+                  appearance="outline"
+                  kind="inverse"
+                  scale="l"
+                  icon-start="book"
+                >
+                  View Our Work
+                </calcite-button>
+              </div>
+            </div>
+            <div className="services-cta-image">
+            </div>
+          </div>
+        </div>
       </div>
 
       <link rel="stylesheet" href="./styles/services.css" />

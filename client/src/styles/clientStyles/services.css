@@ -70,8 +70,7 @@
   display: block;
   max-width: 600px;
   margin-left: auto;
-  border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
 }
 
 .services-container {
@@ -650,6 +649,207 @@ calcite-button[appearance="outline"]:hover::part(button) {
   margin: 0;
 }
 
+/* Events Tab Styles */
+.events-tab-content {
+  padding: 40px 0;
+}
+
+.events-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.events-header .section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--calcite-color-text-1);
+}
+
+.events-header .section-description {
+  font-size: 1.125rem;
+  color: var(--calcite-color-text-3);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Event Main Card */
+.event-main-card {
+  margin-bottom: 40px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.event-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  min-height: 500px;
+}
+
+/* Event Details Side (Left) */
+.event-details-side {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--calcite-color-foreground-1);
+}
+
+.event-celebration-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #0079c1 0%, #005a8f 100%);
+  color: white;
+  border-radius: 8px;
+  align-self: flex-start;
+}
+
+.event-card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--calcite-color-text-1);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.event-theme {
+  font-size: 1.1rem;
+  color: var(--calcite-color-brand);
+  font-weight: 600;
+  margin: 0;
+  font-style: italic;
+}
+
+.event-card-description {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.event-card-description p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--calcite-color-text-2);
+  margin: 0;
+}
+
+.event-prize-highlight {
+  background: linear-gradient(135deg, rgba(0, 121, 193, 0.1) 0%, rgba(52, 168, 83, 0.1) 100%);
+  padding: 14px 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--calcite-color-brand);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--calcite-color-brand);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.event-prize-highlight calcite-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.event-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 20px;
+  background: var(--calcite-color-foreground-2);
+  border-radius: 8px;
+}
+
+.event-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.event-info-item calcite-icon {
+  color: var(--calcite-color-brand);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.event-info-text h4 {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--calcite-color-text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px 0;
+}
+
+.event-info-text p {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--calcite-color-text-1);
+  margin: 0;
+}
+
+.event-card-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.event-card-actions calcite-button {
+  flex: 1;
+  min-width: 180px;
+}
+
+/* Event Poster Side (Right) */
+.event-poster-side {
+  background: var(--calcite-color-foreground-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.event-poster-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Coming Soon Section */
+.events-coming-soon {
+  text-align: center;
+  padding: 50px 40px;
+  background: var(--calcite-color-foreground-1);
+  border-radius: 12px;
+  border: 2px dashed var(--calcite-color-border-2);
+}
+
+.events-coming-soon calcite-icon {
+  color: var(--calcite-color-brand);
+  margin-bottom: 16px;
+}
+
+.events-coming-soon h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--calcite-color-text-1);
+}
+
+.events-coming-soon p {
+  font-size: 1rem;
+  color: var(--calcite-color-text-3);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .services-hero {
     min-height: auto;
@@ -749,5 +949,83 @@ calcite-button[appearance="outline"]:hover::part(button) {
   .training-filters {
     width: 100%;
     justify-content: center;
+  }
+
+  /* Events Responsive */
+  .event-card-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .event-details-side {
+    padding: 24px;
+  }
+
+  .event-card-title {
+    font-size: 1.5rem;
+  }
+
+  .event-celebration-header {
+    font-size: 0.95rem;
+    padding: 8px 14px;
+  }
+
+  .event-theme {
+    font-size: 1rem;
+  }
+
+  .event-info-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .event-card-actions {
+    flex-direction: column;
+  }
+
+  .event-card-actions calcite-button {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .event-poster-side {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .events-header .section-title {
+    font-size: 2rem;
+  }
+
+  .event-details-side {
+    padding: 20px;
+  }
+
+  .event-celebration-header {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .event-card-title {
+    font-size: 1.25rem;
+  }
+
+  .event-card-description p {
+    font-size: 0.9rem;
+  }
+
+  .event-prize-highlight {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
+  .event-info-text p {
+    font-size: 0.9rem;
+  }
+
+  .event-poster-side {
+    min-height: 250px;
   }
 }
