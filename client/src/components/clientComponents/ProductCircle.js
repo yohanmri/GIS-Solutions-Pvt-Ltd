@@ -9,7 +9,9 @@ const tools = [
     description: "Professional desktop GIS application for advanced mapping, spatial analysis, data management, and visualization workflows.",
     features: ["Advanced Mapping", "Spatial Analysis", "Data Management", "3D Visualization"],
     category: "Desktop",
-    color: "#0079c1"
+    color: "#0079c1",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-pro/overview",
+    docsUrl: "https://pro.arcgis.com/en/pro-app/latest/get-started/get-started.htm"
   },
   {
     id: 2,
@@ -18,7 +20,9 @@ const tools = [
     description: "Create smart forms to collect field data quickly with customizable surveys that work online and offline.",
     features: ["Custom Forms", "Offline Support", "Data Collection", "Real-time Sync"],
     category: "Field",
-    color: "#00897b"
+    color: "#00897b",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-survey123/overview",
+    docsUrl: "https://doc.arcgis.com/en/survey123/"
   },
   {
     id: 3,
@@ -27,7 +31,9 @@ const tools = [
     description: "Build compelling data visualizations with interactive charts, maps, and indicators for real-time monitoring.",
     features: ["Interactive Charts", "Real-time Data", "KPI Tracking", "Custom Widgets"],
     category: "Visualization",
-    color: "#8b4c9f"
+    color: "#8b4c9f",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-dashboards/overview",
+    docsUrl: "https://doc.arcgis.com/en/dashboards/"
   },
   {
     id: 4,
@@ -36,7 +42,9 @@ const tools = [
     description: "Mobile app for field data collection and asset management with offline capabilities and custom forms.",
     features: ["Mobile Ready", "Offline Maps", "Asset Tracking", "GPS Integration"],
     category: "Field",
-    color: "#d84315"
+    color: "#d84315",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-field-maps/overview",
+    docsUrl: "https://doc.arcgis.com/en/field-maps/"
   },
   {
     id: 5,
@@ -45,7 +53,9 @@ const tools = [
     description: "Transform your maps into immersive narrative experiences that combine text, multimedia, and interactive content.",
     features: ["Rich Media", "Interactive Maps", "Storytelling", "Responsive Design"],
     category: "Communication",
-    color: "#0277bd"
+    color: "#0277bd",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-storymaps/overview",
+    docsUrl: "https://doc.arcgis.com/en/arcgis-storymaps/"
   },
   {
     id: 6,
@@ -54,7 +64,9 @@ const tools = [
     description: "Rapidly collect field observations with one-tap buttons for fast data capture at walking or driving speeds.",
     features: ["One-tap Capture", "GPS Tracking", "Photo Capture", "Fast Input"],
     category: "Field",
-    color: "#558b2f"
+    color: "#558b2f",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-quickcapture/overview",
+    docsUrl: "https://doc.arcgis.com/en/quickcapture/"
   },
   {
     id: 7,
@@ -63,7 +75,9 @@ const tools = [
     description: "Build custom web applications with drag-and-drop widgets without writing code for map-centric experiences.",
     features: ["Drag & Drop", "No Code", "Custom Widgets", "Responsive Apps"],
     category: "Development",
-    color: "#6d4c87"
+    color: "#6d4c87",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-experience-builder/overview",
+    docsUrl: "https://doc.arcgis.com/en/experience-builder/"
   },
   {
     id: 8,
@@ -72,7 +86,9 @@ const tools = [
     description: "Cloud-based mapping platform for creating, sharing, and managing web maps and spatial data across organizations.",
     features: ["Cloud Platform", "Web Mapping", "Data Sharing", "Collaboration"],
     category: "Cloud",
-    color: "#00796b"
+    color: "#00796b",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-online/overview",
+    docsUrl: "https://doc.arcgis.com/en/arcgis-online/"
   },
   {
     id: 9,
@@ -81,7 +97,9 @@ const tools = [
     description: "Complete enterprise GIS platform for secure deployment and management of geospatial services within your infrastructure.",
     features: ["On-Premise", "Security", "Scalability", "Enterprise Ready"],
     category: "Enterprise",
-    color: "#7b5fa6"
+    color: "#7b5fa6",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-enterprise/overview",
+    docsUrl: "https://enterprise.arcgis.com/en/documentation/"
   },
   {
     id: 10,
@@ -90,7 +108,9 @@ const tools = [
     description: "Community engagement platform to share data, apps, and initiatives with citizens and stakeholders.",
     features: ["Community Portal", "Data Sharing", "Collaboration", "Engagement"],
     category: "Engagement",
-    color: "#00acc1"
+    color: "#00acc1",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-hub/overview",
+    docsUrl: "https://doc.arcgis.com/en/hub/"
   },
   {
     id: 11,
@@ -99,7 +119,9 @@ const tools = [
     description: "Coordinate field workforce operations with real-time assignment management and mobile accessibility.",
     features: ["Assignment Management", "Real-time Tracking", "Mobile Apps", "Dispatching"],
     category: "Field",
-    color: "#f57c00"
+    color: "#f57c00",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-workforce/overview",
+    docsUrl: "https://doc.arcgis.com/en/workforce/"
   },
   {
     id: 12,
@@ -108,7 +130,9 @@ const tools = [
     description: "Efficient data collection app for capturing accurate field information with your mobile device.",
     features: ["Mobile Capture", "Offline Work", "Photo Attachments", "GPS Accuracy"],
     category: "Field",
-    color: "#5e35b1"
+    color: "#5e35b1",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-collector/overview",
+    docsUrl: "https://doc.arcgis.com/en/collector/"
   },
   {
     id: 13,
@@ -117,7 +141,9 @@ const tools = [
     description: "Turn-by-turn navigation app designed for field workforce with optimized routing and offline maps.",
     features: ["Turn-by-Turn", "Route Optimization", "Offline Maps", "Fleet Ready"],
     category: "Field",
-    color: "#1565c0"
+    color: "#1565c0",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-navigator/overview",
+    docsUrl: "https://doc.arcgis.com/en/navigator/"
   },
   {
     id: 14,
@@ -126,7 +152,9 @@ const tools = [
     description: "Perform spatial analytics and data science workflows with an intuitive drag-and-drop interface.",
     features: ["Spatial Analytics", "Data Science", "Visualization", "Drag & Drop"],
     category: "Analytics",
-    color: "#c62828"
+    color: "#c62828",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-insights/overview",
+    docsUrl: "https://doc.arcgis.com/en/insights/"
   },
   {
     id: 15,
@@ -135,7 +163,9 @@ const tools = [
     description: "Create custom web applications without coding using configurable widgets and templates.",
     features: ["No Code Builder", "Widget Library", "Templates", "Customizable"],
     category: "Development",
-    color: "#2e7d32"
+    color: "#2e7d32",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-web-appbuilder/overview",
+    docsUrl: "https://doc.arcgis.com/en/web-appbuilder/"
   },
   {
     id: 16,
@@ -144,7 +174,9 @@ const tools = [
     description: "Real-time and big data analytics platform for processing streaming IoT and sensor data.",
     features: ["Real-time Analytics", "IoT Integration", "Stream Processing", "Big Data"],
     category: "Analytics",
-    color: "#6a1b9a"
+    color: "#6a1b9a",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-velocity/overview",
+    docsUrl: "https://doc.arcgis.com/en/arcgis-velocity/"
   },
   {
     id: 17,
@@ -153,7 +185,9 @@ const tools = [
     description: "3D urban planning solution for designing, planning, and visualizing city development projects.",
     features: ["3D Planning", "Urban Design", "Visualization", "Zoning"],
     category: "Planning",
-    color: "#00838f"
+    color: "#00838f",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-urban/overview",
+    docsUrl: "https://doc.arcgis.com/en/arcgis-urban/"
   },
   {
     id: 18,
@@ -162,7 +196,9 @@ const tools = [
     description: "Indoor mapping and space management platform for facilities, campuses, and indoor navigation.",
     features: ["Indoor Maps", "Space Management", "Wayfinding", "Facilities"],
     category: "Facilities",
-    color: "#4e342e"
+    color: "#4e342e",
+    learnMoreUrl: "https://www.esri.com/en-us/arcgis/products/arcgis-indoors/overview",
+    docsUrl: "https://doc.arcgis.com/en/indoors/"
   },
 ];
 
@@ -220,7 +256,7 @@ export default function ProductCircle() {
           marginBottom: '1rem',
           lineHeight: '1.1'
         }}>
-          Explore ArcGIS Products
+          ArcGIS Essentials
         </h1>
         <p style={{
           fontSize: '1.125rem',
@@ -620,9 +656,11 @@ export default function ProductCircle() {
                   width="full"
                   appearance="solid"
                   icon-end="arrow-right"
+                  onClick={() => window.open(selected.learnMoreUrl, '_blank')}
                   style={{
                     '--calcite-button-background': selected.color,
-                    '--calcite-button-text-color': '#ffffff'
+                    '--calcite-button-text-color': '#ffffff',
+                    cursor: 'pointer'
                   }}
                 >
                   Learn More
@@ -630,9 +668,11 @@ export default function ProductCircle() {
                 <calcite-button
                   appearance="outline"
                   icon-start="information"
+                  onClick={() => window.open(selected.docsUrl, '_blank')}
                   style={{
                     '--calcite-button-border-color': selected.color,
-                    '--calcite-button-text-color': selected.color
+                    '--calcite-button-text-color': selected.color,
+                    cursor: 'pointer'
                   }}
                 >
                   Documentation
