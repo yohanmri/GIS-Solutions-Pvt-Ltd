@@ -21,7 +21,7 @@ export default function ContactComponent() {
       {/* Hero Section */}
       <div style={{
         position: 'relative',
-        height: '300px',
+        height: 'clamp(250px, 40vh, 400px)',
         background: 'linear-gradient(135deg, #2d5f8d 0%, #1e4a6f 100%)',
         display: 'flex',
         alignItems: 'center',
@@ -57,7 +57,7 @@ export default function ContactComponent() {
             Get In Touch
           </h1>
           <p style={{
-            fontSize: '1.25rem',
+            fontSize: 'clamp(1rem, 2vw, 1.25rem)',
             opacity: 0.95,
             fontWeight: '300'
           }}>
@@ -70,18 +70,18 @@ export default function ContactComponent() {
       <div style={{
         maxWidth: '1400px',
         margin: '0 auto',
-        padding: '5rem 2rem'
+        padding: 'clamp(2.5rem, 5vw, 5rem) clamp(1rem, 3vw, 2rem)'
       }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1.5fr',
-          gap: '4rem',
-          marginBottom: '5rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+          gap: 'clamp(2rem, 4vw, 4rem)',
+          marginBottom: 'clamp(3rem, 5vw, 5rem)'
         }}>
           {/* Contact Information */}
           <div>
             <h2 style={{
-              fontSize: '2rem',
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
               fontWeight: '400',
               color: '#2b2b2b',
               marginBottom: '2rem'
@@ -92,12 +92,12 @@ export default function ContactComponent() {
             {/* Company Info */}
             <div style={{
               background: '#f8f9fa',
-              padding: '2rem',
+              padding: 'clamp(1.5rem, 3vw, 2rem)',
               borderRadius: '8px',
               marginBottom: '2rem'
             }}>
               <h3 style={{
-                fontSize: '1.25rem',
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
                 fontWeight: '600',
                 color: '#2b2b2b',
                 marginBottom: '1.5rem',
@@ -109,13 +109,12 @@ export default function ContactComponent() {
                 Head Office
               </h3>
               <p style={{
-                fontSize: '1rem',
+                fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
                 color: '#555',
                 lineHeight: '1.8',
                 marginBottom: '1rem'
               }}>
                 <strong>GIS Solutions (Pvt) Ltd</strong><br />
- 
                 370 Galle - Colombo Rd, 
                 <br />
                 Colombo 00300
@@ -137,12 +136,12 @@ export default function ContactComponent() {
             {/* Phone & Fax */}
             <div style={{
               background: '#f8f9fa',
-              padding: '2rem',
+              padding: 'clamp(1.5rem, 3vw, 2rem)',
               borderRadius: '8px',
               marginBottom: '2rem'
             }}>
               <h3 style={{
-                fontSize: '1.25rem',
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
                 fontWeight: '600',
                 color: '#2b2b2b',
                 marginBottom: '1.5rem',
@@ -160,14 +159,11 @@ export default function ContactComponent() {
               }}>
                 <div>
                   <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Hotline</p>
-                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+0112 575 297</p>
+                  <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: '#2d5f8d', fontWeight: '600' }}>+0112 575 297</p>
                 </div>
                 <div>
                   <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Mobile</p>
-                  <p style={{ fontSize: '1.125rem', color: '#2d5f8d', fontWeight: '600' }}>+94 77 525 5133</p>
-                </div>
-                <div>
-             
+                  <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: '#2d5f8d', fontWeight: '600' }}>+94 77 525 5133</p>
                 </div>
               </div>
             </div>
@@ -175,12 +171,12 @@ export default function ContactComponent() {
             {/* Business Hours */}
             <div style={{
               background: '#f8f9fa',
-              padding: '2rem',
+              padding: 'clamp(1.5rem, 3vw, 2rem)',
               borderRadius: '8px',
               marginBottom: '2rem'
             }}>
               <h3 style={{
-                fontSize: '1.25rem',
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
                 fontWeight: '600',
                 color: '#2b2b2b',
                 marginBottom: '1.5rem',
@@ -195,18 +191,18 @@ export default function ContactComponent() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '0.75rem',
-                fontSize: '0.95rem',
+                fontSize: 'clamp(0.875rem, 1.5vw, 0.95rem)',
                 color: '#555'
               }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
                   <span style={{ fontWeight: '500' }}>Monday - Friday</span>
                   <span>8:30 AM - 5:00 PM</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
                   <span style={{ fontWeight: '500' }}>Saturday</span>
                   <span>8:30 AM - 1:00 PM</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
                   <span style={{ fontWeight: '500' }}>Sunday</span>
                   <span style={{ color: '#999' }}>Closed</span>
                 </div>
@@ -216,11 +212,11 @@ export default function ContactComponent() {
             {/* Website */}
             <div style={{
               background: '#f8f9fa',
-              padding: '2rem',
+              padding: 'clamp(1.5rem, 3vw, 2rem)',
               borderRadius: '8px'
             }}>
               <h3 style={{
-                fontSize: '1.25rem',
+                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
                 fontWeight: '600',
                 color: '#2b2b2b',
                 marginBottom: '1.5rem',
@@ -236,10 +232,11 @@ export default function ContactComponent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  fontSize: '1.125rem',
+                  fontSize: 'clamp(1rem, 2vw, 1.125rem)',
                   color: '#2d5f8d',
                   textDecoration: 'none',
-                  fontWeight: '600'
+                  fontWeight: '600',
+                  wordBreak: 'break-all'
                 }}
               >
                 www.gislk.com
@@ -252,11 +249,11 @@ export default function ContactComponent() {
             background: '#fff',
             border: '1px solid #e0e0e0',
             borderRadius: '8px',
-            padding: '3rem',
+            padding: 'clamp(1.5rem, 4vw, 3rem)',
             boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
           }}>
             <h2 style={{
-              fontSize: '2rem',
+              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
               fontWeight: '400',
               color: '#2b2b2b',
               marginBottom: '1.5rem'
@@ -264,7 +261,7 @@ export default function ContactComponent() {
               Send us a Message
             </h2>
             <p style={{
-              fontSize: '1rem',
+              fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
               color: '#666',
               marginBottom: '2rem',
               lineHeight: '1.6'
@@ -272,7 +269,7 @@ export default function ContactComponent() {
               Fill out the form below and our team will get back to you within 24 hours
             </p>
 
-            <form onSubmit={handleSubmit}>
+            <div>
               <div style={{ marginBottom: '1.5rem' }}>
                 <calcite-label>
                   Full Name *
@@ -336,7 +333,7 @@ export default function ContactComponent() {
               </div>
 
               <calcite-button 
-                type="submit" 
+                onClick={handleSubmit}
                 appearance="solid"
                 width="full"
                 scale="l"
@@ -347,19 +344,19 @@ export default function ContactComponent() {
               >
                 Send Message
               </calcite-button>
-            </form>
+            </div>
           </div>
         </div>
 
         {/* Departmental Contacts */}
         <div style={{
           background: '#f8f9fa',
-          padding: '3rem',
+          padding: 'clamp(2rem, 4vw, 3rem)',
           borderRadius: '8px',
-          marginBottom: '3rem'
+          marginBottom: 'clamp(2rem, 3vw, 3rem)'
         }}>
           <h2 style={{
-            fontSize: '2rem',
+            fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: '400',
             color: '#2b2b2b',
             marginBottom: '2.5rem',
@@ -370,20 +367,18 @@ export default function ContactComponent() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '2rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
+            gap: 'clamp(1.5rem, 3vw, 2rem)'
           }}>
             {[
-              // { icon: 'shopping-cart', dept: 'Sales Inquiries', email: 'sales@gislk.com', desc: 'Product pricing and licensing' },
               { icon: 'wrench', dept: 'Technical Support', email: 'support@gislk.com', desc: 'Technical assistance and troubleshooting' },
-              // { icon: 'learning', dept: 'Training & Partnerships', email: 'training@gislk.com', desc: 'Training programs and collaborations' },
               { icon: 'organization', dept: 'Media & PR', email: 'info@gislk.com', desc: 'Press inquiries and media relations' }
             ].map((contact, idx) => (
               <div
                 key={idx}
                 style={{
                   background: '#fff',
-                  padding: '2rem',
+                  padding: 'clamp(1.5rem, 3vw, 2rem)',
                   borderRadius: '8px',
                   textAlign: 'center',
                   border: '1px solid #e0e0e0',
@@ -399,8 +394,8 @@ export default function ContactComponent() {
                 }}
               >
                 <div style={{
-                  width: '60px',
-                  height: '60px',
+                  width: 'clamp(50px, 10vw, 60px)',
+                  height: 'clamp(50px, 10vw, 60px)',
                   background: '#e8f1f8',
                   borderRadius: '50%',
                   display: 'flex',
@@ -415,7 +410,7 @@ export default function ContactComponent() {
                   />
                 </div>
                 <h3 style={{
-                  fontSize: '1.125rem',
+                  fontSize: 'clamp(1rem, 2vw, 1.125rem)',
                   fontWeight: '600',
                   color: '#2b2b2b',
                   marginBottom: '0.5rem'
@@ -423,7 +418,7 @@ export default function ContactComponent() {
                   {contact.dept}
                 </h3>
                 <p style={{
-                  fontSize: '0.875rem',
+                  fontSize: 'clamp(0.8125rem, 1.5vw, 0.875rem)',
                   color: '#666',
                   marginBottom: '1rem'
                 }}>
@@ -432,10 +427,11 @@ export default function ContactComponent() {
                 <a
                   href={`mailto:${contact.email}`}
                   style={{
-                    fontSize: '1rem',
+                    fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
                     color: '#2d5f8d',
                     textDecoration: 'none',
-                    fontWeight: '600'
+                    fontWeight: '600',
+                    wordBreak: 'break-all'
                   }}
                 >
                   {contact.email}
@@ -448,13 +444,13 @@ export default function ContactComponent() {
         {/* Social Media */}
         <div style={{
           textAlign: 'center',
-          padding: '3rem',
+          padding: 'clamp(2rem, 4vw, 3rem)',
           background: '#fff',
           borderRadius: '8px',
           border: '1px solid #e0e0e0'
         }}>
           <h2 style={{
-            fontSize: '2rem',
+            fontSize: 'clamp(1.5rem, 3vw, 2rem)',
             fontWeight: '400',
             color: '#2b2b2b',
             marginBottom: '1.5rem'
@@ -462,7 +458,7 @@ export default function ContactComponent() {
             Connect With Us
           </h2>
           <p style={{
-            fontSize: '1rem',
+            fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
             color: '#666',
             marginBottom: '2rem'
           }}>
@@ -471,7 +467,7 @@ export default function ContactComponent() {
 
           <div style={{
             display: 'flex',
-            gap: '1.5rem',
+            gap: 'clamp(1rem, 2vw, 1.5rem)',
             justifyContent: 'center',
             flexWrap: 'wrap'
           }}>
@@ -488,8 +484,8 @@ export default function ContactComponent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  width: '60px',
-                  height: '60px',
+                  width: 'clamp(50px, 10vw, 60px)',
+                  height: 'clamp(50px, 10vw, 60px)',
                   background: '#f8f9fa',
                   borderRadius: '50%',
                   display: 'flex',
@@ -528,7 +524,7 @@ export default function ContactComponent() {
 
       {/* Map Section */}
       <div style={{
-        height: '450px',
+        height: 'clamp(300px, 50vh, 450px)',
         background: '#e0e0e0',
         position: 'relative'
       }}>
