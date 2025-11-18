@@ -32,7 +32,7 @@ export default function HomeCapabilities() {
   ];
 
   return (
-    <section className="capabilities-section">
+    <section id="home-capabilities-section" className="capabilities-section">
       <div className="capabilities-background"></div>
       
       <div className="container">
