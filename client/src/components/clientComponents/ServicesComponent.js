@@ -392,13 +392,26 @@ export default function Services() {
                             <calcite-icon icon="check-circle" scale="s"></calcite-icon>
                             Key Features
                           </h4>
-                          <div className="chips-container">
-                            {service.features.map((feature, idx) => (
-                              <calcite-chip key={idx} scale="s" appearance="outline">
-                                {feature}
-                              </calcite-chip>
-                            ))}
-                          </div>
+   <div
+  className="chips-container"
+  style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}
+>
+  {service.features.map((feature, idx) => (
+    <calcite-chip
+      key={idx}
+      scale="m"
+      appearance="solid"
+      class="chip-inline"
+      style={{
+
+      }}
+    >
+      {feature}
+    </calcite-chip>
+  ))}
+</div>
+
+
                         </div>
 
                         {/* Expanded Content */}
