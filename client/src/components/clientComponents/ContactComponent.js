@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
+import '../../styles/clientStyles/contactComponent.css';
 
 export default function ContactComponent() {
   const [formData, setFormData] = useState({
@@ -16,9 +17,45 @@ export default function ContactComponent() {
     // Add your form submission logic here
   };
 
+  const departmentalContacts = [
+    { 
+      icon: 'wrench', 
+      dept: 'Technical Support', 
+      email: 'support@gislk.com', 
+      desc: 'Technical assistance and troubleshooting' 
+    },
+    { 
+      icon: 'organization', 
+      dept: 'Media & PR', 
+      email: 'info@gislk.com', 
+      desc: 'Press inquiries and media relations' 
+    }
+  ];
+
+  const socialLinks = [
+    { 
+      icon: 'organization', 
+      name: 'LinkedIn', 
+      color: '#0077b5', 
+      url: 'https://lk.linkedin.com/company/gis-solutions-pvt-ltd'
+    },
+    { 
+      icon: 'share', 
+      name: 'Facebook', 
+      color: '#1877f2', 
+      url: 'https://www.facebook.com/GISSolutions370/'
+    },
+    { 
+      icon: 'organization', 
+      name: 'Email', 
+      color: '#2d5f8d', 
+      url: 'mailto:info@gislk.com'
+    }
+  ];
+
   return (
-    <div style={{ background: '#fff' }}>
-      {/* Hero Section */}
+    <div className="contact-container">
+         {/* Hero Section */}
       <div style={{
         position: 'relative',
         height: 'clamp(250px, 40vh, 400px)',
@@ -67,56 +104,21 @@ export default function ContactComponent() {
       </div>
 
       {/* Main Content */}
-      <div style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        padding: 'clamp(2.5rem, 5vw, 5rem) clamp(1rem, 3vw, 2rem)'
-      }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
-          gap: 'clamp(2rem, 4vw, 4rem)',
-          marginBottom: 'clamp(3rem, 5vw, 5rem)'
-        }}>
+      <div className="contact-main">
+        <div className="contact-grid">
           {/* Contact Information */}
-          <div>
-            <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: '400',
-              color: '#2b2b2b',
-              marginBottom: '2rem'
-            }}>
-              Contact Information
-            </h2>
+          <div className="contact-info-section">
+            <h2>Contact Information</h2>
 
             {/* Company Info */}
-            <div style={{
-              background: '#f8f9fa',
-              padding: 'clamp(1.5rem, 3vw, 2rem)',
-              borderRadius: '8px',
-              marginBottom: '2rem'
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                fontWeight: '600',
-                color: '#2b2b2b',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <calcite-icon icon="map-pin" scale="m" style={{ color: '#2d5f8d' }} />
+            <div className="info-card">
+              <h3 className="info-card-title">
+                <calcite-icon icon="map-pin" scale="m" />
                 Head Office
               </h3>
-              <p style={{
-                fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-                color: '#555',
-                lineHeight: '1.8',
-                marginBottom: '1rem'
-              }}>
+              <p className="info-card-content">
                 <strong>GIS Solutions (Pvt) Ltd</strong><br />
-                370 Galle - Colombo Rd, 
-                <br />
+                370 Galle - Colombo Rd,<br />
                 Colombo 00300
               </p>
               <calcite-button
@@ -124,6 +126,8 @@ export default function ContactComponent() {
                 icon-start="pin"
                 scale="s"
                 width="full"
+                href="https://maps.app.goo.gl/example"
+                target="_blank"
                 style={{
                   '--calcite-button-text-color': '#2d5f8d',
                   '--calcite-button-border-color': '#2d5f8d'
@@ -134,110 +138,56 @@ export default function ContactComponent() {
             </div>
 
             {/* Phone & Fax */}
-            <div style={{
-              background: '#f8f9fa',
-              padding: 'clamp(1.5rem, 3vw, 2rem)',
-              borderRadius: '8px',
-              marginBottom: '2rem'
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                fontWeight: '600',
-                color: '#2b2b2b',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <calcite-icon icon="phone" scale="m" style={{ color: '#2d5f8d' }} />
+            <div className="info-card">
+              <h3 className="info-card-title">
+                <calcite-icon icon="phone" scale="m" />
                 Phone & Fax
               </h3>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem'
-              }}>
-                <div>
-                  <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Hotline</p>
-                  <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: '#2d5f8d', fontWeight: '600' }}>+0112 575 297</p>
+              <div className="phone-info">
+                <div className="phone-item">
+                  <p className="phone-label">Hotline</p>
+                  <p className="phone-number">+0112 575 297</p>
                 </div>
-                <div>
-                  <p style={{ fontSize: '0.875rem', color: '#666', marginBottom: '0.25rem' }}>Mobile</p>
-                  <p style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)', color: '#2d5f8d', fontWeight: '600' }}>+94 77 525 5133</p>
+                <div className="phone-item">
+                  <p className="phone-label">Mobile</p>
+                  <p className="phone-number">+94 77 525 5133</p>
                 </div>
               </div>
             </div>
 
             {/* Business Hours */}
-            <div style={{
-              background: '#f8f9fa',
-              padding: 'clamp(1.5rem, 3vw, 2rem)',
-              borderRadius: '8px',
-              marginBottom: '2rem'
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                fontWeight: '600',
-                color: '#2b2b2b',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <calcite-icon icon="clock" scale="m" style={{ color: '#2d5f8d' }} />
+            <div className="info-card">
+              <h3 className="info-card-title">
+                <calcite-icon icon="clock" scale="m" />
                 Business Hours
               </h3>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem',
-                fontSize: 'clamp(0.875rem, 1.5vw, 0.95rem)',
-                color: '#555'
-              }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                  <span style={{ fontWeight: '500' }}>Monday - Friday</span>
+              <div className="business-hours">
+                <div className="hours-row">
+                  <span className="hours-day">Monday - Friday</span>
                   <span>8:30 AM - 5:00 PM</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                  <span style={{ fontWeight: '500' }}>Saturday</span>
+                <div className="hours-row">
+                  <span className="hours-day">Saturday</span>
                   <span>8:30 AM - 1:00 PM</span>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem' }}>
-                  <span style={{ fontWeight: '500' }}>Sunday</span>
-                  <span style={{ color: '#999' }}>Closed</span>
+                <div className="hours-row">
+                  <span className="hours-day">Sunday</span>
+                  <span className="hours-closed">Closed</span>
                 </div>
               </div>
             </div>
 
             {/* Website */}
-            <div style={{
-              background: '#f8f9fa',
-              padding: 'clamp(1.5rem, 3vw, 2rem)',
-              borderRadius: '8px'
-            }}>
-              <h3 style={{
-                fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
-                fontWeight: '600',
-                color: '#2b2b2b',
-                marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.5rem'
-              }}>
-                <calcite-icon icon="link" scale="m" style={{ color: '#2d5f8d' }} />
+            <div className="info-card">
+              <h3 className="info-card-title">
+                <calcite-icon icon="link" scale="m" />
                 Website
               </h3>
               <a 
                 href="https://www.gislk.com" 
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  fontSize: 'clamp(1rem, 2vw, 1.125rem)',
-                  color: '#2d5f8d',
-                  textDecoration: 'none',
-                  fontWeight: '600',
-                  wordBreak: 'break-all'
-                }}
+                className="website-link"
               >
                 www.gislk.com
               </a>
@@ -245,32 +195,16 @@ export default function ContactComponent() {
           </div>
 
           {/* Contact Form */}
-          <div style={{
-            background: '#fff',
-            border: '1px solid #e0e0e0',
-            borderRadius: '8px',
-            padding: 'clamp(1.5rem, 4vw, 3rem)',
-            boxShadow: '0 2px 12px rgba(0,0,0,0.08)'
-          }}>
-            <h2 style={{
-              fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-              fontWeight: '400',
-              color: '#2b2b2b',
-              marginBottom: '1.5rem'
-            }}>
+          <div className="contact-form-wrapper">
+            <h2 className="form-title">
               Send us a Message
             </h2>
-            <p style={{
-              fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-              color: '#666',
-              marginBottom: '2rem',
-              lineHeight: '1.6'
-            }}>
+            <p className="form-description">
               Fill out the form below and our team will get back to you within 24 hours
             </p>
 
             <div>
-              <div style={{ marginBottom: '1.5rem' }}>
+              <div className="form-group">
                 <calcite-label>
                   Full Name *
                   <calcite-input-text 
@@ -281,7 +215,7 @@ export default function ContactComponent() {
                 </calcite-label>
               </div>
 
-              <div style={{ marginBottom: '1.5rem' }}>
+              <div className="form-group">
                 <calcite-label>
                   Email Address *
                   <calcite-input-text 
@@ -293,7 +227,7 @@ export default function ContactComponent() {
                 </calcite-label>
               </div>
 
-              <div style={{ marginBottom: '1.5rem' }}>
+              <div className="form-group">
                 <calcite-label>
                   Company Name
                   <calcite-input-text 
@@ -303,7 +237,7 @@ export default function ContactComponent() {
                 </calcite-label>
               </div>
 
-              <div style={{ marginBottom: '1.5rem' }}>
+              <div className="form-group">
                 <calcite-label>
                   Service Interested In
                   <calcite-select scale="l">
@@ -320,7 +254,7 @@ export default function ContactComponent() {
                 </calcite-label>
               </div>
 
-              <div style={{ marginBottom: '2rem' }}>
+              <div className="form-group-large">
                 <calcite-label>
                   Message *
                   <calcite-text-area 
@@ -349,90 +283,29 @@ export default function ContactComponent() {
         </div>
 
         {/* Departmental Contacts */}
-        <div style={{
-          background: '#f8f9fa',
-          padding: 'clamp(2rem, 4vw, 3rem)',
-          borderRadius: '8px',
-          marginBottom: 'clamp(2rem, 3vw, 3rem)'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-            fontWeight: '400',
-            color: '#2b2b2b',
-            marginBottom: '2.5rem',
-            textAlign: 'center'
-          }}>
+        <div className="dept-contacts-section">
+          <h2 className="dept-title">
             Departmental Contacts
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-            gap: 'clamp(1.5rem, 3vw, 2rem)'
-          }}>
-            {[
-              { icon: 'wrench', dept: 'Technical Support', email: 'support@gislk.com', desc: 'Technical assistance and troubleshooting' },
-              { icon: 'organization', dept: 'Media & PR', email: 'info@gislk.com', desc: 'Press inquiries and media relations' }
-            ].map((contact, idx) => (
-              <div
-                key={idx}
-                style={{
-                  background: '#fff',
-                  padding: 'clamp(1.5rem, 3vw, 2rem)',
-                  borderRadius: '8px',
-                  textAlign: 'center',
-                  border: '1px solid #e0e0e0',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(0,0,0,0.1)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = 'none';
-                }}
-              >
-                <div style={{
-                  width: 'clamp(50px, 10vw, 60px)',
-                  height: 'clamp(50px, 10vw, 60px)',
-                  background: '#e8f1f8',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 1.5rem'
-                }}>
+          <div className="dept-grid">
+            {departmentalContacts.map((contact, idx) => (
+              <div key={idx} className="dept-card">
+                <div className="dept-icon-wrapper">
                   <calcite-icon 
                     icon={contact.icon} 
                     scale="m"
-                    style={{ color: '#2d5f8d' }}
                   />
                 </div>
-                <h3 style={{
-                  fontSize: 'clamp(1rem, 2vw, 1.125rem)',
-                  fontWeight: '600',
-                  color: '#2b2b2b',
-                  marginBottom: '0.5rem'
-                }}>
+                <h3 className="dept-name">
                   {contact.dept}
                 </h3>
-                <p style={{
-                  fontSize: 'clamp(0.8125rem, 1.5vw, 0.875rem)',
-                  color: '#666',
-                  marginBottom: '1rem'
-                }}>
+                <p className="dept-description">
                   {contact.desc}
                 </p>
                 <a
                   href={`mailto:${contact.email}`}
-                  style={{
-                    fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-                    color: '#2d5f8d',
-                    textDecoration: 'none',
-                    fontWeight: '600',
-                    wordBreak: 'break-all'
-                  }}
+                  className="dept-email"
                 >
                   {contact.email}
                 </a>
@@ -442,68 +315,29 @@ export default function ContactComponent() {
         </div>
 
         {/* Social Media */}
-        <div style={{
-          textAlign: 'center',
-          padding: 'clamp(2rem, 4vw, 3rem)',
-          background: '#fff',
-          borderRadius: '8px',
-          border: '1px solid #e0e0e0'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-            fontWeight: '400',
-            color: '#2b2b2b',
-            marginBottom: '1.5rem'
-          }}>
+        <div className="social-section">
+          <h2 className="social-title">
             Connect With Us
           </h2>
-          <p style={{
-            fontSize: 'clamp(0.875rem, 1.5vw, 1rem)',
-            color: '#666',
-            marginBottom: '2rem'
-          }}>
+          <p className="social-description">
             Follow us on social media for updates, insights, and GIS resources
           </p>
 
-          <div style={{
-            display: 'flex',
-            gap: 'clamp(1rem, 2vw, 1.5rem)',
-            justifyContent: 'center',
-            flexWrap: 'wrap'
-          }}>
-            {[
-              { icon: 'organization', name: 'LinkedIn', color: '#0077b5', url: 'https://linkedin.com' },
-              { icon: 'share', name: 'Facebook', color: '#1877f2', url: 'https://facebook.com' },
-              { icon: 'twitter', name: 'Twitter', color: '#1da1f2', url: 'https://twitter.com' },
-              { icon: 'camera', name: 'Instagram', color: '#e4405f', url: 'https://instagram.com' },
-              { icon: 'video', name: 'YouTube', color: '#ff0000', url: 'https://youtube.com' }
-            ].map((social, idx) => (
+          <div className="social-links">
+            {socialLinks.map((social, idx) => (
               <a
                 key={idx}
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  width: 'clamp(50px, 10vw, 60px)',
-                  height: 'clamp(50px, 10vw, 60px)',
-                  background: '#f8f9fa',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.3s ease',
-                  textDecoration: 'none',
-                  border: '2px solid transparent'
-                }}
+                className="social-icon"
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = social.color;
-                  e.currentTarget.style.transform = 'translateY(-4px)';
                   e.currentTarget.style.boxShadow = `0 8px 20px ${social.color}40`;
                   e.currentTarget.querySelector('calcite-icon').style.color = '#fff';
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = '#f8f9fa';
-                  e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                   e.currentTarget.querySelector('calcite-icon').style.color = social.color;
                 }}
@@ -512,8 +346,7 @@ export default function ContactComponent() {
                   icon={social.icon} 
                   scale="m"
                   style={{ 
-                    color: social.color,
-                    transition: 'color 0.3s ease'
+                    color: social.color
                   }}
                 />
               </a>
@@ -523,16 +356,11 @@ export default function ContactComponent() {
       </div>
 
       {/* Map Section */}
-      <div style={{
-        height: 'clamp(300px, 50vh, 450px)',
-        background: '#e0e0e0',
-        position: 'relative'
-      }}>
+      <div className="map-section">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31685.987654321!2d79.8612!3d6.9271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae253d10f7f0!2sColombo!5e0!3m2!1sen!2slk!4v1234567890"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798654!2d79.8498!3d6.9027!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2596d3cb8b88d%3A0x1!2s370%20Galle%20Road%2C%20Colombo%2000300!5e0!3m2!1sen!2slk!4v1234567890"
           width="100%"
           height="100%"
-          style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
           title="GIS Solutions Location"
