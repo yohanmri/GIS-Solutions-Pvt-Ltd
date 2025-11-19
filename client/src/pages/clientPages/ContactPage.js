@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/clientComponents/Navbar';
-import Contact from '../../components/clientComponents/Contact';
+import ContactComponent from '../../components/clientComponents/ContactComponent';
 import Footer from '../../components/clientComponents/Footer';
 
 export default function ContactPage({ setPage }) {  // ← ADD { setPage }
@@ -14,7 +14,7 @@ export default function ContactPage({ setPage }) {  // ← ADD { setPage }
       position: 'relative'
     }}>
       <Navbar setPage={setPage} activePage="contact" />  {/* ← ADD setPage AND activePage */}
-       <Contact />
+       <ContactComponent />
       <Footer />
     </div>
   );

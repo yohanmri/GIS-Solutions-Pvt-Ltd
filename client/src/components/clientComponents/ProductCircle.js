@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
+import '../../styles/clientStyles/productCircle.css';
 
 const tools = [
   {
@@ -205,10 +206,33 @@ const tools = [
 export default function ProductCircle() {
   const [selectedTool, setSelectedTool] = useState(null);
   const [hoveredTool, setHoveredTool] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const radius = 220;
-  const centerX = 300;
-  const centerY = 300;
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Adjust circle parameters based on screen size
+  const getCircleParams = () => {
+    if (window.innerWidth <= 480) {
+      return { radius: 120, centerX: 160, centerY: 160, svgSize: 320 };
+    } else if (window.innerWidth <= 768) {
+      return { radius: 150, centerX: 200, centerY: 200, svgSize: 400 };
+    } else if (window.innerWidth <= 1024) {
+      return { radius: 180, centerX: 250, centerY: 250, svgSize: 500 };
+    }
+    return { radius: 220, centerX: 300, centerY: 300, svgSize: 600 };
+  };
+
+  const { radius, centerX, centerY, svgSize } = getCircleParams();
 
   const getPosition = (index, total) => {
     const angle = (index * 2 * Math.PI) / total - Math.PI / 2;
@@ -221,92 +245,31 @@ export default function ProductCircle() {
   const selected = tools.find((tool) => tool.id === selectedTool);
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%)',
-      padding: '3rem 2rem'
-    }}>
+    <div className="product-circle-container">
       {/* Header */}
-      <div style={{
-        maxWidth: '1400px',
-        margin: '0 auto 3rem',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          display: 'inline-block',
-          padding: '0.5rem 1.5rem',
-          background: '#7b5fa615',
-          borderRadius: '24px',
-          marginBottom: '1.5rem'
-        }}>
-          <span style={{
-            color: '#7b5fa6',
-            fontWeight: '600',
-            fontSize: '0.875rem',
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
-          }}>
-            Interactive Explorer
-          </span>
+      <div className="product-circle-header">
+        <div className="product-badge">
+          <span className="product-badge-text">Interactive Explorer</span>
         </div>
-        <h1 style={{
-          fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-          fontWeight: '400',
-          color: '#2b2b2b',
-          marginBottom: '1rem',
-          lineHeight: '1.1'
-        }}>
-          ArcGIS Essentials
-        </h1>
-        <p style={{
-          fontSize: '1.125rem',
-          color: '#666',
-          fontWeight: '300',
-          maxWidth: '700px',
-          margin: '0 auto'
-        }}>
+        <h1 className="product-title">ArcGIS Essentials</h1>
+        <p className="product-subtitle">
           Click on any product icon to discover comprehensive GIS solutions for your organization
         </p>
       </div>
 
       {/* Main Container */}
-      <div style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: selected ? '600px 1fr' : '1fr',
-        gap: '3rem',
-        alignItems: 'start',
-        transition: 'all 0.3s ease'
-      }}>
+      <div className={`product-main-grid ${selected ? 'has-selection' : ''}`}>
         {/* Circle Visualization */}
-        <div style={{
-          background: '#ffffff',
-          borderRadius: '16px',
-          padding: '2rem',
-          boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-          border: '1px solid #e0e0e0',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '600px',
-          position: 'relative'
-        }}>
-          {/* Background decoration */}
-          <div style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: '500px',
-            height: '500px',
-            background: 'radial-gradient(circle, rgba(123, 95, 166, 0.05) 0%, transparent 70%)',
-            borderRadius: '50%',
-            pointerEvents: 'none'
-          }} />
+        <div className="product-circle-wrapper">
+          <div className="circle-background" />
 
-          <svg width="600" height="600" style={{ position: 'relative', zIndex: 1 }}>
+          <svg 
+            className="product-svg" 
+            width={svgSize} 
+            height={svgSize}
+            viewBox={`0 0 ${svgSize} ${svgSize}`}
+            preserveAspectRatio="xMidYMid meet"
+          >
             {/* Connection lines from center */}
             {tools.map((tool, index) => {
               const pos = getPosition(index, tools.length);
@@ -331,18 +294,18 @@ export default function ProductCircle() {
               <circle
                 cx={centerX}
                 cy={centerY}
-                r="45"
+                r={isMobile ? "35" : "45"}
                 fill="url(#centerGradient)"
                 filter="url(#shadow)"
                 style={{ transition: 'all 0.3s ease' }}
               />
               <text
                 x={centerX}
-                y={centerY - 5}
+                y={centerY - (isMobile ? 3 : 5)}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 style={{
-                  fontSize: '0.875rem',
+                  fontSize: isMobile ? '0.7rem' : '0.875rem',
                   fill: '#ffffff',
                   fontWeight: '600',
                   pointerEvents: 'none'
@@ -352,11 +315,11 @@ export default function ProductCircle() {
               </text>
               <text
                 x={centerX}
-                y={centerY + 10}
+                y={centerY + (isMobile ? 8 : 10)}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 style={{
-                  fontSize: '0.75rem',
+                  fontSize: isMobile ? '0.65rem' : '0.75rem',
                   fill: '#ffffff',
                   fontWeight: '300',
                   pointerEvents: 'none'
@@ -370,7 +333,9 @@ export default function ProductCircle() {
             {tools.map((tool, index) => {
               const pos = getPosition(index, tools.length);
               const isSelected = selectedTool === tool.id;
-              const isHovered = hoveredTool === tool.id;
+              const isHovered = hoveredTool === tool.id && !isMobile;
+              const circleRadius = isMobile ? 24 : 34;
+              const iconSize = isMobile ? 24 : 36;
 
               return (
                 <g key={tool.id}>
@@ -379,7 +344,7 @@ export default function ProductCircle() {
                     <circle
                       cx={pos.x}
                       cy={pos.y}
-                      r="42"
+                      r={circleRadius + 8}
                       fill="none"
                       stroke={tool.color}
                       strokeWidth="2"
@@ -394,7 +359,7 @@ export default function ProductCircle() {
                   <circle
                     cx={pos.x}
                     cy={pos.y}
-                    r={isSelected ? "38" : isHovered ? "36" : "34"}
+                    r={isSelected ? circleRadius + 4 : isHovered ? circleRadius + 2 : circleRadius}
                     fill="#ffffff"
                     stroke={isSelected ? tool.color : isHovered ? tool.color : '#e0e0e0'}
                     strokeWidth={isSelected ? "3" : "2"}
@@ -404,15 +369,15 @@ export default function ProductCircle() {
                       transition: 'all 0.3s ease'
                     }}
                     onClick={() => setSelectedTool(tool.id)}
-                    onMouseEnter={() => setHoveredTool(tool.id)}
-                    onMouseLeave={() => setHoveredTool(null)}
+                    onMouseEnter={() => !isMobile && setHoveredTool(tool.id)}
+                    onMouseLeave={() => !isMobile && setHoveredTool(null)}
                   />
                   
                   {/* Icon background */}
                   <circle
                     cx={pos.x}
                     cy={pos.y}
-                    r="28"
+                    r={isMobile ? 18 : 28}
                     fill={`${tool.color}10`}
                     style={{ pointerEvents: 'none' }}
                   />
@@ -420,10 +385,10 @@ export default function ProductCircle() {
                   {/* Product icon */}
                   <image
                     href={tool.icon}
-                    x={pos.x - 18}
-                    y={pos.y - 18}
-                    width="36"
-                    height="36"
+                    x={pos.x - iconSize/2}
+                    y={pos.y - iconSize/2}
+                    width={iconSize}
+                    height={iconSize}
                     style={{ 
                       pointerEvents: 'none',
                       opacity: isSelected || isHovered ? 1 : 0.85,
@@ -431,8 +396,8 @@ export default function ProductCircle() {
                     }}
                   />
                   
-                  {/* Tooltip on hover */}
-                  {isHovered && !isSelected && (
+                  {/* Tooltip on hover (desktop only) */}
+                  {isHovered && !isSelected && !isMobile && (
                     <g>
                       <rect
                         x={pos.x - 60}
@@ -489,93 +454,46 @@ export default function ProductCircle() {
               </filter>
             </defs>
           </svg>
-
-          <style>{`
-            @keyframes pulse {
-              0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-              }
-              50% {
-                opacity: 0.1;
-                transform: scale(1.1);
-              }
-            }
-          `}</style>
         </div>
 
         {/* Details Panel */}
         {selected && (
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '16px',
-            padding: '0',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            border: '1px solid #e0e0e0',
-            overflow: 'hidden',
-            animation: 'slideIn 0.3s ease'
-          }}>
-            {/* Color bar */}
-            <div style={{
-              height: '6px',
-              background: `linear-gradient(90deg, ${selected.color} 0%, ${selected.color}80 100%)`
-            }} />
+          <div className="product-details-panel">
+            <div 
+              className="product-color-bar"
+              style={{
+                background: `linear-gradient(90deg, ${selected.color} 0%, ${selected.color}80 100%)`
+              }}
+            />
 
-            {/* Content */}
-            <div style={{ padding: '2.5rem' }}>
+            <div className="product-details-content">
               {/* Header */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '1.5rem',
-                marginBottom: '2rem'
-              }}>
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  background: `linear-gradient(135deg, ${selected.color}15 0%, ${selected.color}05 100%)`,
-                  borderRadius: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '1rem',
-                  border: `3px solid ${selected.color}25`,
-                  flexShrink: 0
-                }}>
+              <div className="product-details-header">
+                <div 
+                  className="product-icon-wrapper"
+                  style={{
+                    background: `linear-gradient(135deg, ${selected.color}15 0%, ${selected.color}05 100%)`,
+                    border: `3px solid ${selected.color}25`
+                  }}
+                >
                   <img 
                     src={selected.icon} 
                     alt={selected.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain'
-                    }}
+                    className="product-icon-img"
                   />
                 </div>
                 
-                <div style={{ flex: 1 }}>
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '0.25rem 0.75rem',
-                    background: `${selected.color}15`,
-                    color: selected.color,
-                    fontSize: '0.75rem',
-                    fontWeight: '600',
-                    borderRadius: '12px',
-                    marginBottom: '0.75rem',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
-                  }}>
+                <div className="product-info">
+                  <div 
+                    className="product-category-badge"
+                    style={{
+                      background: `${selected.color}15`,
+                      color: selected.color
+                    }}
+                  >
                     {selected.category}
                   </div>
-                  <h3 style={{
-                    fontSize: '1.75rem',
-                    fontWeight: '500',
-                    color: '#2b2b2b',
-                    marginBottom: '0.5rem'
-                  }}>
-                    {selected.name}
-                  </h3>
+                  <h3 className="product-name">{selected.name}</h3>
                 </div>
 
                 <calcite-action
@@ -583,75 +501,36 @@ export default function ProductCircle() {
                   text="Close"
                   scale="l"
                   onClick={() => setSelectedTool(null)}
-                  style={{ cursor: 'pointer' }}
+                  className="product-close-button"
                 />
               </div>
 
               {/* Description */}
-              <p style={{
-                fontSize: '1.05rem',
-                color: '#666',
-                lineHeight: '1.7',
-                marginBottom: '2rem'
-              }}>
-                {selected.description}
-              </p>
+              <p className="product-description">{selected.description}</p>
 
               {/* Features */}
-              <div style={{ marginBottom: '2rem' }}>
-                <h4 style={{
-                  fontSize: '1.125rem',
-                  fontWeight: '500',
-                  color: '#2b2b2b',
-                  marginBottom: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}>
+              <div className="product-features">
+                <h4 className="product-features-title">
                   <calcite-icon icon="lightbulb" scale="s" style={{ color: selected.color }} />
                   Key Features
                 </h4>
-                <div style={{
-                  display: 'grid',
-                  gap: '0.75rem'
-                }}>
+                <div className="product-features-grid">
                   {selected.features.map((feature, idx) => (
-                    <div
-                      key={idx}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.75rem',
-                        padding: '0.875rem 1rem',
-                        background: '#f8f9fa',
-                        borderRadius: '8px',
-                        border: '1px solid #e0e0e0'
-                      }}
-                    >
+                    <div key={idx} className="product-feature-item">
                       <calcite-icon 
                         icon="check-circle-f" 
                         scale="s" 
-                        style={{ color: selected.color, flexShrink: 0 }}
+                        style={{ color: selected.color }}
+                        className="product-feature-icon"
                       />
-                      <span style={{
-                        fontSize: '0.95rem',
-                        color: '#2b2b2b',
-                        fontWeight: '400'
-                      }}>
-                        {feature}
-                      </span>
+                      <span className="product-feature-text">{feature}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Actions */}
-              <div style={{
-                display: 'flex',
-                gap: '1rem',
-                paddingTop: '1.5rem',
-                borderTop: '1px solid #e0e0e0'
-              }}>
+              <div className="product-actions">
                 <calcite-button
                   width="full"
                   appearance="solid"
@@ -673,6 +552,7 @@ export default function ProductCircle() {
                     '--calcite-button-border-color': selected.color,
                     '--calcite-button-text-color': selected.color,
                     cursor: 'pointer'
+                  
                   }}
                 >
                   Documentation
@@ -684,70 +564,17 @@ export default function ProductCircle() {
 
         {/* Empty state when nothing selected */}
         {!selected && (
-          <div style={{
-            background: '#ffffff',
-            borderRadius: '16px',
-            padding: '4rem 3rem',
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-            border: '2px dashed #e0e0e0',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '400px'
-          }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              background: 'linear-gradient(135deg, #7b5fa615 0%, #7b5fa605 100%)',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: '1.5rem',
-              border: '3px solid #7b5fa625'
-            }}>
+          <div className="product-empty-state">
+            <div className="empty-state-icon">
               <calcite-icon icon="cursor-click" scale="l" style={{ color: '#7b5fa6' }} />
             </div>
-            <h4 style={{
-              fontSize: '1.5rem',
-              fontWeight: '500',
-              color: '#2b2b2b',
-              marginBottom: '0.75rem'
-            }}>
-              Select a Product
-            </h4>
-            <p style={{
-              fontSize: '1.05rem',
-              color: '#666',
-              maxWidth: '400px',
-              lineHeight: '1.6'
-            }}>
+            <h4 className="empty-state-title">Select a Product</h4>
+            <p className="empty-state-description">
               Click on any product icon in the circle to explore its features, capabilities, and learn how it can transform your GIS workflows
             </p>
           </div>
         )}
       </div>
-
-      <style>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        @media (max-width: 1200px) {
-          div[style*="gridTemplateColumns"] {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

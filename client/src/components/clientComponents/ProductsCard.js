@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
-import '../../styles/clientStyles/products.css';
+import '../../styles/clientStyles/productsCard.css';
 
 export default function ProductsComponent({ setPage }) {
   const [hoveredCard, setHoveredCard] = useState(null);

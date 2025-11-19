@@ -1,9 +1,8 @@
 import React from 'react';
 import Navbar from '../../components/clientComponents/Navbar';
 import Hero from '../../components/clientComponents/Hero';
-import Services from '../../components/clientComponents/Services';
-import Solutions from '../../components/clientComponents/Solutions';
-import Contact from '../../components/clientComponents/Contact';
+
+
 import Footer from '../../components/clientComponents/Footer';
 import HomeArcGIS from '../../components/clientComponents/HomeArcGIS';
 import HomeCapabilities from '../../components/clientComponents/HomeCapabilities';
