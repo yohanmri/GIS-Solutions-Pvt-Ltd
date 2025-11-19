@@ -2,6 +2,7 @@
   background: #ffffff;
   margin: 0;
   padding: 0;
+  padding-top: 80px; /* Add space for fixed navbar */
 }
 
 .services-hero {
@@ -70,7 +71,6 @@
   display: block;
   max-width: 600px;
   margin-left: auto;
-
 }
 
 .services-container {
@@ -83,8 +83,24 @@
   margin-bottom: 2rem;
 }
 
+/* Remove default focus outlines and add custom styles */
 calcite-tabs {
   --calcite-tab-title-active-border-color: #0079c1;
+}
+
+calcite-tabs *:focus,
+calcite-tabs *:focus-visible {
+  outline: none !important;
+}
+
+calcite-button:focus-visible::part(button) {
+  outline: 2px solid #0079c1 !important;
+  outline-offset: 2px !important;
+}
+
+/* Remove unwanted outlines on mobile */
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .tab-title-large {
@@ -125,6 +141,8 @@ calcite-tabs {
   font-weight: 400;
   color: #151515;
   margin: 0 0 1.5rem 0;
+  line-height: 1.3;
+  word-wrap: break-word;
 }
 
 .section-description {
@@ -133,6 +151,7 @@ calcite-tabs {
   max-width: 800px;
   margin: 0 auto 3rem;
   line-height: 1.8;
+  word-wrap: break-word;
 }
 
 .services-stats {
@@ -186,7 +205,8 @@ calcite-tabs {
   color: #6a6a6a;
   margin: 0;
   font-weight: 500;
-  white-space: nowrap;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
 .category-filter {
@@ -284,6 +304,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   font-weight: 500;
   color: #151515;
   margin: 0 0 0.75rem 0;
+  word-wrap: break-word;
 }
 
 .service-description {
@@ -291,6 +312,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   color: #6a6a6a;
   line-height: 1.6;
   margin: 0;
+  word-wrap: break-word;
 }
 
 .service-body {
@@ -314,6 +336,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  word-wrap: break-word;
 }
 
 .chips-container {
@@ -335,6 +358,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   margin-bottom: 0.75rem;
   font-size: 0.95rem;
   color: #555;
+  word-wrap: break-word;
 }
 
 .benefits-list li calcite-icon {
@@ -354,6 +378,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   border-radius: 6px;
   font-weight: 500;
   transition: all 0.2s ease;
+  word-wrap: break-word;
 }
 
 .tech-tag:hover {
@@ -422,6 +447,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   margin: 0 0 1.5rem 0;
   color: #ffffff;
   line-height: 1.2;
+  word-wrap: break-word;
 }
 
 .cta-description {
@@ -430,6 +456,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   font-weight: 300;
   margin: 0 0 2rem 0;
   line-height: 1.6;
+  word-wrap: break-word;
 }
 
 .services-cta-image {
@@ -574,6 +601,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   min-height: 3.5rem;
   cursor: pointer;
   transition: color 0.2s ease;
+  word-wrap: break-word;
 }
 
 .training-title-esri:hover {
@@ -622,10 +650,12 @@ calcite-button[appearance="outline"]:hover::part(button) {
   padding: 0.5rem 0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
+  word-wrap: break-word;
 }
 
 .training-maintenance calcite-icon {
   color: #6a6a6a;
+  flex-shrink: 0;
 }
 
 .training-actions-esri {
@@ -715,6 +745,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   color: var(--calcite-color-text-1);
   margin: 0;
   line-height: 1.3;
+  word-wrap: break-word;
 }
 
 .event-theme {
@@ -723,6 +754,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   font-weight: 600;
   margin: 0;
   font-style: italic;
+  word-wrap: break-word;
 }
 
 .event-card-description {
@@ -736,6 +768,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   line-height: 1.6;
   color: var(--calcite-color-text-2);
   margin: 0;
+  word-wrap: break-word;
 }
 
 .event-prize-highlight {
@@ -749,6 +782,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   display: flex;
   align-items: flex-start;
   gap: 8px;
+  word-wrap: break-word;
 }
 
 .event-prize-highlight calcite-icon {
@@ -791,6 +825,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   font-weight: 600;
   color: var(--calcite-color-text-1);
   margin: 0;
+  word-wrap: break-word;
 }
 
 .event-card-actions {
@@ -850,7 +885,17 @@ calcite-button[appearance="outline"]:hover::part(button) {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
+  .services-section {
+    padding-top: 60px; /* Adjust for mobile navbar height */
+  }
+
   .services-hero {
     min-height: auto;
   }
@@ -858,7 +903,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   .services-hero-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
   }
 
   .services-hero-content {
@@ -871,24 +916,51 @@ calcite-button[appearance="outline"]:hover::part(button) {
   }
 
   .services-hero-title {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    margin-bottom: 1rem;
   }
 
   .services-hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .services-container {
-    padding: 2rem 1.5rem 3rem;
+    padding: 2rem 1rem 3rem;
   }
 
   .section-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .section-description {
+    font-size: 1rem;
   }
 
   .services-stats {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .stat-item {
+    padding: 2rem 1.5rem;
+    min-height: auto;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+  }
+
+  .category-filter {
+    gap: 0.5rem;
+  }
+
+  .category-filter calcite-button {
+    font-size: 0.875rem;
   }
 
   .services-grid {
@@ -896,15 +968,32 @@ calcite-button[appearance="outline"]:hover::part(button) {
     gap: 1.5rem;
   }
 
+  .service-card {
+    border-radius: 8px;
+  }
+
+  .service-header {
+    padding: 1.5rem;
+  }
+
+  .service-body {
+    padding: 1.5rem;
+  }
+
+  .service-footer {
+    padding: 1rem 1.5rem 1.5rem;
+    flex-direction: column;
+  }
+
   .services-cta {
     min-height: auto;
-    margin: 4rem -1.5rem -3rem;
+    margin: 3rem -1rem -3rem;
   }
 
   .services-cta-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem;
   }
 
   .services-cta-content {
@@ -912,7 +1001,7 @@ calcite-button[appearance="outline"]:hover::part(button) {
   }
 
   .cta-logo {
-    margin: 0 auto 2rem;
+    margin: 0 auto 1.5rem;
   }
 
   .services-cta-image img {
@@ -921,11 +1010,16 @@ calcite-button[appearance="outline"]:hover::part(button) {
   }
 
   .cta-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .cta-description {
+    font-size: 1rem;
   }
 
   .cta-buttons {
     flex-direction: column;
+    width: 100%;
   }
 
   .cta-buttons calcite-button {
@@ -933,17 +1027,28 @@ calcite-button[appearance="outline"]:hover::part(button) {
   }
 
   .tab-title-large {
-    font-size: 1.25rem !important;
-    padding: 1rem 1.5rem;
+    font-size: 1.125rem !important;
+    padding: 1rem 1.25rem;
+    gap: 0.5rem;
+  }
+
+  .training-tab-content {
+    padding: 1.5rem 1rem;
   }
 
   .training-grid-esri {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .training-card-esri {
+    padding: 1.25rem;
   }
 
   .training-controls {
     flex-direction: column;
     align-items: stretch;
+    gap: 1rem;
   }
 
   .training-filters {
@@ -952,17 +1057,35 @@ calcite-button[appearance="outline"]:hover::part(button) {
   }
 
   /* Events Responsive */
+  .events-tab-content {
+    padding: 24px 0;
+  }
+
+  .events-header {
+    margin-bottom: 32px;
+    padding: 0 1rem;
+  }
+
+  .events-header .section-title {
+    font-size: 1.75rem;
+  }
+
+  .events-header .section-description {
+    font-size: 1rem;
+  }
+
   .event-card-grid {
     grid-template-columns: 1fr;
     min-height: auto;
   }
 
   .event-details-side {
-    padding: 24px;
+    padding: 24px 20px;
+    gap: 16px;
   }
 
   .event-card-title {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
   }
 
   .event-celebration-header {
@@ -974,10 +1097,27 @@ calcite-button[appearance="outline"]:hover::part(button) {
     font-size: 1rem;
   }
 
+  .event-card-description p {
+    font-size: 0.9rem;
+  }
+
+  .event-prize-highlight {
+    font-size: 0.85rem;
+    padding: 12px 14px;
+  }
+
   .event-info-grid {
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 16px;
+  }
+
+  .event-info-text h4 {
+    font-size: 0.65rem;
+  }
+
+  .event-info-text p {
+    font-size: 0.9rem;
   }
 
   .event-card-actions {
@@ -991,16 +1131,79 @@ calcite-button[appearance="outline"]:hover::part(button) {
 
   .event-poster-side {
     min-height: 300px;
+    padding: 16px;
+  }
+
+  .events-coming-soon {
+    padding: 40px 24px;
+  }
+
+  .events-coming-soon h4 {
+    font-size: 1.25rem;
+  }
+
+  .events-coming-soon p {
+    font-size: 0.95rem;
   }
 }
 
 @media (max-width: 480px) {
-  .events-header .section-title {
+  .services-section {
+    padding-top: 60px;
+  }
+
+  .services-hero-title {
+    font-size: 1.75rem;
+  }
+
+  .services-hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-description {
+    font-size: 0.95rem;
+  }
+
+  .stat-number {
     font-size: 2rem;
   }
 
+  .stat-label {
+    font-size: 0.95rem;
+  }
+
+  .service-title {
+    font-size: 1.25rem;
+  }
+
+  .cta-title {
+    font-size: 1.5rem;
+  }
+
+  .cta-description {
+    font-size: 0.95rem;
+  }
+
+  .tab-title-large {
+    font-size: 1rem !important;
+    padding: 0.875rem 1rem;
+  }
+
+  .training-title-esri {
+    font-size: 1.125rem;
+    min-height: auto;
+  }
+
+  .events-header .section-title {
+    font-size: 1.5rem;
+  }
+
   .event-details-side {
-    padding: 20px;
+    padding: 20px 16px;
   }
 
   .event-celebration-header {
@@ -1012,20 +1215,37 @@ calcite-button[appearance="outline"]:hover::part(button) {
     font-size: 1.25rem;
   }
 
+  .event-theme {
+    font-size: 0.95rem;
+  }
+
   .event-card-description p {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   .event-prize-highlight {
-    font-size: 0.85rem;
-    padding: 12px 14px;
+    font-size: 0.8rem;
+    padding: 10px 12px;
   }
 
   .event-info-text p {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   .event-poster-side {
     min-height: 250px;
+    padding: 12px;
+  }
+
+  .events-coming-soon {
+    padding: 32px 20px;
+  }
+
+  .events-coming-soon h4 {
+    font-size: 1.125rem;
+  }
+
+  .events-coming-soon p {
+    font-size: 0.9rem;
   }
 }

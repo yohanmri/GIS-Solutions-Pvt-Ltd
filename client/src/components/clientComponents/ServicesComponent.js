@@ -10,7 +10,7 @@ import '@esri/calcite-components/components/calcite-tab-title';
 import '@esri/calcite-components/components/calcite-input';
 import '@esri/calcite-components/components/calcite-label';
 import '@esri/calcite-components/components/calcite-card';
-import '../../styles/clientStyles/services.css';
+import '../../styles/clientStyles/servicesComponent.css';
 
 
 
