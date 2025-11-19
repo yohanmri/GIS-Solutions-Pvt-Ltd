@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
+import '../../styles/clientStyles/aboutDetails.css';
 
 const sections = [
   {
@@ -48,8 +49,8 @@ const sections = [
     ],
     media: {
       background: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80',
-      foregroundImage: 'https://images.unsplash.com/photo-1504197885-659d6c789323?w=1200&q=80',
-      caption: 'Established in Sri Lanka',
+      // foregroundImage: 'https://pixabay.com/photos/sri-lanka-banner-flag-2702727/',
+      // caption: 'Established in Sri Lanka',
       description: 'Since 2012, serving organizations nationwide with world-class GIS technology and local expertise.'
     }
   },
@@ -114,89 +115,34 @@ const sections = [
 export default function AboutDetails() {
   const renderMedia = (section) => {
     const hasImage = section.media.foregroundImage;
+    const isMediaLeft = section.layout === 'media-left';
 
     return (
-      <div style={{
-        position: 'relative',
-        width: '100%',
-        height: '100%',
-        minHeight: '700px',
-        overflow: 'hidden'
-      }}>
+      <div className="media-container">
         {/* Background Image */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 1
-        }}>
+        <div className="background-image">
           <img 
             src={section.media.background}
             alt="Background"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover'
-            }}
           />
         </div>
 
         {/* Foreground Image Overlay */}
         {hasImage && (
-          <div style={{
-            position: 'absolute',
-            top: '15%',
-            right: section.layout === 'media-left' ? '5%' : 'auto',
-            left: section.layout === 'media-right' ? '10%' : 'auto',
-            width: '50%',
-            height: '55%',
-            zIndex: 2,
-            borderRadius: '8px',
-            overflow: 'hidden',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
-          }}>
+          <div className={`foreground-image-container ${isMediaLeft ? 'media-left' : 'media-right'}`}>
             <img 
               src={section.media.foregroundImage}
               alt={section.media.caption}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
             />
           </div>
         )}
 
         {/* Caption Box */}
-        <div style={{
-          position: 'absolute',
-          bottom: '8%',
-          left: section.layout === 'media-left' ? '8%' : 'auto',
-          right: section.layout === 'media-right' ? '8%' : 'auto',
-          width: '400px',
-          background: 'rgba(255, 255, 255, 0.95)',
-          padding: '2rem',
-          borderRadius: '4px',
-          backdropFilter: 'blur(10px)',
-          zIndex: 3,
-          boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-        }}>
-          <h3 style={{
-            fontSize: '1.25rem',
-            fontWeight: '500',
-            marginBottom: '0.75rem',
-            color: '#2b2b2b'
-          }}>
+        <div className={`caption-box ${isMediaLeft ? 'left-aligned' : 'right-aligned'}`}>
+          <h3 className="caption-title">
             {section.media.caption}
           </h3>
-          <p style={{
-            fontSize: '0.95rem',
-            color: '#555',
-            margin: 0,
-            lineHeight: '1.6'
-          }}>
+          <p className="caption-description">
             {section.media.description}
           </p>
         </div>
@@ -208,37 +154,19 @@ export default function AboutDetails() {
     const isMediaLeft = section.layout === 'media-left';
 
     const textContent = (
-      <div style={{
-        padding: 'clamp(2.5rem, 6vw, 5rem)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        background: index % 2 === 0 ? '#fff' : '#f8f8f8'
-      }}>
-        <h2 style={{
-          fontSize: 'clamp(2rem, 4vw, 2.75rem)',
-          fontWeight: '400',
-          lineHeight: '1.2',
-          marginBottom: '2rem',
-          color: '#2b2b2b'
-        }}>
+      <div className={`text-content ${index % 2 === 0 ? 'bg-white' : 'bg-gray'}`}>
+        <h2 className="section-title">
           {section.title}
         </h2>
 
         {section.content.map((paragraph, idx) => (
-          <p key={idx} style={{
-            fontSize: '1.0625rem',
-            lineHeight: '1.8',
-            color: '#444',
-            marginBottom: '1.5rem',
-            maxWidth: '650px'
-          }}>
+          <p key={idx} className="section-paragraph">
             {paragraph}
           </p>
         ))}
 
         {section.buttons && (
-          <div style={{ display: 'flex', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+          <div className="button-container">
             {section.buttons.map((button, idx) => (
               <calcite-button
                 key={idx}
@@ -266,11 +194,7 @@ export default function AboutDetails() {
     return (
       <div 
         key={section.id} 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))',
-          minHeight: '700px'
-        }}
+        className={`section-wrapper ${section.layout}`}
       >
         {isMediaLeft ? (
           <>
@@ -294,142 +218,55 @@ export default function AboutDetails() {
     return (
       <div 
         key={section.id} 
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 500px), 1fr))',
-          minHeight: '700px'
-        }}
+        className="section-wrapper media-left"
       >
         {/* Media side with logo overlay */}
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%',
-          minHeight: '700px',
-          overflow: 'hidden'
-        }}>
+        <div className="media-container">
           {/* Background Image */}
-          <div style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: 1
-          }}>
+          <div className="background-image">
             <img 
               src={section.media.background}
               alt="Background"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
             />
           </div>
 
           {/* Logo Overlay - NO BACKGROUND */}
-          <div style={{
-            position: 'absolute',
-            top: '20%',
-            left: '30%',
-            zIndex: 4,
-            filter: 'drop-shadow(0 4px 20px rgba(0,0,0,0.3))'
-          }}>
+          <div className="logo-overlay">
             <img 
               src="/assets/logoGIS.png" 
               alt="GIS Solutions Logo"
-              style={{
-                maxWidth: '250px',
-                height: 'auto',
-                display: 'block'
-              }}
             />
           </div>
 
           {/* Foreground Image */}
           {hasImage && (
-            <div style={{
-              position: 'absolute',
-              top: '15%',
-              right: '5%',
-              width: '50%',
-              height: '55%',
-              zIndex: 2,
-              borderRadius: '8px',
-              overflow: 'hidden',
-              boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
-            }}>
+            <div className="foreground-image-container media-left">
               <img 
                 src={section.media.foregroundImage}
                 alt={section.media.caption}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover'
-                }}
               />
             </div>
           )}
 
           {/* Caption Box */}
-          <div style={{
-            position: 'absolute',
-            bottom: '8%',
-            left: '8%',
-            width: '400px',
-            background: 'rgba(255, 255, 255, 0.95)',
-            padding: '2rem',
-            borderRadius: '4px',
-            backdropFilter: 'blur(10px)',
-            zIndex: 3,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.15)'
-          }}>
-            <h3 style={{
-              fontSize: '1.25rem',
-              fontWeight: '500',
-              marginBottom: '0.75rem',
-              color: '#2b2b2b'
-            }}>
+          <div className="caption-box left-aligned">
+            <h3 className="caption-title">
               {section.media.caption}
             </h3>
-            <p style={{
-              fontSize: '0.95rem',
-              color: '#555',
-              margin: 0,
-              lineHeight: '1.6'
-            }}>
+            <p className="caption-description">
               {section.media.description}
             </p>
           </div>
         </div>
         
         {/* Text content side */}
-        <div style={{
-          padding: 'clamp(2.5rem, 6vw, 5rem)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          background: '#fff'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.75rem)',
-            fontWeight: '400',
-            lineHeight: '1.2',
-            marginBottom: '2rem',
-            color: '#2b2b2b'
-          }}>
+        <div className="text-content bg-white">
+          <h2 className="section-title">
             {section.title}
           </h2>
 
           {section.content.map((paragraph, idx) => (
-            <p key={idx} style={{
-              fontSize: '1.0625rem',
-              lineHeight: '1.8',
-              color: '#444',
-              marginBottom: '1.5rem',
-              maxWidth: '650px'
-            }}>
+            <p key={idx} className="section-paragraph">
               {paragraph}
             </p>
           ))}
@@ -439,7 +276,7 @@ export default function AboutDetails() {
   };
 
   return (
-    <div style={{ background: '#fff' }}>
+    <div className="about-container">
       {renderFirstSection()}
       {sections.slice(1).map((section, index) => renderSection(section, index + 1))}
     </div>

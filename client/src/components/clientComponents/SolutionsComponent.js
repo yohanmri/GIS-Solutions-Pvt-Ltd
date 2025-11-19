@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
+import '../../styles/clientStyles/solutionsComponent.css';
 
 const sections = [
   {
@@ -59,7 +60,7 @@ const sections = [
   }
 ];
 
-export default function SolutionsDetails() {
+export default function SolutionsComponent() {
   const [hoveredVideo, setHoveredVideo] = useState(null);
   const videoRefs = useRef({});
 

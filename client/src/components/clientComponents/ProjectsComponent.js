@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
+import '../../styles/clientStyles/projectsComponent.css';
 
 export default function ProjectsComponent() {
   const [activeTab, setActiveTab] = useState(0);
@@ -103,101 +104,40 @@ export default function ProjectsComponent() {
   ];
 
   return (
-    <div style={{ background: '#fff' }}>
+    <div className="projects-container">
       {/* Hero Section */}
-      <div style={{
-        position: 'relative',
-        minHeight: '500px',
-        background: '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '4rem 2rem'
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          width: '100%',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem',
-          alignItems: 'center'
-        }}>
+      <div className="hero-section">
+        <div className="hero-content">
           {/* Left Content */}
           <div>
-            <h1 style={{
-              fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-              fontWeight: '400',
-              color: '#2b2b2b',
-              lineHeight: '1.2',
-              marginBottom: '2rem'
-            }}>
+            <h1 className="hero-title">
               Measure Your Impact
             </h1>
           </div>
 
           {/* Right Images */}
-          <div style={{
-            position: 'relative',
-            height: '400px'
-          }}>
+          <div className="hero-images">
             <img
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
               alt="GIS Dashboard"
-              style={{
-                position: 'absolute',
-                top: '0',
-                right: '0',
-                width: '70%',
-                height: '60%',
-                objectFit: 'cover',
-                borderRadius: '8px',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
-                zIndex: 2
-              }}
+              className="hero-image-primary"
             />
             <img
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80"
               alt="Team collaboration"
-              style={{
-                position: 'absolute',
-                bottom: '0',
-                left: '0',
-                width: '50%',
-                height: '45%',
-                objectFit: 'cover',
-                borderRadius: '8px',
-                boxShadow: '0 8px 30px rgba(0,0,0,0.15)',
-                zIndex: 1
-              }}
+              className="hero-image-secondary"
             />
           </div>
         </div>
       </div>
 
       {/* Info Section */}
-      <div style={{
-        background: '#004c74',
-        color: '#fff',
-        padding: '5rem 2rem'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-            fontWeight: '400',
-            marginBottom: '2rem',
-            lineHeight: '1.3'
-          }}>
+      <div className="info-section">
+        <div className="info-content">
+          <h2 className="info-title">
             Assess program success with meaningful metrics
           </h2>
-          <p style={{
-            fontSize: '1.125rem',
-            lineHeight: '1.8',
-            opacity: 0.95,
-            maxWidth: '900px'
-          }}>
+          <p className="info-description">
             Organizations use GIS to develop indexes and models that set short- and long-term 
             benchmarks and establish milestones. Maps and analysis allow teams to model alternative 
             approaches and adjust programs as they monitor outcomes and impacts. Leverage GIS 
@@ -208,65 +148,26 @@ export default function ProjectsComponent() {
       </div>
 
       {/* Capabilities Section */}
-      <div style={{
-        padding: '5rem 2rem',
-        background: '#fff'
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-            fontWeight: '400',
-            color: '#2b2b2b',
-            marginBottom: '3rem',
-            textAlign: 'center'
-          }}>
+      <div className="capabilities-section">
+        <div className="capabilities-content">
+          <h2 className="capabilities-title">
             Understand outcomes and plan for the future with GIS
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-            gap: '3rem',
-            marginBottom: '4rem'
-          }}>
+          <div className="capabilities-grid">
             {capabilities.map((cap, idx) => (
-              <div
-                key={idx}
-                style={{
-                  textAlign: 'center',
-                  padding: '1.5rem'
-                }}
-              >
-                <div style={{
-                  width: '80px',
-                  height: '80px',
-                  margin: '0 auto 1.5rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
+              <div key={idx} className="capability-card">
+                <div className="capability-icon-wrapper">
                   <calcite-icon 
                     icon={cap.icon} 
                     scale="l"
-                    style={{ color: '#00bfb3', fontSize: '3rem' }}
+                    className="capability-icon"
                   />
                 </div>
-                <h3 style={{
-                  fontSize: '1.25rem',
-                  fontWeight: '500',
-                  color: '#2b2b2b',
-                  marginBottom: '1rem'
-                }}>
+                <h3 className="capability-title">
                   {cap.title}
                 </h3>
-                <p style={{
-                  fontSize: '0.95rem',
-                  color: '#666',
-                  lineHeight: '1.7'
-                }}>
+                <p className="capability-description">
                   {cap.description}
                 </p>
               </div>
@@ -276,76 +177,26 @@ export default function ProjectsComponent() {
       </div>
 
       {/* Featured Project Section */}
-      <div style={{
-        padding: '5rem 2rem',
-        background: '#f8f9fa'
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto'
-        }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '4rem',
-            alignItems: 'center',
-            marginBottom: '5rem'
-          }}>
+      <div className="featured-section">
+        <div className="featured-content">
+          <div className="featured-grid">
             {/* Dashboard Image */}
-            <div style={{
-              position: 'relative'
-            }}>
-              <div style={{
-                position: 'absolute',
-                width: '150px',
-                height: '150px',
-                borderRadius: '50%',
-                border: '3px dashed #00bfb3',
-                top: '-20px',
-                left: '-20px',
-                opacity: 0.3
-              }} />
-              <div style={{
-                position: 'absolute',
-                width: '120px',
-                height: '120px',
-                borderRadius: '50%',
-                border: '3px dashed #00bfb3',
-                bottom: '-10px',
-                right: '50px',
-                opacity: 0.3
-              }} />
+            <div className="featured-image-wrapper">
+              <div className="decorative-circle-large" />
+              <div className="decorative-circle-small" />
               <img
                 src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80"
                 alt="Dashboard"
-                style={{
-                  width: '100%',
-                  border: '8px solid #2b2b2b',
-                  borderRadius: '4px',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
-                  position: 'relative',
-                  zIndex: 1
-                }}
+                className="featured-image"
               />
             </div>
 
             {/* Text Content */}
-            <div>
-              <h2 style={{
-                fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-                fontWeight: '400',
-                color: '#2b2b2b',
-                marginBottom: '2rem',
-                lineHeight: '1.3'
-              }}>
+            <div className="featured-text">
+              <h2>
                 Communicate your impact with stakeholders
               </h2>
-              <p style={{
-                fontSize: '1.125rem',
-                color: '#555',
-                lineHeight: '1.8',
-                marginBottom: '2rem'
-              }}>
+              <p>
                 Use maps and dashboards to share the measured success of your program 
                 evaluation with current and prospective changemakers.
               </p>
@@ -353,133 +204,47 @@ export default function ProjectsComponent() {
           </div>
 
           {/* Projects Grid */}
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-            fontWeight: '400',
-            color: '#2b2b2b',
-            marginBottom: '3rem',
-            textAlign: 'center'
-          }}>
+          <h2 className="projects-title">
             Our Success Stories
           </h2>
 
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '2rem'
-          }}>
+          <div className="projects-grid">
             {projects.map((project, index) => (
-              <div
-                key={index}
-                style={{
-                  background: '#fff',
-                  borderRadius: '8px',
-                  overflow: 'hidden',
-                  boxShadow: '0 2px 12px rgba(0,0,0,0.1)',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.1)';
-                }}
-              >
+              <div key={index} className="project-card">
                 {/* Project Image */}
-                <div style={{
-                  height: '200px',
-                  overflow: 'hidden',
-                  position: 'relative'
-                }}>
+                <div className="project-image-wrapper">
                   <img
                     src={project.image}
                     alt={project.title}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
+                    className="project-image"
                   />
-                  <div style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: '#004c74',
-                    color: '#fff',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '4px',
-                    fontSize: '0.875rem',
-                    fontWeight: '600'
-                  }}>
+                  <div className="project-year-badge">
                     {project.year}
                   </div>
                 </div>
 
                 {/* Project Content */}
-                <div style={{ padding: '2rem' }}>
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '0.25rem 0.75rem',
-                    background: '#e8f5f5',
-                    color: '#00796b',
-                    fontSize: '0.75rem',
-                    fontWeight: '600',
-                    borderRadius: '12px',
-                    marginBottom: '1rem',
-                    textTransform: 'uppercase'
-                  }}>
+                <div className="project-content">
+                  <div className="project-category">
                     {project.category}
                   </div>
 
-                  <h3 style={{
-                    fontSize: '1.5rem',
-                    fontWeight: '500',
-                    color: '#2b2b2b',
-                    marginBottom: '0.5rem'
-                  }}>
+                  <h3 className="project-title">
                     {project.title}
                   </h3>
 
-                  <p style={{
-                    fontSize: '0.95rem',
-                    color: '#00796b',
-                    marginBottom: '1rem',
-                    fontWeight: '500'
-                  }}>
+                  <p className="project-client">
                     {project.client}
                   </p>
 
-                  <p style={{
-                    fontSize: '1rem',
-                    color: '#666',
-                    lineHeight: '1.7',
-                    marginBottom: '1.5rem'
-                  }}>
+                  <p className="project-description">
                     {project.description}
                   </p>
 
                   {/* Technologies */}
-                  <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '0.5rem',
-                    marginBottom: '1.5rem'
-                  }}>
+                  <div className="project-technologies">
                     {project.technologies.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          padding: '0.375rem 0.75rem',
-                          background: '#f0f5f9',
-                          color: '#004c74',
-                          fontSize: '0.8rem',
-                          borderRadius: '4px',
-                          fontWeight: '500'
-                        }}
-                      >
+                      <span key={idx} className="tech-tag">
                         {tech}
                       </span>
                     ))}
@@ -504,36 +269,15 @@ export default function ProjectsComponent() {
       </div>
 
       {/* CTA Section */}
-      <div style={{
-        padding: '5rem 2rem',
-        background: 'linear-gradient(135deg, #004c74 0%, #006994 100%)',
-        color: '#fff',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          maxWidth: '900px',
-          margin: '0 auto'
-        }}>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 2.5rem)',
-            fontWeight: '400',
-            marginBottom: '1.5rem'
-          }}>
+      <div className="cta-section">
+        <div className="cta-content">
+          <h2 className="cta-title">
             Ready to Transform Your Programs with GIS?
           </h2>
-          <p style={{
-            fontSize: '1.125rem',
-            marginBottom: '2.5rem',
-            opacity: 0.95
-          }}>
+          <p className="cta-description">
             Let's discuss how we can help you measure impact, improve outcomes, and communicate your success
           </p>
-          <div style={{
-            display: 'flex',
-            gap: '1rem',
-            justifyContent: 'center',
-            flexWrap: 'wrap'
-          }}>
+          <div className="cta-buttons">
             <calcite-button
               appearance="solid"
               kind="inverse"
