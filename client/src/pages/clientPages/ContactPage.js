@@ -3,9 +3,9 @@ import Navbar from '../../components/clientComponents/Navbar';
 import ContactComponent from '../../components/clientComponents/ContactComponent';
 import Footer from '../../components/clientComponents/Footer';
 
-export default function ContactPage({ setPage }) {  // ← ADD { setPage }
+export default function ContactPage() {
   return (
-    <div className="contact-page"  style={{
+    <div className="contact-page" style={{
       margin: 0,
       padding: 0,
       width: '100%',
@@ -13,8 +13,8 @@ export default function ContactPage({ setPage }) {  // ← ADD { setPage }
       overflow: 'hidden',
       position: 'relative'
     }}>
-      <Navbar setPage={setPage} activePage="contact" />  {/* ← ADD setPage AND activePage */}
-       <ContactComponent />
+      <Navbar activePage="contact" />
+      <ContactComponent />
       <Footer />
     </div>
   );

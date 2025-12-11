@@ -1,0 +1,138 @@
+/* Events List Page */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.event-main-card {
+    animation: fadeIn 0.5s ease;
+}
+
+.event-card-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 32px;
+    padding: 24px;
+}
+
+.event-details-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.event-celebration-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--calcite-ui-brand);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.event-card-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.event-theme {
+    margin: 0;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--calcite-ui-text-2);
+}
+
+.event-card-description {
+    color: var(--calcite-ui-text-2);
+    line-height: 1.6;
+}
+
+.event-card-description p {
+    margin: 0 0 12px 0;
+}
+
+.event-prize-highlight {
+    display: flex;
+    align-items: start;
+    gap: 8px;
+    padding: 12px;
+    background: var(--calcite-ui-brand-hover);
+    border-radius: 4px;
+    color: white;
+    margin-top: 12px;
+}
+
+.event-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 16px 0;
+}
+
+.event-info-item {
+    display: flex;
+    gap: 12px;
+    align-items: start;
+}
+
+.event-info-text h4 {
+    margin: 0 0 4px 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--calcite-ui-text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.event-info-text p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.event-card-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.event-poster-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.event-poster-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    max-height: 500px;
+}
+
+.event-poster-placeholder {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--calcite-ui-foreground-2);
+    border-radius: 8px;
+    color: var(--calcite-ui-text-3);
+}
+
+.event-poster-placeholder p {
+    margin: 8px 0 0 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .event-card-grid {
+        grid-template-columns: 1fr;
+    }
+}

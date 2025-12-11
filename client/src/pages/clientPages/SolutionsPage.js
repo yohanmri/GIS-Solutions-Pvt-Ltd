@@ -7,12 +7,12 @@ import SolutionsComponent from '../../components/clientComponents/SolutionsCompo
 
 import '@esri/calcite-components/dist/calcite/calcite.css';
 
-export default function SolutionsPage({ setPage }) {
+export default function SolutionsPage() {
   return (
     <div className="solutions-page">
-      <Navbar setPage={setPage} activePage="solutions" />
+      <Navbar activePage="solutions" />
       <SolutionsComponent />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

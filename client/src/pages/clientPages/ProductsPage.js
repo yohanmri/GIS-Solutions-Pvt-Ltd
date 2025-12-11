@@ -1,11 +1,11 @@
 import React from 'react';
 import Navbar from '../../components/clientComponents/Navbar';
 import Footer from '../../components/clientComponents/Footer';
-import ProductsComponent from '../../components/clientComponents/ProductsCard'; 
+import ProductsComponent from '../../components/clientComponents/ProductsCard';
 import '@esri/calcite-components/dist/calcite/calcite.css';
 import ProductCircle from '../../components/clientComponents/ProductCircle';
 
-export default function ProductsPage({ setPage }) {
+export default function ProductsPage() {
   return (
     <div className="products-page" style={{
       margin: 0,
@@ -15,9 +15,9 @@ export default function ProductsPage({ setPage }) {
       overflow: 'hidden',
       position: 'relative'
     }}>
-      <Navbar setPage={setPage} activePage="products" />
-      
-      <ProductsComponent setPage={setPage} />
+      <Navbar activePage="products" />
+
+      <ProductsComponent />
       <ProductCircle />
       <Footer />
     </div>

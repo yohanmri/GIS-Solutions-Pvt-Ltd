@@ -8,17 +8,17 @@ import HomeArcGIS from '../../components/clientComponents/HomeArcGIS';
 import HomeCapabilities from '../../components/clientComponents/HomeCapabilities';
 import HomeInitiatives from '../../components/clientComponents/HomeInitiatives';
 
-export default function HomePage({ setPage }) {
+export default function HomePage() {
   return (
-    <div className="home-page" style={{ 
-      margin: 0, 
-      padding: 0, 
+    <div className="home-page" style={{
+      margin: 0,
+      padding: 0,
       width: '100%',
       maxWidth: '100%',
       overflow: 'hidden'
     }}>
-      <Navbar setPage={setPage} activePage="home" />
-      <Hero setPage={setPage} />
+      <Navbar activePage="home" />
+      <Hero />
       <HomeInitiatives />
       <HomeArcGIS />
       <HomeCapabilities />

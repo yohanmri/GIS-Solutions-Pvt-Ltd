@@ -1,0 +1,203 @@
+/* Notifications List */
+.notifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 24px;
+}
+
+.notification-card {
+    background: var(--calcite-ui-foreground-1);
+    border: 1px solid var(--calcite-ui-border-1);
+    border-radius: 8px;
+    padding: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.notification-header {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.notification-preview {
+    margin-bottom: 16px;
+}
+
+.notification-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
+.notification-content {
+    padding: 12px;
+    background: var(--calcite-ui-foreground-2);
+    border-radius: 8px;
+}
+
+.notification-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--calcite-ui-brand);
+    color: white;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.notification-content h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.notification-content p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--calcite-ui-text-2);
+    line-height: 1.5;
+}
+
+.notification-details {
+    padding: 12px 0;
+    border-top: 1px solid var(--calcite-ui-border-1);
+    margin-top: 12px;
+}
+
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: var(--calcite-ui-text-2);
+}
+
+.notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Notification Add Page */
+.notification-add-page .time-slot-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.time-input {
+    padding: 8px;
+    border: 1px solid var(--calcite-ui-border-1);
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.button-config-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr auto auto;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+/* Preview Notification Popup */
+.preview-notification {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+}
+
+.event-notification-popup {
+    position: relative;
+}
+
+.event-notification-content {
+    padding: 24px;
+}
+
+.event-notification-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+}
+
+.event-notification-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 150px;
+    background: var(--calcite-ui-foreground-2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--calcite-ui-text-3);
+}
+
+.event-notification-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.event-notification-badge {
+    background: var(--calcite-ui-brand);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.event-notification-title {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.event-notification-description {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    color: var(--calcite-ui-text-2);
+    line-height: 1.5;
+}
+
+.event-notification-details {
+    margin: 12px 0;
+}
+
+.event-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.event-notification-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+    .event-notification-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .button-config-row {
+        grid-template-columns: 1fr;
+    }
+}

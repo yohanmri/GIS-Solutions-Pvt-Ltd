@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import '@esri/calcite-components/components/calcite-navigation';
 import '@esri/calcite-components/components/calcite-navigation-logo';
 import '@esri/calcite-components/components/calcite-menu';
@@ -7,10 +8,27 @@ import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-action';
 import '../../styles/clientStyles/navbar.css';
 
-export default function Navbar({ setPage, activePage = 'home' }) {
+export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  // Determine active page from current route
+  const getActivePage = () => {
+    const path = location.pathname;
+    if (path === '/' || path === '/home') return 'home';
+    if (path.includes('/products')) return 'products';
+    if (path.includes('/services')) return 'services';
+    if (path.includes('/solutions')) return 'solutions';
+    if (path.includes('/projects')) return 'projects';
+    if (path.includes('/about')) return 'about';
+    if (path.includes('/contact')) return 'contact';
+    return 'home';
+  };
+
+  const activePage = getActivePage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,21 +51,19 @@ export default function Navbar({ setPage, activePage = 'home' }) {
   }, [mobileMenuOpen]);
 
   const menuItems = [
-    { page: 'home', text: 'Home' },
-    { page: 'products', text: 'Products' },
-    { page: 'services', text: 'Services' },
-    { page: 'solutions', text: 'Solutions' },
-    { page: 'projects', text: 'Projects' },
-    { page: 'about', text: 'About' },
-    { page: 'contact', text: 'Contact' }
+    { page: 'home', text: 'Home', path: '/' },
+    { page: 'products', text: 'Products', path: '/products' },
+    { page: 'services', text: 'Services', path: '/services' },
+    { page: 'solutions', text: 'Solutions', path: '/solutions' },
+    { page: 'projects', text: 'Projects', path: '/projects' },
+    { page: 'about', text: 'About', path: '/about' },
+    { page: 'contact', text: 'Contact', path: '/contact' }
   ];
 
-  const handleNavClick = (page) => {
-    if (setPage) {
-      setPage(page);
-      setMobileMenuOpen(false);
-      window.scrollTo(0, 0);
-    }
+  const handleNavClick = (path) => {
+    navigate(path);
+    setMobileMenuOpen(false);
+    window.scrollTo(0, 0);
   };
 
   const handleSearch = () => {
@@ -60,15 +76,13 @@ export default function Navbar({ setPage, activePage = 'home' }) {
   };
 
   const handleSignIn = () => {
-    if (setPage) {
-      setPage('signin');
-    }
+    navigate('/admin/login');
   };
 
   return (
     <>
-      <calcite-navigation 
-        slot="header" 
+      <calcite-navigation
+        slot="header"
         className={`main-nav ${scrolled ? 'scrolled' : ''}`}
       >
         <calcite-navigation-logo
@@ -76,9 +90,9 @@ export default function Navbar({ setPage, activePage = 'home' }) {
           heading="GIS Solutions"
           description="Professional GIS Services"
           thumbnail="/assets/logoGIS.png"
-          onClick={() => handleNavClick('home')}
+          onClick={() => handleNavClick('/')}
           style={{
-            '--calcite-navigation-logo-width': '100px',   
+            '--calcite-navigation-logo-width': '100px',
             '--calcite-navigation-logo-height': '100px',
             cursor: 'pointer'
           }}
@@ -87,17 +101,17 @@ export default function Navbar({ setPage, activePage = 'home' }) {
         <div slot="content-end" className="nav-menu">
           <calcite-menu className="desktop-menu">
             {menuItems.map((item, index) => (
-              <calcite-menu-item 
+              <calcite-menu-item
                 key={index}
                 text={item.text}
                 active={activePage === item.page}
-                onClick={() => handleNavClick(item.page)}
+                onClick={() => handleNavClick(item.path)}
               ></calcite-menu-item>
             ))}
           </calcite-menu>
-          
+
           <div className="nav-action-group">
-            <calcite-action 
+            <calcite-action
               className="nav-action-button"
               icon="search"
               text="Search"
@@ -105,7 +119,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
               onClick={handleSearch}
             ></calcite-action>
 
-            <calcite-action 
+            <calcite-action
               className="nav-action-button"
               icon="globe"
               text="Esri Website"
@@ -113,7 +127,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
               onClick={handleEsriWebsite}
             ></calcite-action>
 
-            <calcite-action 
+            <calcite-action
               className="nav-action-button"
               icon="user"
               text="Sign In"
@@ -123,7 +137,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
           </div>
 
           <div className="mobile-actions">
-            <calcite-action 
+            <calcite-action
               className="mobile-action-button"
               icon="search"
               text="Search"
@@ -131,7 +145,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
               onClick={handleSearch}
             ></calcite-action>
 
-            <calcite-action 
+            <calcite-action
               className={`mobile-menu-toggle ${mobileMenuOpen ? 'active' : ''}`}
               icon={mobileMenuOpen ? 'x' : 'hamburger'}
               text="Menu"
@@ -146,10 +160,10 @@ export default function Navbar({ setPage, activePage = 'home' }) {
         <div className="mobile-menu-content">
           <nav className="mobile-nav-links">
             {menuItems.map((item, index) => (
-              <div 
+              <div
                 key={index}
                 className={`mobile-nav-item ${activePage === item.page ? 'active' : ''}`}
-                onClick={() => handleNavClick(item.page)}
+                onClick={() => handleNavClick(item.path)}
               >
                 <span>{item.text}</span>
                 <calcite-icon icon="chevron-right" scale="s"></calcite-icon>
@@ -158,7 +172,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
           </nav>
 
           <div className="mobile-bottom-actions">
-            <calcite-action 
+            <calcite-action
               className="mobile-bottom-action"
               icon="globe"
               text="Esri Website"
@@ -166,7 +180,7 @@ export default function Navbar({ setPage, activePage = 'home' }) {
               onClick={handleEsriWebsite}
             ></calcite-action>
 
-            <calcite-action 
+            <calcite-action
               className="mobile-bottom-action"
               icon="user"
               text="Sign In"

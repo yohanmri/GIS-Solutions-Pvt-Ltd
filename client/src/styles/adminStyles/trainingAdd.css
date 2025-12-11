@@ -1,0 +1,7 @@
+/* Import training list CSS */
+@import './trainingList.css';
+
+/* Additional styles for training add page */
+.training-add-page calcite-slider {
+    width: 100%;
+}

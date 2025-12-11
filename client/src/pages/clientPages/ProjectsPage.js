@@ -4,13 +4,13 @@ import ProjectsComponent from '../../components/clientComponents/ProjectsCompone
 import Footer from '../../components/clientComponents/Footer';
 import '@esri/calcite-components/dist/calcite/calcite.css';
 
-export default function ProjectsPage({ setPage }) {
+export default function ProjectsPage() {
   return (
     <div className="projects-page">
-      <Navbar setPage={setPage} activePage="projects" />
-      
+      <Navbar activePage="projects" />
+
       <ProjectsComponent />
-    <Footer />
+      <Footer />
     </div>
   );
 }

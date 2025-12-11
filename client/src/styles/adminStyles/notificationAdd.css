@@ -1,0 +1,7 @@
+/* Import notifications list CSS */
+@import './notificationsList.css';
+
+/* Additional styles for notification add page */
+.notification-add-page .form-section p {
+    margin: 0 0 12px 0;
+}

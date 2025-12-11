@@ -1,0 +1,17 @@
+/* Import events list CSS */
+@import './eventsList.css';
+
+/* Event Add Page specific styles */
+.event-add-page .event-main-card.preview-card {
+    max-width: 100%;
+}
+
+.event-add-page .event-card-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 1200px) {
+    .event-add-page .event-card-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,21 @@
+/* Import services list CSS */
+@import './servicesList.css';
+
+/* Additional styles specific to service add page */
+.service-add-page .service-form-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.service-add-page .service-form-container::-webkit-scrollbar-track {
+    background: var(--calcite-ui-foreground-2);
+    border-radius: 4px;
+}
+
+.service-add-page .service-form-container::-webkit-scrollbar-thumb {
+    background: var(--calcite-ui-border-2);
+    border-radius: 4px;
+}
+
+.service-add-page .service-form-container::-webkit-scrollbar-thumb:hover {
+    background: var(--calcite-ui-border-3);
+}
