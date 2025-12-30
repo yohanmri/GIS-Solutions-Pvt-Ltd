@@ -1,61 +1,106 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import '@esri/calcite-components/dist/calcite/calcite.css';
 import '../../styles/clientStyles/contactComponent.css';
+import { publicAPI as API } from '../../api/axios';
 
 export default function ContactComponent() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    service: '',
-    message: ''
-  });
+  const [submitting, setSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  // Refs for form fields
+  const nameRef = useRef(null);
+  const emailRef = useRef(null);
+  const companyRef = useRef(null);
+  const serviceRef = useRef(null);
+  const messageRef = useRef(null);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+
+    // Get values from Calcite components
+    const formData = {
+      name: nameRef.current?.value || '',
+      email: emailRef.current?.value || '',
+      company: companyRef.current?.value || '',
+      service: serviceRef.current?.selectedOption?.value || '',
+      message: messageRef.current?.value || ''
+    };
+
+    // Validation
+    if (!formData.name || !formData.email || !formData.message) {
+      setErrorMessage('Please fill in all required fields');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000);
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+      await API.post('/client/contact/message', formData);
+
+      // Show success message
+      setShowSuccess(true);
+
+      // Reset form
+      if (nameRef.current) nameRef.current.value = '';
+      if (emailRef.current) emailRef.current.value = '';
+      if (companyRef.current) companyRef.current.value = '';
+      if (serviceRef.current) serviceRef.current.selectedOption = serviceRef.current.querySelector('calcite-option');
+      if (messageRef.current) messageRef.current.value = '';
+
+      // Hide success message after 5 seconds
+      setTimeout(() => setShowSuccess(false), 5000);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setErrorMessage('Failed to send message. Please try again or contact us directly.');
+      setShowError(true);
+      setTimeout(() => setShowError(false), 5000);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const departmentalContacts = [
-    { 
-      icon: 'wrench', 
-      dept: 'Technical Support', 
-      email: 'support@gislk.com', 
-      desc: 'Technical assistance and troubleshooting' 
+    {
+      icon: 'wrench',
+      dept: 'Technical Support',
+      email: 'support@gislk.com',
+      desc: 'Technical assistance and troubleshooting'
     },
-    { 
-      icon: 'organization', 
-      dept: 'Media & PR', 
-      email: 'info@gislk.com', 
-      desc: 'Press inquiries and media relations' 
+    {
+      icon: 'organization',
+      dept: 'Media & PR',
+      email: 'info@gislk.com',
+      desc: 'Press inquiries and media relations'
     }
   ];
 
   const socialLinks = [
-    { 
-      icon: 'organization', 
-      name: 'LinkedIn', 
-      color: '#0077b5', 
+    {
+      icon: 'organization',
+      name: 'LinkedIn',
+      color: '#0077b5',
       url: 'https://lk.linkedin.com/company/gis-solutions-pvt-ltd'
     },
-    { 
-      icon: 'share', 
-      name: 'Facebook', 
-      color: '#1877f2', 
+    {
+      icon: 'share',
+      name: 'Facebook',
+      color: '#1877f2',
       url: 'https://www.facebook.com/GISSolutions370/'
     },
-    { 
-      icon: 'organization', 
-      name: 'Email', 
-      color: '#2d5f8d', 
+    {
+      icon: 'organization',
+      name: 'Email',
+      color: '#2d5f8d',
       url: 'mailto:info@gislk.com'
     }
   ];
 
   return (
     <div className="contact-container">
-         {/* Hero Section */}
+      {/* Hero Section */}
       <div style={{
         position: 'relative',
         height: 'clamp(250px, 40vh, 400px)',
@@ -76,7 +121,7 @@ export default function ContactComponent() {
           backgroundPosition: 'center',
           opacity: 0.15
         }} />
-        
+
         <div style={{
           position: 'relative',
           textAlign: 'center',
@@ -183,8 +228,8 @@ export default function ContactComponent() {
                 <calcite-icon icon="link" scale="m" />
                 Website
               </h3>
-              <a 
-                href="https://www.gislk.com" 
+              <a
+                href="https://www.gislk.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="website-link"
@@ -203,12 +248,35 @@ export default function ContactComponent() {
               Fill out the form below and our team will get back to you within 24 hours
             </p>
 
+            {/* Success Notification */}
+            {showSuccess && (
+              <div style={{ marginBottom: '20px' }}>
+                <calcite-notice open icon="check-circle" kind="success">
+                  <div slot="title">Message Sent Successfully!</div>
+                  <div slot="message">
+                    Thank you for contacting us. We'll get back to you within 24 hours.
+                  </div>
+                </calcite-notice>
+              </div>
+            )}
+
+            {/* Error Notification */}
+            {showError && (
+              <div style={{ marginBottom: '20px' }}>
+                <calcite-notice open icon="exclamation-mark-triangle" kind="danger">
+                  <div slot="title">Error</div>
+                  <div slot="message">{errorMessage}</div>
+                </calcite-notice>
+              </div>
+            )}
+
             <div>
               <div className="form-group">
                 <calcite-label>
                   Full Name *
-                  <calcite-input-text 
-                    placeholder="John Doe" 
+                  <calcite-input-text
+                    ref={nameRef}
+                    placeholder="John Doe"
                     required
                     scale="l"
                   />
@@ -218,9 +286,10 @@ export default function ContactComponent() {
               <div className="form-group">
                 <calcite-label>
                   Email Address *
-                  <calcite-input-text 
+                  <calcite-input-text
+                    ref={emailRef}
                     type="email"
-                    placeholder="john@example.com" 
+                    placeholder="john@example.com"
                     required
                     scale="l"
                   />
@@ -230,8 +299,9 @@ export default function ContactComponent() {
               <div className="form-group">
                 <calcite-label>
                   Company Name
-                  <calcite-input-text 
-                    placeholder="Your Company" 
+                  <calcite-input-text
+                    ref={companyRef}
+                    placeholder="Your Company"
                     scale="l"
                   />
                 </calcite-label>
@@ -240,8 +310,11 @@ export default function ContactComponent() {
               <div className="form-group">
                 <calcite-label>
                   Service Interested In
-                  <calcite-select scale="l">
-                    <calcite-option label="Select a service">Select a service</calcite-option>
+                  <calcite-select
+                    ref={serviceRef}
+                    scale="l"
+                  >
+                    <calcite-option value="">Select a service</calcite-option>
                     <calcite-option value="mapping">GIS Mapping & Cartography</calcite-option>
                     <calcite-option value="analysis">Spatial Analysis</calcite-option>
                     <calcite-option value="remote">Remote Sensing</calcite-option>
@@ -257,7 +330,8 @@ export default function ContactComponent() {
               <div className="form-group-large">
                 <calcite-label>
                   Message *
-                  <calcite-text-area 
+                  <calcite-text-area
+                    ref={messageRef}
                     placeholder="Tell us about your project requirements..."
                     rows="6"
                     required
@@ -266,17 +340,19 @@ export default function ContactComponent() {
                 </calcite-label>
               </div>
 
-              <calcite-button 
+              <calcite-button
                 onClick={handleSubmit}
                 appearance="solid"
                 width="full"
                 scale="l"
                 icon-end="send"
+                loading={submitting}
+                disabled={submitting}
                 style={{
                   '--calcite-button-background': '#2d5f8d'
                 }}
               >
-                Send Message
+                {submitting ? 'Sending...' : 'Send Message'}
               </calcite-button>
             </div>
           </div>
@@ -292,8 +368,8 @@ export default function ContactComponent() {
             {departmentalContacts.map((contact, idx) => (
               <div key={idx} className="dept-card">
                 <div className="dept-icon-wrapper">
-                  <calcite-icon 
-                    icon={contact.icon} 
+                  <calcite-icon
+                    icon={contact.icon}
                     scale="m"
                   />
                 </div>
@@ -342,10 +418,10 @@ export default function ContactComponent() {
                   e.currentTarget.querySelector('calcite-icon').style.color = social.color;
                 }}
               >
-                <calcite-icon 
-                  icon={social.icon} 
+                <calcite-icon
+                  icon={social.icon}
                   scale="m"
-                  style={{ 
+                  style={{
                     color: social.color
                   }}
                 />

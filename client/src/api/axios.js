@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Public API (for landing page - no authentication)
 export const publicAPI = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: 'http://localhost:5001/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -10,7 +10,7 @@ export const publicAPI = axios.create({
 
 // Admin API (for admin panel - with authentication)
 export const adminAPI = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: 'http://localhost:5001/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
@@ -35,9 +35,9 @@ adminAPI.interceptors.response.use(
   (error) => {
     // Only redirect to login if we're NOT already on the login page
     // and we're NOT in the middle of a login request
-    if (error.response?.status === 401 && 
-        !error.config.url.includes('/auth/login') &&
-        window.location.pathname !== '/admin/login') {
+    if (error.response?.status === 401 &&
+      !error.config.url.includes('/auth/login') &&
+      window.location.pathname !== '/admin/login') {
       localStorage.removeItem('token');
       localStorage.removeItem('admin');
       window.location.href = '/admin/login';

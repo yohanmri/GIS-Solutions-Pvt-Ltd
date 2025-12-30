@@ -23,7 +23,7 @@ const notificationSchema = new mongoose.Schema({
     serviceType: {
         type: String,
         required: true,
-        enum: ['professional', 'training', 'event']
+        enum: ['professional', 'event']
     },
     serviceId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,7 +33,7 @@ const notificationSchema = new mongoose.Schema({
     serviceModel: {
         type: String,
         required: true,
-        enum: ['ProfessionalService', 'TrainingProgram', 'Event']
+        enum: ['ProfessionalService', 'Event']
     },
 
     // Date/Time Configuration

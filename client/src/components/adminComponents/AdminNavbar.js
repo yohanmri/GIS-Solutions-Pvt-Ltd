@@ -23,11 +23,11 @@ export default function AdminNavbar() {
   useEffect(() => {
     fetchNotifications();
     fetchStats();
-    
+
     // Poll for new notifications every 30 seconds
     const notificationInterval = setInterval(fetchNotifications, 30000);
     const statsInterval = setInterval(fetchStats, 60000);
-    
+
     return () => {
       clearInterval(notificationInterval);
       clearInterval(statsInterval);
@@ -36,22 +36,12 @@ export default function AdminNavbar() {
 
   const fetchNotifications = async () => {
     try {
-      const contactResponse = await adminAPI.get('/admin/contacts');
-      const contacts = contactResponse.data.data || [];
-      
+      // TODO: Implement contacts API endpoint
+      // const contactResponse = await adminAPI.get('/admin/contacts');
+      // const contacts = contactResponse.data.data || [];
+
       // Convert contacts to notifications
-      const contactNotifications = contacts
-        .filter(contact => contact.status === 'new')
-        .map(contact => ({
-          id: `contact-${contact._id}`,
-          type: 'contact',
-          title: 'New Contact Inquiry',
-          message: `${contact.name} - ${contact.service || 'General Inquiry'}`,
-          time: formatTimeAgo(contact.createdAt),
-          icon: 'email-address',
-          unread: true,
-          data: contact
-        }));
+      const contactNotifications = []; // Disabled until API is implemented
 
       // You can add other notification types here (orders, low stock, etc.)
       const allNotifications = [
@@ -67,14 +57,13 @@ export default function AdminNavbar() {
 
   const fetchStats = async () => {
     try {
-      // Fetch product count
-      const productsResponse = await adminAPI.get('/admin/products');
-      setProductCount(productsResponse.data.data?.length || 0);
+      // TODO: Implement products API endpoint
+      // const productsResponse = await adminAPI.get('/admin/products');
+      // setProductCount(productsResponse.data.data?.length || 0);
 
-      // Fetch order count (you'll need to implement this endpoint)
-      // const ordersResponse = await adminAPI.get('/admin/orders');
-      // setOrderCount(ordersResponse.data.data?.length || 0);
-      setOrderCount(23); // Placeholder
+      // Placeholder values until APIs are implemented
+      setProductCount(6); // Number of professional services
+      setOrderCount(0); // Placeholder
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
@@ -84,7 +73,7 @@ export default function AdminNavbar() {
     const date = new Date(dateString);
     const now = new Date();
     const seconds = Math.floor((now - date) / 1000);
-    
+
     if (seconds < 60) return 'Just now';
     if (seconds < 3600) return `${Math.floor(seconds / 60)} minutes ago`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
@@ -143,22 +132,22 @@ export default function AdminNavbar() {
     <calcite-navigation slot="header">
       <calcite-navigation-logo
         slot="logo"
-        heading="SHIELDIFY Admin"
+        heading="GIS Solutions Admin"
         description="Dashboard Panel"
         thumbnail="/assets/images/shieldify-picture-logo.png"
         onClick={() => navigate('/admin/dashboard')}
         style={{ cursor: 'pointer' }}
       />
 
-      <div slot="content-end" style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
+      <div slot="content-end" style={{
+        display: 'flex',
+        alignItems: 'center',
         gap: '8px',
         padding: '0 16px'
       }}>
         {/* Quick Stats */}
-        <div style={{ 
-          display: 'flex', 
+        <div style={{
+          display: 'flex',
           gap: '12px',
           marginRight: '12px',
           padding: '0 12px',
@@ -182,7 +171,7 @@ export default function AdminNavbar() {
             scale="m"
             onClick={() => setNotificationsOpen(!notificationsOpen)}
           ></calcite-action>
-          
+
           {unreadCount > 0 && (
             <div style={{
               position: 'absolute',
@@ -212,7 +201,7 @@ export default function AdminNavbar() {
           >
             <div style={{ width: '360px', maxHeight: '500px' }}>
               {/* Header */}
-              <div style={{ 
+              <div style={{
                 padding: '16px',
                 borderBottom: '1px solid var(--calcite-ui-border-2)',
                 display: 'flex',
@@ -238,8 +227,8 @@ export default function AdminNavbar() {
               {/* Notifications List */}
               <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                 {notifications.length === 0 ? (
-                  <div style={{ 
-                    padding: '40px 20px', 
+                  <div style={{
+                    padding: '40px 20px',
                     textAlign: 'center',
                     color: 'var(--calcite-ui-text-3)'
                   }}>
@@ -250,10 +239,10 @@ export default function AdminNavbar() {
                   </div>
                 ) : (
                   notifications.map((notification) => (
-                    <div 
+                    <div
                       key={notification.id}
                       onClick={() => handleNotificationClick(notification)}
-                      style={{ 
+                      style={{
                         padding: '12px 16px',
                         borderBottom: '1px solid var(--calcite-ui-border-3)',
                         cursor: 'pointer',
@@ -275,24 +264,24 @@ export default function AdminNavbar() {
                           justifyContent: 'center',
                           flexShrink: 0
                         }}>
-                          <calcite-icon 
-                            icon={notification.icon} 
+                          <calcite-icon
+                            icon={notification.icon}
                             scale="s"
                             style={{ color: notification.unread ? 'white' : 'var(--calcite-ui-text-3)' }}
                           ></calcite-icon>
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ 
-                            margin: '0 0 4px 0', 
-                            fontSize: '14px', 
+                          <p style={{
+                            margin: '0 0 4px 0',
+                            fontSize: '14px',
                             fontWeight: notification.unread ? '600' : '500',
                             color: 'var(--calcite-ui-text-1)'
                           }}>
                             {notification.title}
                           </p>
-                          <p style={{ 
-                            margin: '0 0 4px 0', 
-                            fontSize: '13px', 
+                          <p style={{
+                            margin: '0 0 4px 0',
+                            fontSize: '13px',
                             color: 'var(--calcite-ui-text-2)',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
@@ -300,9 +289,9 @@ export default function AdminNavbar() {
                           }}>
                             {notification.message}
                           </p>
-                          <p style={{ 
-                            margin: 0, 
-                            fontSize: '12px', 
+                          <p style={{
+                            margin: 0,
+                            fontSize: '12px',
                             color: 'var(--calcite-ui-text-3)'
                           }}>
                             {notification.time}
@@ -326,7 +315,7 @@ export default function AdminNavbar() {
 
               {/* Footer */}
               {notifications.length > 0 && (
-                <div style={{ 
+                <div style={{
                   padding: '12px 16px',
                   borderTop: '1px solid var(--calcite-ui-border-2)',
                   display: 'flex',
@@ -390,13 +379,13 @@ export default function AdminNavbar() {
           </div>
 
           <calcite-dropdown-group>
-            <calcite-dropdown-item 
+            <calcite-dropdown-item
               icon-start="user"
               onClick={handleProfileClick}
             >
               My Profile
             </calcite-dropdown-item>
-            <calcite-dropdown-item 
+            <calcite-dropdown-item
               icon-start="gear"
               onClick={handleSettingsClick}
             >
@@ -420,7 +409,7 @@ export default function AdminNavbar() {
           </calcite-dropdown-group>
 
           <calcite-dropdown-group>
-            <calcite-dropdown-item 
+            <calcite-dropdown-item
               icon-start="sign-out"
               onClick={handleSignOut}
             >

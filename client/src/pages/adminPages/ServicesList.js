@@ -91,7 +91,6 @@ export default function ServicesList() {
     const getServiceTypeLabel = (type) => {
         const labels = {
             professional: 'Professional Services',
-            training: 'Training Programs',
             event: 'Events'
         };
         return labels[type] || type;
@@ -116,7 +115,7 @@ export default function ServicesList() {
                                 Services Management
                             </h1>
                             <p style={{ margin: 0, fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>
-                                Manage professional services, training programs, and events
+                                Manage professional services and events
                             </p>
                         </div>
                         {canCreate('services') && (
@@ -165,12 +164,6 @@ export default function ServicesList() {
                                 onClick={() => setActiveTab('professional')}
                             >
                                 Professional Services
-                            </calcite-tab-title>
-                            <calcite-tab-title
-                                active={activeTab === 'training'}
-                                onClick={() => setActiveTab('training')}
-                            >
-                                Training Programs
                             </calcite-tab-title>
                             <calcite-tab-title
                                 active={activeTab === 'event'}

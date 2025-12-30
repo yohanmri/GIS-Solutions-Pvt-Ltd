@@ -30,14 +30,7 @@ export default function ServiceAdd() {
         benefits: '',
         applications: '',
         technologies: '',
-        // Training specific
-        trainingType: 'WEB COURSE',
-        duration: '',
-        date: '',
-        level: 'Beginner',
-        difficulty: 1,
-        isFree: false,
-        requiresMaintenance: false,
+
         // Event specific
         eventDate: '',
         theme: '',
@@ -113,7 +106,6 @@ export default function ServiceAdd() {
                                         onCalciteSelectChange={(e) => handleChange('serviceType', e.target.value)}
                                     >
                                         <calcite-option value="professional">Professional Service</calcite-option>
-                                        <calcite-option value="training">Training Program</calcite-option>
                                         <calcite-option value="event">Event</calcite-option>
                                     </calcite-select>
                                 </calcite-label>
@@ -208,90 +200,7 @@ export default function ServiceAdd() {
                             </calcite-card>
                         )}
 
-                        {/* Training Program Fields */}
-                        {formData.serviceType === 'training' && (
-                            <calcite-card>
-                                <div style={{ padding: '20px' }}>
-                                    <h3 style={{ margin: '0 0 16px 0' }}>Training Details</h3>
 
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                                        <calcite-label>
-                                            Training Type
-                                            <calcite-select
-                                                value={formData.trainingType}
-                                                onCalciteSelectChange={(e) => handleChange('trainingType', e.target.value)}
-                                            >
-                                                <calcite-option value="WEB COURSE">Web Course</calcite-option>
-                                                <calcite-option value="INSTRUCTOR-LED">Instructor-Led</calcite-option>
-                                                <calcite-option value="TRAINING SEMINAR">Training Seminar</calcite-option>
-                                                <calcite-option value="ARCGIS LAB">ArcGIS Lab</calcite-option>
-                                            </calcite-select>
-                                        </calcite-label>
-
-                                        <calcite-label>
-                                            Level
-                                            <calcite-select
-                                                value={formData.level}
-                                                onCalciteSelectChange={(e) => handleChange('level', e.target.value)}
-                                            >
-                                                <calcite-option value="Beginner">Beginner</calcite-option>
-                                                <calcite-option value="Intermediate">Intermediate</calcite-option>
-                                                <calcite-option value="Advanced">Advanced</calcite-option>
-                                            </calcite-select>
-                                        </calcite-label>
-                                    </div>
-
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
-                                        <calcite-label>
-                                            Duration
-                                            <calcite-input
-                                                value={formData.duration}
-                                                onCalciteInputInput={(e) => handleChange('duration', e.target.value)}
-                                                placeholder="e.g. 2 Hours"
-                                            />
-                                        </calcite-label>
-
-                                        <calcite-label>
-                                            Date/Schedule
-                                            <calcite-input
-                                                value={formData.date}
-                                                onCalciteInputInput={(e) => handleChange('date', e.target.value)}
-                                                placeholder="e.g. Self-paced"
-                                            />
-                                        </calcite-label>
-                                    </div>
-
-                                    <calcite-label>
-                                        Difficulty (1-5)
-                                        <calcite-input
-                                            type="number"
-                                            min="1"
-                                            max="5"
-                                            value={formData.difficulty}
-                                            onCalciteInputInput={(e) => handleChange('difficulty', parseInt(e.target.value))}
-                                        />
-                                    </calcite-label>
-
-                                    <div style={{ display: 'flex', gap: '20px', marginTop: '10px' }}>
-                                        <calcite-label layout="inline">
-                                            <calcite-switch
-                                                checked={formData.isFree}
-                                                onCalciteSwitchChange={(e) => handleChange('isFree', e.target.checked)}
-                                            />
-                                            Free Course
-                                        </calcite-label>
-
-                                        <calcite-label layout="inline">
-                                            <calcite-switch
-                                                checked={formData.requiresMaintenance}
-                                                onCalciteSwitchChange={(e) => handleChange('requiresMaintenance', e.target.checked)}
-                                            />
-                                            Requires Maintenance
-                                        </calcite-label>
-                                    </div>
-                                </div>
-                            </calcite-card>
-                        )}
 
                         {/* Event Fields */}
                         {formData.serviceType === 'event' && (

@@ -15,6 +15,9 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve uploaded files
+app.use('/uploads', express.static('uploads'));
+
 // Database connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gis-solutions', {
     useNewUrlParser: true,
@@ -26,12 +29,15 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gis-solut
 // Routes
 // Public client-side routes (no authentication)
 app.use('/api/client/services', require('./routes/clientServiceRoutes'));
+app.use('/api/client/projects', require('./routes/clientProjectRoutes'));
+app.use('/api/client/contact', require('./routes/clientContactRoutes'));
 app.use('/api/notifications/current', require('./routes/notificationRoutes'));
 
 // Admin routes (protected)
 app.use('/api/services/professional', require('./routes/professionalServiceRoutes'));
-app.use('/api/services/training', require('./routes/trainingProgramRoutes'));
 app.use('/api/services/events', require('./routes/eventRoutes'));
+app.use('/api/projects', require('./routes/projectRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 
 // Error handling middleware

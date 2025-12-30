@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminNavbar from '../../components/adminComponents/AdminNavbar';
 import AdminSidebar from '../../components/adminComponents/AdminSidebar';
@@ -35,7 +35,9 @@ export default function ContactViewPage() {
   const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [replyModalOpen, setReplyModalOpen] = useState(false);
-  const [replyMessage, setReplyMessage] = useState('');
+
+  // Use ref for reply text area
+  const replyTextAreaRef = useRef(null);
 
   const services = [
     'GIS Mapping & Cartography',
@@ -55,8 +57,8 @@ export default function ContactViewPage() {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const response = await API.get('/admin/contacts');
-      setContacts(response.data.data || []);
+      const response = await API.get('/contact/messages');
+      setContacts(response.data || []);
       setError(null);
     } catch (err) {
       console.error('Error fetching contacts:', err);
@@ -85,31 +87,46 @@ export default function ContactViewPage() {
 
   const handleReply = (contact) => {
     setSelectedContact(contact);
-    setReplyMessage('');
+    // Clear the text area using ref
+    if (replyTextAreaRef.current) {
+      replyTextAreaRef.current.value = '';
+    }
     setReplyModalOpen(true);
   };
 
   const handleSendReply = async () => {
+    // Get value from ref
+    const replyContent = replyTextAreaRef.current?.value || '';
+
+    // Validation
+    if (!replyContent || !replyContent.trim()) {
+      alert('Please enter a reply message');
+      return;
+    }
+
     try {
-      await API.post(`/admin/contacts/${selectedContact._id}/reply`, {
-        message: replyMessage
+      console.log('Sending reply:', { messageId: selectedContact._id, replyContent: replyContent.trim() });
+
+      await API.post(`/contact/messages/${selectedContact._id}/reply`, {
+        replyContent: replyContent.trim()
       });
+
       setReplyModalOpen(false);
-      setReplyMessage('');
-      // Update contact status to replied
-      await API.put(`/admin/contacts/${selectedContact._id}`, {
-        status: 'replied'
-      });
+      if (replyTextAreaRef.current) {
+        replyTextAreaRef.current.value = '';
+      }
       fetchContacts();
+      alert('Reply sent successfully!');
     } catch (err) {
       console.error('Error sending reply:', err);
-      alert('Failed to send reply. Please try again.');
+      const errorMsg = err.response?.data?.error || err.response?.data?.message || 'Failed to send reply. Please try again.';
+      alert(errorMsg);
     }
   };
 
   const handleMarkAsRead = async (contactId) => {
     try {
-      await API.put(`/admin/contacts/${contactId}`, {
+      await API.put(`/contact/messages/${contactId}/status`, {
         status: 'read'
       });
       fetchContacts();
@@ -125,7 +142,7 @@ export default function ContactViewPage() {
 
   const confirmDelete = async () => {
     try {
-      await API.delete(`/admin/contacts/${selectedContact._id}`);
+      await API.delete(`/contact/messages/${selectedContact._id}`);
       setContacts(contacts.filter(c => c._id !== selectedContact._id));
       setDeleteModalOpen(false);
       setSelectedContact(null);
@@ -658,8 +675,7 @@ export default function ContactViewPage() {
           <calcite-label>
             Your Reply Message *
             <calcite-text-area
-              value={replyMessage}
-              onInput={(e) => setReplyMessage(e.target.value)}
+              ref={replyTextAreaRef}
               rows="8"
               placeholder="Type your reply here..."
             />

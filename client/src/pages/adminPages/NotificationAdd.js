@@ -70,9 +70,6 @@ export default function NotificationAdd() {
                 case 'professional':
                     endpoint = '/api/services/professional';
                     break;
-                case 'training':
-                    endpoint = '/api/services/training';
-                    break;
                 case 'event':
                     endpoint = '/api/services/events';
                     break;
@@ -251,7 +248,6 @@ export default function NotificationAdd() {
                                         }}
                                     >
                                         <calcite-option value="professional">Professional Service</calcite-option>
-                                        <calcite-option value="training">Training Program</calcite-option>
                                         <calcite-option value="event">Event</calcite-option>
                                     </calcite-select>
                                 </calcite-label>

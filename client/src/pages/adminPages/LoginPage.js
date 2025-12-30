@@ -16,7 +16,7 @@ setAssetPath('https://cdn.jsdelivr.net/npm/@esri/calcite-components/dist/calcite
 
 export default function ShieldifyLogin() {
   const navigate = useNavigate();
-  
+
   // State management
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,57 +24,57 @@ export default function ShieldifyLogin() {
   const [loading, setLoading] = useState(false);
 
   // Login with email and password
-const handleLogin = async (event) => {
-  // Prevent any default form submission
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-
-  const trimmedEmail = email.trim();
-  const trimmedPassword = password.trim();
-  
-  console.log('=== LOGIN ATTEMPT START ===');
-  
-  if (!trimmedEmail || !trimmedPassword) {
-    setError('Please provide email and password');
-    return;
-  }
-
-  setLoading(true);
-  setError('');
-
-  try {
-    console.log('1. Making API call...');
-    const response = await publicAPI.post('/auth/login', {
-      email: trimmedEmail,
-      password: trimmedPassword
-    });
-
-    console.log('2. Response received:', response.data);
-
-    if (response.data.success) {
-      console.log('3. Login successful');
-      
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('admin', JSON.stringify(response.data.admin));
-      
-      console.log('4. Data stored');
-
-      const redirectPath = response.data.admin.isTemporaryPassword 
-        ? '/admin/change-password' 
-        : '/admin/dashboard';
-      
-      console.log('5. Redirecting to:', redirectPath);
-      
-      window.location.href = redirectPath;
+  const handleLogin = async (event) => {
+    // Prevent any default form submission
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
     }
-  } catch (err) {
-    console.error('Login Error:', err);
-    setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
-    setLoading(false);
-  }
-};
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    console.log('=== LOGIN ATTEMPT START ===');
+
+    if (!trimmedEmail || !trimmedPassword) {
+      setError('Please provide email and password');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      console.log('1. Making API call...');
+      const response = await publicAPI.post('/auth/login', {
+        email: trimmedEmail,
+        password: trimmedPassword
+      });
+
+      console.log('2. Response received:', response.data);
+
+      if (response.data.success) {
+        console.log('3. Login successful');
+
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('admin', JSON.stringify(response.data.admin));
+
+        console.log('4. Data stored');
+
+        const redirectPath = response.data.admin.isTemporaryPassword
+          ? '/admin/change-password'
+          : '/admin/dashboard';
+
+        console.log('5. Redirecting to:', redirectPath);
+
+        window.location.href = redirectPath;
+      }
+    } catch (err) {
+      console.error('Login Error:', err);
+      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setLoading(false);
+    }
+  };
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleLogin();
@@ -157,9 +157,9 @@ const handleLogin = async (event) => {
             padding: '20px',
             border: '4px solid rgba(148,163,184,0.3)'
           }}>
-            <img 
+            <img
               src="/assets/images/picture-logo.png"
-              alt="SHIELDIFY Logo" 
+              alt="GIS Logo"
               style={{
                 width: '100%',
                 height: '100%',
@@ -181,7 +181,7 @@ const handleLogin = async (event) => {
           }}>
             SHIELDIFY
           </h1>
-          
+
           <p style={{
             fontSize: '20px',
             margin: '0 0 30px 0',
@@ -223,10 +223,10 @@ const handleLogin = async (event) => {
                 boxShadow: '0 10px 30px rgba(30, 58, 138, 0.3)'
               }}>
                 <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
                 </svg>
               </div>
-              
+
               <h2 style={{
                 margin: '0 0 10px 0',
                 fontSize: '28px',
@@ -290,19 +290,19 @@ const handleLogin = async (event) => {
                 </calcite-button>
               </div>
 
-       <calcite-button
-  onClick={(e) => handleLogin(e)}
-  width="full"
-  loading={loading}
-  disabled={loading}
-  icon-start="sign-in"
-  style={{ 
-    marginBottom: '20px',
-    '--calcite-button-background': 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)'
-  }}
->
-  {loading ? 'Signing in...' : 'Sign In'}
-</calcite-button>
+              <calcite-button
+                onClick={(e) => handleLogin(e)}
+                width="full"
+                loading={loading}
+                disabled={loading}
+                icon-start="sign-in"
+                style={{
+                  marginBottom: '20px',
+                  '--calcite-button-background': 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)'
+                }}
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </calcite-button>
             </div>
 
             {/* Help Section */}

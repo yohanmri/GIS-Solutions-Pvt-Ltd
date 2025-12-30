@@ -4,7 +4,7 @@ const Event = require('../models/Event');
 exports.getAllEvents = async (req, res) => {
     try {
         const events = await Event.find({ isActive: true })
-            .sort({ eventDate: -1 });
+            .sort({ eventDate: 1 }); // Sort by upcoming events first (ascending)
 
         res.json(events);
     } catch (error) {
@@ -32,8 +32,13 @@ exports.createEvent = async (req, res) => {
     try {
         const eventData = {
             ...req.body,
-            createdBy: req.admin._id
+            createdBy: 'admin' // Default for now, no auth
         };
+
+        // If file was uploaded, add the file path
+        if (req.file) {
+            eventData.posterImage = `/uploads/events/${req.file.filename}`;
+        }
 
         const event = new Event(eventData);
         await event.save();
@@ -47,9 +52,16 @@ exports.createEvent = async (req, res) => {
 // Update event
 exports.updateEvent = async (req, res) => {
     try {
+        const updateData = { ...req.body };
+
+        // If file was uploaded, add the file path
+        if (req.file) {
+            updateData.posterImage = `/uploads/events/${req.file.filename}`;
+        }
+
         const event = await Event.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             { new: true, runValidators: true }
         );
 

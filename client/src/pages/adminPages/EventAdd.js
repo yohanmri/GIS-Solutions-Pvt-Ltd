@@ -33,6 +33,8 @@ export default function EventAdd() {
         websiteLink: ''
     });
 
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const [error, setError] = useState(null);
     const [saving, setSaving] = useState(false);
 
@@ -61,20 +63,61 @@ export default function EventAdd() {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Validate file type
+            if (!file.type.startsWith('image/')) {
+                setError('Please select an image file');
+                return;
+            }
+            // Validate file size (5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                setError('Image size should be less than 5MB');
+                return;
+            }
+            setImageFile(file);
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+            setError(null);
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             setSaving(true);
-            const token = localStorage.getItem('adminToken');
+
+            // Create FormData for file upload
+            const submitData = new FormData();
+
+            // Add all form fields
+            Object.keys(formData).forEach(key => {
+                if (key !== 'posterImage' && formData[key]) {
+                    submitData.append(key, formData[key]);
+                }
+            });
+
+            // Add image file if selected
+            if (imageFile) {
+                submitData.append('posterImage', imageFile);
+            } else if (formData.posterImage && !isEdit) {
+                // If no file but has URL (shouldn't happen in new form)
+                submitData.append('posterImage', formData.posterImage);
+            }
 
             if (isEdit) {
-                await axios.put(`${API_URL}/api/services/events/${id}`, formData, {
-                    headers: { Authorization: `Bearer ${token}` }
+                await axios.put(`${API_URL}/api/services/events/${id}`, submitData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
             } else {
-                await axios.post(`${API_URL}/api/services/events`, formData, {
-                    headers: { Authorization: `Bearer ${token}` }
+                await axios.post(`${API_URL}/api/services/events`, submitData, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 });
             }
 
@@ -84,6 +127,37 @@ export default function EventAdd() {
             console.error(err);
         } finally {
             setSaving(false);
+        }
+    };
+
+    // Helper function to determine event status based on date
+    const getEventStatus = (eventDate) => {
+        if (!eventDate) {
+            return {
+                text: 'Upcoming Event',
+                backgroundColor: 'linear-gradient(135deg, #0079c1 0%, #005a8f 100%)',
+                color: '#ffffff'
+            };
+        }
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const eventDay = new Date(eventDate);
+        eventDay.setHours(0, 0, 0, 0);
+
+        if (eventDay < today) {
+            return {
+                text: 'Previous Event',
+                backgroundColor: '#ff6b35',
+                color: '#ffffff'
+            };
+        } else {
+            return {
+                text: 'Upcoming Event',
+                backgroundColor: 'linear-gradient(135deg, #0079c1 0%, #005a8f 100%)',
+                color: '#ffffff'
+            };
         }
     };
 
@@ -218,14 +292,57 @@ export default function EventAdd() {
                                 <h3>Media & Links</h3>
 
                                 <calcite-label>
-                                    Poster Image URL
-                                    <calcite-input
-                                        value={formData.posterImage}
-                                        onInput={(e) => handleChange('posterImage', e.target.value)}
-                                        placeholder="https://example.com/poster.jpg or /assets/poster.jpg"
-                                        required
-                                    ></calcite-input>
+                                    Event Poster Image
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        style={{
+                                            width: '100%',
+                                            padding: '8px',
+                                            border: '1px solid var(--calcite-ui-border-1)',
+                                            borderRadius: '4px',
+                                            fontSize: '14px',
+                                            cursor: 'pointer'
+                                        }}
+                                    />
+                                    <div style={{ fontSize: '12px', color: '#6a6a6a', marginTop: '4px' }}>
+                                        Upload a square image (recommended: 800x800px, max 5MB)
+                                    </div>
                                 </calcite-label>
+
+                                {/* Image Preview */}
+                                {(imagePreview || formData.posterImage) && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                                            Image Preview:
+                                        </div>
+                                        <div style={{
+                                            width: '200px',
+                                            height: '200px',
+                                            border: '2px solid var(--calcite-ui-border-1)',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: '#f8f9fa'
+                                        }}>
+                                            <img
+                                                src={imagePreview || `${API_URL}${formData.posterImage}`}
+                                                alt="Event Poster Preview"
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover'
+                                                }}
+                                                onError={(e) => {
+                                                    e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 <calcite-label>
                                     Registration Link (Optional)
@@ -272,11 +389,22 @@ export default function EventAdd() {
                             <div className="event-card-grid">
                                 {/* Left Side - Event Details */}
                                 <div className="event-details-side">
-                                    <div className="event-celebration-header">
-                                        <calcite-icon icon="globe" scale="s"></calcite-icon>
-                                        {formData.celebrationHeader || 'Upcoming Event'}
-                                        <calcite-icon icon="まつり" scale="s"></calcite-icon>
-                                    </div>
+                                    {(() => {
+                                        const eventStatus = getEventStatus(formData.eventDate);
+                                        return (
+                                            <div
+                                                className="event-celebration-header"
+                                                style={{
+                                                    background: eventStatus.backgroundColor,
+                                                    color: eventStatus.color
+                                                }}
+                                            >
+                                                <calcite-icon icon="globe" scale="s"></calcite-icon>
+                                                {eventStatus.text}
+                                                <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                                            </div>
+                                        );
+                                    })()}
 
                                     <h3 className="event-card-title">
                                         {formData.title || 'Event Title'}
@@ -337,11 +465,17 @@ export default function EventAdd() {
 
                                 {/* Right Side - Event Poster */}
                                 <div className="event-poster-side">
-                                    {formData.posterImage ? (
+                                    {(imagePreview || formData.posterImage) ? (
                                         <img
-                                            src={formData.posterImage}
+                                            src={imagePreview || `${API_URL}${formData.posterImage}`}
                                             alt="Event Poster"
                                             className="event-poster-image"
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                aspectRatio: '1/1'
+                                            }}
                                             onError={(e) => {
                                                 e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
                                             }}
@@ -350,6 +484,7 @@ export default function EventAdd() {
                                         <div className="event-poster-placeholder">
                                             <calcite-icon icon="image" scale="l"></calcite-icon>
                                             <p>Poster Preview</p>
+                                            <p style={{ fontSize: '12px', color: '#6a6a6a' }}>Upload an image to see preview</p>
                                         </div>
                                     )}
                                 </div>

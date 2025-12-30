@@ -21,6 +21,8 @@ export default function AdminSidebar() {
   useEffect(() => {
     if (location.pathname.includes('/admin/services')) {
       setActivePanel('services');
+    } else if (location.pathname.includes('/admin/projects')) {
+      setActivePanel('projects');
     } else if (location.pathname.includes('/admin/notifications')) {
       setActivePanel('dashboard');
     } else if (
@@ -100,6 +102,13 @@ export default function AdminSidebar() {
             active={activePanel === 'services'}
             onClick={() => setActivePanel('services')}
           ></calcite-action>
+
+          <calcite-action
+            text="Projects"
+            icon="folder-open"
+            active={activePanel === 'projects'}
+            onClick={() => setActivePanel('projects')}
+          ></calcite-action>
         </calcite-action-group>
 
         <calcite-action-group slot="actions-end">
@@ -161,20 +170,7 @@ export default function AdminSidebar() {
             onClick={() => handleNavigation('/admin/services/professional/add')}
           />
 
-          {/* Training Programs */}
-          <div style={groupHeadingStyle}>Training Programs</div>
-          <ListItem
-            icon="book"
-            label="All Training Programs"
-            description="View all training programs"
-            onClick={() => handleNavigation('/admin/services/trainings')}
-          />
-          <ListItem
-            icon="plus-circle"
-            label="Add Training Program"
-            description="Create new training program"
-            onClick={() => handleNavigation('/admin/services/trainings/add')}
-          />
+
 
           {/* Events */}
           <div style={groupHeadingStyle}>Events</div>
@@ -189,6 +185,30 @@ export default function AdminSidebar() {
             label="Add Event"
             description="Create new event"
             onClick={() => handleNavigation('/admin/services/events/add')}
+          />
+        </div>
+      </calcite-panel>
+
+      {/* Projects Panel */}
+      <calcite-panel
+        heading="Projects"
+        description="Manage project showcases and success stories"
+        hidden={activePanel !== 'projects'}
+      >
+        <div>
+          {/* App Projects */}
+          <div style={groupHeadingStyle}>App Projects</div>
+          <ListItem
+            icon="folder-open"
+            label="All App Projects"
+            description="View all project showcases"
+            onClick={() => handleNavigation('/admin/projects')}
+          />
+          <ListItem
+            icon="plus-circle"
+            label="Add App Project"
+            description="Create new project showcase"
+            onClick={() => handleNavigation('/admin/projects/add')}
           />
         </div>
       </calcite-panel>

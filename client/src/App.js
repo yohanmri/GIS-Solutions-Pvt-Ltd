@@ -22,12 +22,14 @@ import { PermissionProvider } from './context/PermissionContext';
 // Service Management Pages
 import ProfessionalServicesList from './pages/adminPages/ProfessionalServicesList';
 import ProfessionalServiceAdd from './pages/adminPages/ProfessionalServiceAdd';
-import TrainingProgramsList from './pages/adminPages/TrainingProgramsList';
-import TrainingProgramAdd from './pages/adminPages/TrainingProgramAdd';
 import EventsList from './pages/adminPages/EventsList';
 import EventAdd from './pages/adminPages/EventAdd';
 import NotificationsList from './pages/adminPages/NotificationsList';
 import NotificationAdd from './pages/adminPages/NotificationAdd';
+
+// Project Management Pages
+import ProjectsList from './pages/adminPages/ProjectsList';
+import ProjectAdd from './pages/adminPages/ProjectAdd';
 
 // Analytics Tracker Component
 function AnalyticsTracker() {
@@ -145,31 +147,7 @@ function App() {
               }
             />
 
-            {/* Training Programs */}
-            <Route
-              path="/admin/services/trainings"
-              element={
-                <ProtectedRoute>
-                  <TrainingProgramsList />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/services/trainings/add"
-              element={
-                <ProtectedRoute>
-                  <TrainingProgramAdd />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/services/trainings/edit/:id"
-              element={
-                <ProtectedRoute>
-                  <TrainingProgramAdd />
-                </ProtectedRoute>
-              }
-            />
+
 
             {/* Events */}
             <Route
@@ -193,6 +171,36 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EventAdd />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* ============================================
+            PROJECT MANAGEMENT ROUTES
+            ============================================ */}
+
+            {/* Projects */}
+            <Route
+              path="/admin/projects"
+              element={
+                <ProtectedRoute>
+                  <ProjectsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/projects/add"
+              element={
+                <ProtectedRoute>
+                  <ProjectAdd />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/projects/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <ProjectAdd />
                 </ProtectedRoute>
               }
             />

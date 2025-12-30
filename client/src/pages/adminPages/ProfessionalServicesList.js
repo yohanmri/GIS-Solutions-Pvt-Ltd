@@ -42,16 +42,12 @@ export default function ProfessionalServicesList() {
         if (!window.confirm('Are you sure you want to delete this service?')) return;
 
         try {
-            const token = localStorage.getItem('adminToken') || 'default-token';
-
             // Immediately remove from UI for instant feedback
             setServices(prevServices => prevServices.filter(s => s._id !== id));
             setError(null);
 
-            // Delete from server
-            await axios.delete(`${API_URL}/api/services/professional/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            // Delete from server (no auth required)
+            await axios.delete(`${API_URL}/api/services/professional/${id}`);
 
             // Refresh from server to ensure consistency
             setTimeout(() => {

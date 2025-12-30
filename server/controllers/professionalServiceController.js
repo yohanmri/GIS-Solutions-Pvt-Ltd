@@ -32,7 +32,7 @@ exports.createService = async (req, res) => {
     try {
         const serviceData = {
             ...req.body,
-            createdBy: req.admin._id
+            createdBy: 'admin' // Default for now, no auth
         };
 
         const service = new ProfessionalService(serviceData);

@@ -41,16 +41,12 @@ export default function EventsList() {
         if (!window.confirm('Are you sure you want to delete this event?')) return;
 
         try {
-            const token = localStorage.getItem('adminToken') || 'default-token';
-
             // Immediately remove from UI for instant feedback
             setEvents(prevEvents => prevEvents.filter(e => e._id !== id));
             setError(null);
 
-            // Delete from server
-            await axios.delete(`${API_URL}/api/services/events/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            // Delete from server (no auth required)
+            await axios.delete(`${API_URL}/api/services/events/${id}`);
 
             // Refresh from server to ensure consistency
             setTimeout(() => {
@@ -180,7 +176,7 @@ export default function EventsList() {
                                 {/* Right Side - Event Poster */}
                                 <div className="event-poster-side">
                                     <img
-                                        src={event.posterImage}
+                                        src={event.posterImage?.startsWith('/uploads/') ? `${API_URL}${event.posterImage}` : event.posterImage}
                                         alt={event.title}
                                         className="event-poster-image"
                                         onError={(e) => {

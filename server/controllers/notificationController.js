@@ -54,7 +54,6 @@ exports.createNotification = async (req, res) => {
         // Map serviceType to serviceModel
         const serviceModelMap = {
             'professional': 'ProfessionalService',
-            'training': 'TrainingProgram',
             'event': 'Event'
         };
 
@@ -80,7 +79,6 @@ exports.updateNotification = async (req, res) => {
         if (req.body.serviceType) {
             const serviceModelMap = {
                 'professional': 'ProfessionalService',
-                'training': 'TrainingProgram',
                 'event': 'Event'
             };
             req.body.serviceModel = serviceModelMap[req.body.serviceType];
