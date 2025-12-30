@@ -148,21 +148,21 @@ export default function ShieldifyLogin() {
             width: '180px',
             height: '180px',
             margin: '0 auto 30px',
-            background: 'rgba(255,255,255,0.95)',
-            borderRadius: '50%',
+            // background: 'rgba(255,255,255,0.95)',
+            // borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            // boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
             padding: '20px',
-            border: '4px solid rgba(148,163,184,0.3)'
+            // border: '4px solid rgba(148,163,184,0.3)'
           }}>
             <img
-              src="/assets/images/picture-logo.png"
+              src="/assets/logoGIS.png"
               alt="GIS Logo"
               style={{
-                width: '100%',
-                height: '100%',
+                width: '1500%',
+                height: '150%',
                 objectFit: 'contain'
               }}
               onError={(e) => {
@@ -179,7 +179,7 @@ export default function ShieldifyLogin() {
             textShadow: '0 2px 10px rgba(0,0,0,0.2)',
             letterSpacing: '2px'
           }}>
-            SHIELDIFY
+            Gis Solutions
           </h1>
 
           <p style={{
