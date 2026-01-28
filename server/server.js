@@ -27,6 +27,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/gis-solut
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
+// Authentication routes (public)
+app.use('/api/auth', require('./routes/authRoutes'));
+
 // Public client-side routes (no authentication)
 app.use('/api/client/services', require('./routes/clientServiceRoutes'));
 app.use('/api/client/projects', require('./routes/clientProjectRoutes'));

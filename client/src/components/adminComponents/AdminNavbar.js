@@ -134,7 +134,7 @@ export default function AdminNavbar() {
         slot="logo"
         heading="GIS Solutions Admin"
         description="Dashboard Panel"
-        thumbnail="/assets/images/shieldify-picture-logo.png"
+        thumbnail="/assets/logoGIS.png"
         onClick={() => navigate('/admin/dashboard')}
         style={{ cursor: 'pointer' }}
       />

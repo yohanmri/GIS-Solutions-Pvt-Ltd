@@ -191,135 +191,61 @@ export default function ProjectsComponent() {
             </div>
           )}
 
-          {/* Projects Grid */}
+          {/* Projects Display - Alternating Layout */}
           {!loading && !error && projects.length > 0 && (
-            <div className="projects-grid">
+            <div className="projects-list">
               {projects.map((project, index) => (
-                <div key={index} className={`project-card ${expandedProject === index ? 'expanded' : ''}`}>
-                  {/* Project Image */}
-                  <div className="project-image-wrapper">
-                    <img
-                      src={project.image?.startsWith('/uploads/') ? `${API_URL}${project.image}` : project.image}
-                      alt={project.title}
-                      className="project-image"
-                      onError={(e) => {
-                        e.target.src = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80";
-                      }}
-                    />
-                    <div className="project-year-badge">
-                      {project.year}
-                    </div>
-                  </div>
-
-                  {/* Project Content */}
-                  <div className="project-content">
-                    <div className="project-category">
-                      {project.category}
+                <div key={index} className={`project-row ${index % 2 === 1 ? 'reverse' : ''}`}>
+                  <div className="project-row-content">
+                    {/* Project Image */}
+                    <div className="project-image-container">
+                      <div className="decorative-circle-large" />
+                      <div className="decorative-circle-small" />
+                      <img
+                        src={project.image?.startsWith('/uploads/') ? `${API_URL}${project.image}` : project.image}
+                        alt={project.title}
+                        className="project-main-image"
+                        onError={(e) => {
+                          e.target.src = "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80";
+                        }}
+                      />
                     </div>
 
-                    <h3 className="project-title">
-                      {project.title}
-                    </h3>
-
-                    <p className="project-client">
-                      {project.client}
-                    </p>
-
-                    <p className="project-description">
-                      {project.description}
-                    </p>
-
-                    {/* Technologies */}
-                    {project.technologies && project.technologies.length > 0 && (
-                      <div className="project-technologies">
-                        {project.technologies.slice(0, 4).map((tech, idx) => (
-                          <span key={idx} className="tech-tag">
-                            {tech}
-                          </span>
-                        ))}
-                        {project.technologies.length > 4 && (
-                          <span className="tech-tag more">
-                            +{project.technologies.length - 4} more
-                          </span>
+                    {/* Project Content */}
+                    <div className="project-text-content">
+                      <div style={{ width: '100%', textAlign: 'center', marginBottom: '1.5rem' }}>
+                        {project.category && (
+                          <div className="project-category-badge">
+                            {project.category}
+                          </div>
                         )}
+
+                        <h2 className="project-main-title">
+                          {project.title}
+                        </h2>
                       </div>
-                    )}
 
-                    {/* Expanded Content */}
-                    {expandedProject === index && (
-                      <div className="expanded-content">
-                        {/* Challenge */}
-                        {project.challenge && (
-                          <div className="project-detail-section">
-                            <h4 className="detail-heading">
-                              <calcite-icon icon="exclamation-mark-triangle" scale="s"></calcite-icon>
-                              Challenge
-                            </h4>
-                            <p className="detail-text">{project.challenge}</p>
-                          </div>
-                        )}
+                      {project.client && (
+                        <p className="project-client-name">
+                          <strong>Client:</strong> {project.client}
+                        </p>
+                      )}
 
-                        {/* Solution */}
-                        {project.solution && (
-                          <div className="project-detail-section">
-                            <h4 className="detail-heading">
-                              <calcite-icon icon="lightbulb" scale="s"></calcite-icon>
-                              Solution
-                            </h4>
-                            <p className="detail-text">{project.solution}</p>
-                          </div>
-                        )}
+                      <p className="project-main-description">
+                        {project.description}
+                      </p>
 
-                        {/* Impact */}
-                        {project.impact && project.impact.length > 0 && (
-                          <div className="project-detail-section">
-                            <h4 className="detail-heading">
-                              <calcite-icon icon="graph-bar-horizontal" scale="s"></calcite-icon>
-                              Impact
-                            </h4>
-                            <ul className="impact-list">
-                              {project.impact.map((item, idx) => (
-                                <li key={idx}>
-                                  <calcite-icon icon="check" scale="s"></calcite-icon>
-                                  {item}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-
-                        {/* All Technologies */}
-                        {project.technologies && project.technologies.length > 4 && (
-                          <div className="project-detail-section">
-                            <h4 className="detail-heading">
-                              <calcite-icon icon="gear" scale="s"></calcite-icon>
-                              All Technologies
-                            </h4>
-                            <div className="project-technologies">
-                              {project.technologies.map((tech, idx) => (
-                                <span key={idx} className="tech-tag">
-                                  {tech}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    <calcite-button
-                      width="full"
-                      appearance="outline"
-                      icon-end={expandedProject === index ? "chevron-up" : "chevron-down"}
-                      onClick={() => toggleProject(index)}
-                      style={{
-                        '--calcite-button-text-color': '#004c74',
-                        '--calcite-button-border-color': '#004c74',
-                        marginTop: '16px'
-                      }}
-                    >
-                      {expandedProject === index ? 'Show Less' : 'View Case Study'}
-                    </calcite-button>
+                      {/* Technologies */}
+                      {project.technologies && project.technologies.length > 0 && (
+                        <div className="project-tech-list">
+                          {project.technologies.slice(0, 5).map((tech, idx) => (
+                            <span key={idx} className="tech-badge">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
