@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Serve uploaded files
 app.use('/uploads', express.static('uploads'));
@@ -35,6 +37,9 @@ app.use('/api/client/services', require('./routes/clientServiceRoutes'));
 app.use('/api/client/projects', require('./routes/clientProjectRoutes'));
 app.use('/api/client/contact', require('./routes/clientContactRoutes'));
 app.use('/api/notifications/current', require('./routes/notificationRoutes'));
+
+// Analytics routes (public tracking, protected stats)
+app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
 // Admin routes (protected)
 app.use('/api/services/professional', require('./routes/professionalServiceRoutes'));

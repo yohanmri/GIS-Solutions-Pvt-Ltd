@@ -1,5 +1,3 @@
-//src->pages->adminPages->AdminDashboard.js
-
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../../components/adminComponents/AdminNavbar';
 import AdminSidebar from '../../components/adminComponents/AdminSidebar';
@@ -13,12 +11,16 @@ import '@esri/calcite-components/components/calcite-notice';
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [stats, setStats] = useState([
-    { title: 'Total Products', value: '0', icon: 'shopping-cart', color: '#2563eb' },
-    { title: 'Total Bundles', value: '0', icon: 'layers', color: '#7c3aed' },
-    { title: 'Total Visitors', value: '0', icon: 'graph-time-series', color: '#dc2626' },
-    { title: 'Today\'s Visitors', value: '0', icon: 'clock', color: '#059669' }
-  ]);
+  const [stats, setStats] = useState({
+    totalProducts: 0,
+    totalBundles: 0,
+    totalVisitors: 0,
+    todaysVisitors: 0,
+    weekVisitors: 0,
+    monthVisitors: 0
+  });
+  const [browserStats, setBrowserStats] = useState([]);
+  const [deviceStats, setDeviceStats] = useState([]);
   const [recentActivities, setRecentActivities] = useState([]);
 
   useEffect(() => {
@@ -35,12 +37,18 @@ export default function AdminDashboard() {
         const data = response.data.data;
 
         // Update stats
-        setStats([
-          { title: 'Total Products', value: data.totalProducts.toString(), icon: 'shopping-cart', color: '#2563eb' },
-          { title: 'Total Bundles', value: data.totalBundles.toString(), icon: 'layers', color: '#7c3aed' },
-          { title: 'Total Visitors', value: data.totalVisitors.toLocaleString(), icon: 'graph-time-series', color: '#dc2626' },
-          { title: 'Today\'s Visitors', value: data.todaysVisitors.toString(), icon: 'clock', color: '#059669' }
-        ]);
+        setStats({
+          totalProducts: data.totalProducts || 0,
+          totalBundles: data.totalBundles || 0,
+          totalVisitors: data.totalVisitors || 0,
+          todaysVisitors: data.todaysVisitors || 0,
+          weekVisitors: data.weekVisitors || 0,
+          monthVisitors: data.monthVisitors || 0
+        });
+
+        // Update browser and device stats
+        setBrowserStats(data.browserStats || []);
+        setDeviceStats(data.deviceStats || []);
 
         // Update recent activities
         if (data.recentActivity && data.recentActivity.length > 0) {
@@ -51,7 +59,8 @@ export default function AdminDashboard() {
               time: timeAgo,
               icon: 'cursor-click',
               device: activity.device,
-              location: activity.location
+              location: activity.location,
+              browser: activity.browser
             };
           });
           setRecentActivities(formattedActivities);
@@ -59,7 +68,7 @@ export default function AdminDashboard() {
       }
     } catch (err) {
       console.error('Error fetching dashboard stats:', err);
-      setError('Failed to load dashboard statistics');
+      setError('Failed to load dashboard statistics. Please ensure the analytics service is running.');
     } finally {
       setLoading(false);
     }
@@ -73,6 +82,13 @@ export default function AdminDashboard() {
     if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
     return `${Math.floor(seconds / 86400)} days ago`;
   };
+
+  const getStatCards = () => [
+    { title: 'Total Visitors', value: stats.totalVisitors.toLocaleString(), icon: 'users', color: '#2563eb' },
+    { title: "Today's Visitors", value: stats.todaysVisitors.toString(), icon: 'clock', color: '#059669' },
+    { title: 'This Week', value: stats.weekVisitors.toString(), icon: 'calendar', color: '#7c3aed' },
+    { title: 'This Month', value: stats.monthVisitors.toString(), icon: 'graph-time-series', color: '#dc2626' }
+  ];
 
   return (
     <calcite-shell>
@@ -120,14 +136,14 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <>
-              {/* Stats Cards */}
+              {/* Visitor Stats Cards */}
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
                 gap: '20px',
                 marginBottom: '32px'
               }}>
-                {stats.map((stat, index) => (
+                {getStatCards().map((stat, index) => (
                   <calcite-card key={index}>
                     <div style={{ padding: '20px' }}>
                       <div style={{
@@ -175,11 +191,96 @@ export default function AdminDashboard() {
                 ))}
               </div>
 
+              {/* Browser & Device Stats */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '20px',
+                marginBottom: '32px'
+              }}>
+                {/* Browser Stats */}
+                <calcite-card>
+                  <div slot="title">Browser Usage</div>
+                  <div slot="subtitle">Breakdown by browser type</div>
+                  <div style={{ padding: '16px' }}>
+                    {browserStats.length > 0 ? (
+                      browserStats.map((browser, index) => (
+                        <div key={index} style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '12px 0',
+                          borderBottom: index < browserStats.length - 1 ? '1px solid var(--calcite-ui-border-3)' : 'none'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <calcite-icon icon="browser" scale="s"></calcite-icon>
+                            <span style={{ fontSize: '14px', color: 'var(--calcite-ui-text-1)' }}>
+                              {browser._id || 'Unknown'}
+                            </span>
+                          </div>
+                          <span style={{
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            color: 'var(--calcite-ui-text-1)'
+                          }}>
+                            {browser.count}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ color: 'var(--calcite-ui-text-3)', textAlign: 'center', padding: '20px' }}>
+                        No browser data available
+                      </p>
+                    )}
+                  </div>
+                </calcite-card>
+
+                {/* Device Stats */}
+                <calcite-card>
+                  <div slot="title">Device Usage</div>
+                  <div slot="subtitle">Breakdown by device type</div>
+                  <div style={{ padding: '16px' }}>
+                    {deviceStats.length > 0 ? (
+                      deviceStats.map((device, index) => (
+                        <div key={index} style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          padding: '12px 0',
+                          borderBottom: index < deviceStats.length - 1 ? '1px solid var(--calcite-ui-border-3)' : 'none'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <calcite-icon
+                              icon={device._id === 'Mobile' ? 'mobile' : device._id === 'Tablet' ? 'tablet' : 'monitor'}
+                              scale="s"
+                            ></calcite-icon>
+                            <span style={{ fontSize: '14px', color: 'var(--calcite-ui-text-1)' }}>
+                              {device._id || 'Unknown'}
+                            </span>
+                          </div>
+                          <span style={{
+                            fontSize: '16px',
+                            fontWeight: '600',
+                            color: 'var(--calcite-ui-text-1)'
+                          }}>
+                            {device.count}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ color: 'var(--calcite-ui-text-3)', textAlign: 'center', padding: '20px' }}>
+                        No device data available
+                      </p>
+                    )}
+                  </div>
+                </calcite-card>
+              </div>
+
               {/* Recent Activity */}
               {recentActivities.length > 0 && (
                 <div style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                  gridTemplateColumns: '1fr',
                   gap: '20px'
                 }}>
                   <calcite-card>
@@ -228,7 +329,7 @@ export default function AdminDashboard() {
                               fontSize: '12px',
                               color: 'var(--calcite-ui-text-3)'
                             }}>
-                              {activity.time} • {activity.device} • {activity.location}
+                              {activity.time} • {activity.device} • {activity.browser} • {activity.location}
                             </p>
                           </div>
                         </div>

@@ -36,6 +36,18 @@ const notificationSchema = new mongoose.Schema({
         enum: ['ProfessionalService', 'Event']
     },
 
+    // Direct Event Reference (for easier querying)
+    eventId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
+    },
+
+    // Navigation path when notification is clicked
+    navigateTo: {
+        type: String,
+        default: '/services'
+    },
+
     // Date/Time Configuration
     startDate: {
         type: Date,

@@ -127,9 +127,20 @@
     gap: 20px;
 }
 
+.event-notification-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
 .event-notification-image img {
     width: 100%;
     height: auto;
+    min-height: 180px;
+    max-height: 220px;
+    object-fit: cover;
+    object-position: center;
     border-radius: 8px;
 }
 

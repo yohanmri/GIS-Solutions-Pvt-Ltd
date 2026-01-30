@@ -18,6 +18,7 @@ import '../../styles/clientStyles/servicesComponent.css';
 
 export default function Services() {
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeEventCategory, setActiveEventCategory] = useState('all');
   const [expandedService, setExpandedService] = useState(null);
 
   // State for fetched data
@@ -50,24 +51,33 @@ export default function Services() {
     fetchData();
   }, []);
 
-  // Helper function to determine event status based on date
-  const getEventStatus = (eventDate) => {
+  // Helper function to determine event status based on date range
+  const getEventStatus = (startDate, endDate) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Reset time to start of day
+    today.setHours(0, 0, 0, 0);
 
-    const eventDay = new Date(eventDate);
-    eventDay.setHours(0, 0, 0, 0);
+    const start = new Date(startDate);
+    start.setHours(0, 0, 0, 0);
 
-    if (eventDay < today) {
+    const end = new Date(endDate);
+    end.setHours(0, 0, 0, 0);
+
+    if (today > end) {
       return {
         text: 'Previous Event',
-        backgroundColor: '#ff6b35', // Orange
+        backgroundColor: '#ff6b35',
+        color: '#ffffff'
+      };
+    } else if (today >= start && today <= end) {
+      return {
+        text: 'Ongoing Event',
+        backgroundColor: '#28a745',
         color: '#ffffff'
       };
     } else {
       return {
         text: 'Upcoming Event',
-        backgroundColor: 'linear-gradient(135deg, #0079c1 0%, #005a8f 100%)', // Blue gradient
+        backgroundColor: 'linear-gradient(135deg, #0079c1 0%, #005a8f 100%)',
         color: '#ffffff'
       };
     }
@@ -83,9 +93,37 @@ export default function Services() {
     { id: 'data', label: 'Data', icon: 'data-check' }
   ];
 
+  const eventCategories = [
+    { id: 'all', label: 'All Events', icon: 'apps' },
+    { id: 'ongoing', label: 'Ongoing Events', icon: 'play' },
+    { id: 'upcoming', label: 'Upcoming Events', icon: 'clock' },
+    { id: 'previous', label: 'Previous Events', icon: 'check-circle' }
+  ];
+
   const filteredServices = activeCategory === 'all'
     ? services
     : services.filter(service => service.category === activeCategory);
+
+  // Filter events based on selected category
+  const filteredEvents = events.filter(event => {
+    if (activeEventCategory === 'all') return true;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const start = new Date(event.startDate);
+    start.setHours(0, 0, 0, 0);
+    const end = new Date(event.endDate);
+    end.setHours(0, 0, 0, 0);
+
+    if (activeEventCategory === 'ongoing') {
+      return today >= start && today <= end;
+    } else if (activeEventCategory === 'upcoming') {
+      return today < start;
+    } else if (activeEventCategory === 'previous') {
+      return today > end;
+    }
+    return true;
+  });
 
   useEffect(() => {
     const shouldOpenEvents = sessionStorage.getItem('openEventsTab');
@@ -354,11 +392,27 @@ export default function Services() {
             <calcite-tab>
               <div className="tab-content events-tab-content">
                 <div className="events-header">
-                  <h2 className="section-title">Upcoming Events</h2>
+                  <h2 className="section-title">Events</h2>
                   <p className="section-description">
                     Join us in celebrating innovation, creativity, and the power of geographic storytelling.
-                    Explore our upcoming events and competitions designed to inspire the GIS community.
+                    Explore our events and competitions designed to inspire the GIS community.
                   </p>
+                </div>
+
+                {/* Event Category Filter */}
+                <div className="category-filter">
+                  {eventCategories.map((category) => (
+                    <calcite-button
+                      key={category.id}
+                      appearance={activeEventCategory === category.id ? 'solid' : 'outline'}
+                      kind="brand"
+                      scale="m"
+                      icon-start={category.icon}
+                      onClick={() => setActiveEventCategory(category.id)}
+                    >
+                      {category.label}
+                    </calcite-button>
+                  ))}
                 </div>
 
                 {/* Loading State */}
@@ -379,8 +433,8 @@ export default function Services() {
                 )}
 
                 {/* Events List */}
-                {!loading && !error && events.length > 0 && events.map((event, index) => {
-                  const eventStatus = getEventStatus(event.eventDate);
+                {!loading && !error && filteredEvents.length > 0 && filteredEvents.map((event, index) => {
+                  const eventStatus = getEventStatus(event.startDate, event.endDate);
 
                   return (
                     <calcite-card key={event._id || index} class="event-main-card">
@@ -396,7 +450,7 @@ export default function Services() {
                           >
                             <calcite-icon icon="globe" scale="s"></calcite-icon>
                             {eventStatus.text}
-                            <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                            <calcite-icon icon="star" scale="s"></calcite-icon>
                           </div>
 
                           <h3 className="event-card-title">{event.title}</h3>
@@ -404,12 +458,6 @@ export default function Services() {
 
                           <div className="event-card-description">
                             <p>{event.description}</p>
-                            {event.prizes && (
-                              <div className="event-prize-highlight">
-                                <calcite-icon icon="star" scale="s"></calcite-icon>
-                                {event.prizes}
-                              </div>
-                            )}
                           </div>
 
                           <div className="event-info-grid">
@@ -425,11 +473,18 @@ export default function Services() {
                               <calcite-icon icon="calendar" scale="s"></calcite-icon>
                               <div className="event-info-text">
                                 <h4>Date</h4>
-                                <p>{new Date(event.eventDate).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}</p>
+                                <p>{(() => {
+                                  const start = new Date(event.startDate).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric'
+                                  });
+                                  const end = new Date(event.endDate).toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric'
+                                  });
+                                  return `${start} - ${end}`;
+                                })()}</p>
                               </div>
                             </div>
 
@@ -443,7 +498,7 @@ export default function Services() {
 
                             {event.prizes && (
                               <div className="event-info-item">
-                                <calcite-icon icon="award" scale="s"></calcite-icon>
+                                <calcite-icon icon="star" scale="s"></calcite-icon>
                                 <div className="event-info-text">
                                   <h4>Prizes</h4>
                                   <p>{event.prizes}</p>
@@ -453,7 +508,7 @@ export default function Services() {
                           </div>
 
                           <div className="event-card-actions">
-                            {event.registrationLink && (
+                            {event.showRegisterButton && event.registrationLink && (
                               <calcite-button
                                 appearance="solid"
                                 kind="brand"
@@ -464,7 +519,7 @@ export default function Services() {
                                 Register Now
                               </calcite-button>
                             )}
-                            {event.websiteLink && (
+                            {event.showWebsiteButton && event.websiteLink && (
                               <calcite-button
                                 appearance="outline"
                                 kind="brand"
@@ -504,10 +559,10 @@ export default function Services() {
                 })}
 
                 {/* No Events State */}
-                {!loading && !error && events.length === 0 && (
+                {!loading && !error && filteredEvents.length === 0 && (
                   <div className="events-coming-soon">
                     <calcite-icon icon="information" scale="l"></calcite-icon>
-                    <h4>No Events Available</h4>
+                    <h4>No {activeEventCategory !== 'all' ? eventCategories.find(c => c.id === activeEventCategory)?.label : 'Events'} Available</h4>
                     <p>Stay tuned for upcoming workshops, webinars, and community events.</p>
                   </div>
                 )}

@@ -19,6 +19,7 @@ export default function ProjectsList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [expandedProject, setExpandedProject] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('all');
 
     useEffect(() => {
         fetchProjects();
@@ -63,6 +64,21 @@ export default function ProjectsList() {
         }
     };
 
+    const categories = [
+        { id: 'all', label: 'All Projects', icon: 'apps' },
+        { id: 'Government', label: 'Government', icon: 'organization' },
+        { id: 'Municipal', label: 'Municipal', icon: 'city' },
+        { id: 'Utilities', label: 'Utilities', icon: 'lightbulb' },
+        { id: 'Agriculture', label: 'Agriculture', icon: 'leaf' },
+        { id: 'Private', label: 'Private', icon: 'user' },
+        { id: 'NGO', label: 'NGO', icon: 'globe' },
+        { id: 'Other', label: 'Other', icon: 'question' }
+    ];
+
+    const filteredProjects = activeCategory === 'all'
+        ? projects
+        : projects.filter(project => project.category === activeCategory);
+
     if (loading) {
         return (
             <calcite-shell>
@@ -101,8 +117,24 @@ export default function ProjectsList() {
                     </calcite-notice>
                 )}
 
+                {/* Category Filter */}
+                <div className="category-filter" style={{ marginBottom: '24px' }}>
+                    {categories.map((category) => (
+                        <calcite-button
+                            key={category.id}
+                            appearance={activeCategory === category.id ? 'solid' : 'outline'}
+                            kind="brand"
+                            scale="m"
+                            icon-start={category.icon}
+                            onClick={() => setActiveCategory(category.id)}
+                        >
+                            {category.label}
+                        </calcite-button>
+                    ))}
+                </div>
+
                 <div className="projects-grid">
-                    {projects.map((project, index) => (
+                    {filteredProjects.map((project, index) => (
                         <div
                             key={project._id}
                             className={`project-card ${expandedProject === index ? 'expanded' : ''}`}
@@ -247,8 +279,8 @@ export default function ProjectsList() {
                 {projects.length === 0 && !loading && (
                     <div style={{ textAlign: 'center', padding: '40px' }}>
                         <calcite-icon icon="information" scale="l"></calcite-icon>
-                        <h3>No projects yet</h3>
-                        <p>Click "Add New Project" to create your first project showcase</p>
+                        <h3>No {activeCategory !== 'all' ? categories.find(c => c.id === activeCategory)?.label : 'Projects'} Available</h3>
+                        <p>{activeCategory === 'all' ? 'Click "Add New Project" to create your first project showcase' : 'Try selecting a different category or add a new project'}</p>
                     </div>
                 )}
             </div>

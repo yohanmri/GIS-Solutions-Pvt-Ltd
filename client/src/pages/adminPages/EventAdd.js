@@ -24,13 +24,15 @@ export default function EventAdd() {
         title: '',
         theme: '',
         description: '',
-        celebrationHeader: 'Upcoming Event',
-        eventDate: '',
+        startDate: '',
+        endDate: '',
         organizer: '',
         prizes: '',
         posterImage: '',
         registrationLink: '',
-        websiteLink: ''
+        websiteLink: '',
+        showRegisterButton: true,
+        showWebsiteButton: true
     });
 
     const [imageFile, setImageFile] = useState(null);
@@ -47,10 +49,11 @@ export default function EventAdd() {
     const fetchEvent = async () => {
         try {
             const response = await axios.get(`${API_URL}/api/services/events/${id}`);
-            // Convert date to input format
+            // Convert dates to input format
             const eventData = {
                 ...response.data,
-                eventDate: new Date(response.data.eventDate).toISOString().split('T')[0]
+                startDate: new Date(response.data.startDate).toISOString().split('T')[0],
+                endDate: new Date(response.data.endDate).toISOString().split('T')[0]
             };
             setFormData(eventData);
         } catch (err) {
@@ -130,9 +133,9 @@ export default function EventAdd() {
         }
     };
 
-    // Helper function to determine event status based on date
-    const getEventStatus = (eventDate) => {
-        if (!eventDate) {
+    // Helper function to determine event status based on date range
+    const getEventStatus = (startDate, endDate) => {
+        if (!startDate || !endDate) {
             return {
                 text: 'Upcoming Event',
                 backgroundColor: 'linear-gradient(135deg, #0079c1 0%, #005a8f 100%)',
@@ -143,13 +146,22 @@ export default function EventAdd() {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
-        const eventDay = new Date(eventDate);
-        eventDay.setHours(0, 0, 0, 0);
+        const start = new Date(startDate);
+        start.setHours(0, 0, 0, 0);
 
-        if (eventDay < today) {
+        const end = new Date(endDate);
+        end.setHours(0, 0, 0, 0);
+
+        if (today > end) {
             return {
                 text: 'Previous Event',
                 backgroundColor: '#ff6b35',
+                color: '#ffffff'
+            };
+        } else if (today >= start && today <= end) {
+            return {
+                text: 'Ongoing Event',
+                backgroundColor: '#28a745',
                 color: '#ffffff'
             };
         } else {
@@ -161,13 +173,18 @@ export default function EventAdd() {
         }
     };
 
-    const formatDateForDisplay = (dateString) => {
-        if (!dateString) return 'Event Date';
-        return new Date(dateString).toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
+    const formatDateForDisplay = (startDate, endDate) => {
+        if (!startDate || !endDate) return 'Event Date Range';
+        const start = new Date(startDate).toLocaleDateString('en-US', {
+            month: 'short',
             day: 'numeric'
         });
+        const end = new Date(endDate).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+        return `${start} - ${end}`;
     };
 
     return (
@@ -204,16 +221,6 @@ export default function EventAdd() {
                                 <h3>Event Information</h3>
 
                                 <calcite-label>
-                                    Celebration Header
-                                    <calcite-input
-                                        value={formData.celebrationHeader}
-                                        onInput={(e) => handleChange('celebrationHeader', e.target.value)}
-                                        placeholder="e.g., Celebrate GIS Day 2025!"
-                                        required
-                                    ></calcite-input>
-                                </calcite-label>
-
-                                <calcite-label>
                                     Event Title
                                     <calcite-input
                                         value={formData.title}
@@ -244,22 +251,41 @@ export default function EventAdd() {
                                     ></calcite-text-area>
                                 </calcite-label>
 
-                                <calcite-label>
-                                    Event Date
-                                    <input
-                                        type="date"
-                                        value={formData.eventDate}
-                                        onChange={(e) => handleChange('eventDate', e.target.value)}
-                                        required
-                                        style={{
-                                            width: '100%',
-                                            padding: '8px',
-                                            border: '1px solid var(--calcite-ui-border-1)',
-                                            borderRadius: '4px',
-                                            fontSize: '14px'
-                                        }}
-                                    />
-                                </calcite-label>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <calcite-label>
+                                        Start Date
+                                        <input
+                                            type="date"
+                                            value={formData.startDate}
+                                            onChange={(e) => handleChange('startDate', e.target.value)}
+                                            required
+                                            style={{
+                                                width: '100%',
+                                                padding: '8px',
+                                                border: '1px solid var(--calcite-ui-border-1)',
+                                                borderRadius: '4px',
+                                                fontSize: '14px'
+                                            }}
+                                        />
+                                    </calcite-label>
+
+                                    <calcite-label>
+                                        End Date
+                                        <input
+                                            type="date"
+                                            value={formData.endDate}
+                                            onChange={(e) => handleChange('endDate', e.target.value)}
+                                            required
+                                            style={{
+                                                width: '100%',
+                                                padding: '8px',
+                                                border: '1px solid var(--calcite-ui-border-1)',
+                                                borderRadius: '4px',
+                                                fontSize: '14px'
+                                            }}
+                                        />
+                                    </calcite-label>
+                                </div>
                             </div>
 
                             {/* Organization Details */}
@@ -353,6 +379,16 @@ export default function EventAdd() {
                                     ></calcite-input>
                                 </calcite-label>
 
+                                <calcite-label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.showRegisterButton}
+                                        onChange={(e) => handleChange('showRegisterButton', e.target.checked)}
+                                        style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                    />
+                                    <span>Show "Register Now" button</span>
+                                </calcite-label>
+
                                 <calcite-label>
                                     Website Link (Optional)
                                     <calcite-input
@@ -360,6 +396,16 @@ export default function EventAdd() {
                                         onInput={(e) => handleChange('websiteLink', e.target.value)}
                                         placeholder="https://example.com"
                                     ></calcite-input>
+                                </calcite-label>
+
+                                <calcite-label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.showWebsiteButton}
+                                        onChange={(e) => handleChange('showWebsiteButton', e.target.checked)}
+                                        style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                    />
+                                    <span>Show "Event Website" button</span>
                                 </calcite-label>
                             </div>
 
@@ -390,7 +436,7 @@ export default function EventAdd() {
                                 {/* Left Side - Event Details */}
                                 <div className="event-details-side">
                                     {(() => {
-                                        const eventStatus = getEventStatus(formData.eventDate);
+                                        const eventStatus = getEventStatus(formData.startDate, formData.endDate);
                                         return (
                                             <div
                                                 className="event-celebration-header"
@@ -401,7 +447,7 @@ export default function EventAdd() {
                                             >
                                                 <calcite-icon icon="globe" scale="s"></calcite-icon>
                                                 {eventStatus.text}
-                                                <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                                                <calcite-icon icon="star" scale="s"></calcite-icon>
                                             </div>
                                         );
                                     })()}
@@ -430,12 +476,12 @@ export default function EventAdd() {
                                             <calcite-icon icon="calendar" scale="s"></calcite-icon>
                                             <div className="event-info-text">
                                                 <h4>Date</h4>
-                                                <p>{formatDateForDisplay(formData.eventDate)}</p>
+                                                <p>{formatDateForDisplay(formData.startDate, formData.endDate)}</p>
                                             </div>
                                         </div>
 
                                         <div className="event-info-item">
-                                            <calcite-icon icon="award" scale="s"></calcite-icon>
+                                            <calcite-icon icon="star" scale="s"></calcite-icon>
                                             <div className="event-info-text">
                                                 <h4>Prizes</h4>
                                                 <p>{formData.prizes || 'Prize Information'}</p>
@@ -444,22 +490,26 @@ export default function EventAdd() {
                                     </div>
 
                                     <div className="event-card-actions">
-                                        <calcite-button
-                                            appearance="solid"
-                                            kind="brand"
-                                            scale="l"
-                                            icon-end="rocket"
-                                        >
-                                            Register Now
-                                        </calcite-button>
-                                        <calcite-button
-                                            appearance="outline"
-                                            kind="brand"
-                                            scale="l"
-                                            icon-end="launch"
-                                        >
-                                            Event Website
-                                        </calcite-button>
+                                        {formData.showRegisterButton && (
+                                            <calcite-button
+                                                appearance="solid"
+                                                kind="brand"
+                                                scale="l"
+                                                icon-end="rocket"
+                                            >
+                                                Register Now
+                                            </calcite-button>
+                                        )}
+                                        {formData.showWebsiteButton && (
+                                            <calcite-button
+                                                appearance="outline"
+                                                kind="brand"
+                                                scale="l"
+                                                icon-end="launch"
+                                            >
+                                                Event Website
+                                            </calcite-button>
+                                        )}
                                     </div>
                                 </div>
 

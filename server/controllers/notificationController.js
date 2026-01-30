@@ -63,6 +63,12 @@ exports.createNotification = async (req, res) => {
             createdBy: req.admin._id
         };
 
+        // If serviceType is event, set eventId and navigateTo
+        if (req.body.serviceType === 'event' && req.body.serviceId) {
+            notificationData.eventId = req.body.serviceId;
+            notificationData.navigateTo = `/services?event=${req.body.serviceId}`;
+        }
+
         const notification = new Notification(notificationData);
         await notification.save();
 
@@ -82,6 +88,12 @@ exports.updateNotification = async (req, res) => {
                 'event': 'Event'
             };
             req.body.serviceModel = serviceModelMap[req.body.serviceType];
+
+            // If serviceType is event, set eventId and navigateTo
+            if (req.body.serviceType === 'event' && req.body.serviceId) {
+                req.body.eventId = req.body.serviceId;
+                req.body.navigateTo = `/services?event=${req.body.serviceId}`;
+            }
         }
 
         const notification = await Notification.findByIdAndUpdate(

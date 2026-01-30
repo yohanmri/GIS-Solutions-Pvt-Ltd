@@ -34,6 +34,9 @@ export default function NotificationAdd() {
         buttons: [{ label: 'View Details', link: '', type: 'internal' }]
     });
 
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
+
     const [services, setServices] = useState([]);
     const [error, setError] = useState(null);
     const [saving, setSaving] = useState(false);
@@ -83,6 +86,18 @@ export default function NotificationAdd() {
 
     const handleChange = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const addTimeSlot = () => {
@@ -224,13 +239,32 @@ export default function NotificationAdd() {
                                 </calcite-label>
 
                                 <calcite-label>
-                                    Image URL
-                                    <calcite-input
-                                        value={formData.image}
-                                        onInput={(e) => handleChange('image', e.target.value)}
-                                        placeholder="/assets/image.jpg or https://..."
-                                        required
-                                    ></calcite-input>
+                                    Notification Image
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        style={{
+                                            width: '100%',
+                                            padding: '8px',
+                                            border: '1px solid var(--calcite-ui-border-1)',
+                                            borderRadius: '4px'
+                                        }}
+                                    />
+                                    {imagePreview && (
+                                        <div style={{ marginTop: '8px' }}>
+                                            <img
+                                                src={imagePreview}
+                                                alt="Preview"
+                                                style={{
+                                                    maxWidth: '200px',
+                                                    maxHeight: '150px',
+                                                    borderRadius: '4px',
+                                                    objectFit: 'cover'
+                                                }}
+                                            />
+                                        </div>
+                                    )}
                                 </calcite-label>
                             </div>
 
@@ -421,9 +455,9 @@ export default function NotificationAdd() {
                             <div className="event-notification-content">
                                 <div className="event-notification-grid">
                                     <div className="event-notification-image">
-                                        {formData.image ? (
+                                        {(imagePreview || formData.image) ? (
                                             <img
-                                                src={formData.image}
+                                                src={imagePreview || formData.image}
                                                 alt="Notification"
                                                 onError={(e) => {
                                                     e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
@@ -438,7 +472,7 @@ export default function NotificationAdd() {
 
                                     <div className="event-notification-text">
                                         <div className="event-notification-header">
-                                            <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                                            <calcite-icon icon="star" scale="s"></calcite-icon>
                                             <span className="event-notification-badge">
                                                 {formData.badge || 'Badge'}
                                             </span>

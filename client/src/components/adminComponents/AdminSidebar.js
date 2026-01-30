@@ -24,7 +24,7 @@ export default function AdminSidebar() {
     } else if (location.pathname.includes('/admin/projects')) {
       setActivePanel('projects');
     } else if (location.pathname.includes('/admin/notifications')) {
-      setActivePanel('dashboard');
+      setActivePanel('notifications');
     } else if (
       location.pathname.includes('/admin/dashboard') ||
       location.pathname.includes('/admin/recent-activity') ||
@@ -108,6 +108,13 @@ export default function AdminSidebar() {
             icon="folder-open"
             active={activePanel === 'projects'}
             onClick={() => setActivePanel('projects')}
+          ></calcite-action>
+
+          <calcite-action
+            text="Notifications"
+            icon="bell"
+            active={activePanel === 'notifications'}
+            onClick={() => setActivePanel('notifications')}
           ></calcite-action>
         </calcite-action-group>
 
@@ -209,6 +216,28 @@ export default function AdminSidebar() {
             label="Add App Project"
             description="Create new project showcase"
             onClick={() => handleNavigation('/admin/projects/add')}
+          />
+        </div>
+      </calcite-panel>
+
+      {/* Notifications Panel */}
+      <calcite-panel
+        heading="Notifications"
+        description="Manage homepage notifications"
+        hidden={activePanel !== 'notifications'}
+      >
+        <div>
+          <ListItem
+            icon="bell"
+            label="All Notifications"
+            description="View all notifications"
+            onClick={() => handleNavigation('/admin/notifications')}
+          />
+          <ListItem
+            icon="plus-circle"
+            label="Add Notification"
+            description="Create new notification"
+            onClick={() => handleNavigation('/admin/notifications/add')}
           />
         </div>
       </calcite-panel>

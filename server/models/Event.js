@@ -14,11 +14,11 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    celebrationHeader: {
-        type: String,
-        default: 'Upcoming Event'
+    startDate: {
+        type: Date,
+        required: true
     },
-    eventDate: {
+    endDate: {
         type: Date,
         required: true
     },
@@ -39,6 +39,14 @@ const eventSchema = new mongoose.Schema({
     },
     websiteLink: {
         type: String
+    },
+    showRegisterButton: {
+        type: Boolean,
+        default: true
+    },
+    showWebsiteButton: {
+        type: Boolean,
+        default: true
     },
     isActive: {
         type: Boolean,

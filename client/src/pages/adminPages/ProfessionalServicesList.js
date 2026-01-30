@@ -19,6 +19,7 @@ export default function ProfessionalServicesList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [expandedService, setExpandedService] = useState(null);
+    const [activeCategory, setActiveCategory] = useState('all');
 
     useEffect(() => {
         fetchServices();
@@ -63,6 +64,20 @@ export default function ProfessionalServicesList() {
         }
     };
 
+    const categories = [
+        { id: 'all', label: 'All Services', icon: 'apps' },
+        { id: 'mapping', label: 'Mapping', icon: 'map' },
+        { id: 'analysis', label: 'Analysis', icon: 'layers' },
+        { id: 'remote-sensing', label: 'Remote Sensing', icon: 'satellite-3' },
+        { id: 'consulting', label: 'Consulting', icon: 'gear' },
+        { id: 'development', label: 'Development', icon: 'code' },
+        { id: 'data', label: 'Data', icon: 'data-check' }
+    ];
+
+    const filteredServices = activeCategory === 'all'
+        ? services
+        : services.filter(service => service.category === activeCategory);
+
     if (loading) {
         return (
             <calcite-shell>
@@ -101,8 +116,24 @@ export default function ProfessionalServicesList() {
                     </calcite-notice>
                 )}
 
+                {/* Category Filter */}
+                <div className="category-filter" style={{ marginBottom: '24px' }}>
+                    {categories.map((category) => (
+                        <calcite-button
+                            key={category.id}
+                            appearance={activeCategory === category.id ? 'solid' : 'outline'}
+                            kind="brand"
+                            scale="m"
+                            icon-start={category.icon}
+                            onClick={() => setActiveCategory(category.id)}
+                        >
+                            {category.label}
+                        </calcite-button>
+                    ))}
+                </div>
+
                 <div className="services-grid">
-                    {services.map((service, index) => (
+                    {filteredServices.map((service, index) => (
                         <div
                             key={service._id}
                             className={`service-card ${expandedService === index ? 'expanded' : ''}`}
@@ -247,11 +278,11 @@ export default function ProfessionalServicesList() {
                     ))}
                 </div>
 
-                {services.length === 0 && !loading && (
+                {filteredServices.length === 0 && !loading && (
                     <div style={{ textAlign: 'center', padding: '40px' }}>
                         <calcite-icon icon="information" scale="l"></calcite-icon>
-                        <h3>No services yet</h3>
-                        <p>Click "Add New Service" to create your first professional service</p>
+                        <h3>No {activeCategory !== 'all' ? categories.find(c => c.id === activeCategory)?.label : 'Services'} Available</h3>
+                        <p>{activeCategory === 'all' ? 'Click "Add New Service" to create your first professional service' : 'Try selecting a different category or add a new service'}</p>
                     </div>
                 )}
             </div>
