@@ -199,7 +199,7 @@ export default function AdminDashboard() {
                 marginBottom: '32px'
               }}>
                 {/* Browser Stats */}
-                <calcite-card>
+                <calcite-card style={{ '--calcite-card-footer-padding': '0' }}>
                   <div slot="title">Browser Usage</div>
                   <div slot="subtitle">Breakdown by browser type</div>
                   <div style={{ padding: '16px' }}>
@@ -213,7 +213,7 @@ export default function AdminDashboard() {
                           borderBottom: index < browserStats.length - 1 ? '1px solid var(--calcite-ui-border-3)' : 'none'
                         }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                            <calcite-icon icon="browser" scale="s"></calcite-icon>
+                            <calcite-icon icon="browser" scale="s" style={{ color: 'var(--calcite-ui-brand)' }}></calcite-icon>
                             <span style={{ fontSize: '14px', color: 'var(--calcite-ui-text-1)' }}>
                               {browser._id || 'Unknown'}
                             </span>
@@ -236,7 +236,7 @@ export default function AdminDashboard() {
                 </calcite-card>
 
                 {/* Device Stats */}
-                <calcite-card>
+                <calcite-card style={{ '--calcite-card-footer-padding': '0' }}>
                   <div slot="title">Device Usage</div>
                   <div slot="subtitle">Breakdown by device type</div>
                   <div style={{ padding: '16px' }}>
@@ -253,6 +253,7 @@ export default function AdminDashboard() {
                             <calcite-icon
                               icon={device._id === 'Mobile' ? 'mobile' : device._id === 'Tablet' ? 'tablet' : 'monitor'}
                               scale="s"
+                              style={{ color: 'var(--calcite-ui-brand)' }}
                             ></calcite-icon>
                             <span style={{ fontSize: '14px', color: 'var(--calcite-ui-text-1)' }}>
                               {device._id || 'Unknown'}
@@ -275,69 +276,6 @@ export default function AdminDashboard() {
                   </div>
                 </calcite-card>
               </div>
-
-              {/* Recent Activity */}
-              {recentActivities.length > 0 && (
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr',
-                  gap: '20px'
-                }}>
-                  <calcite-card>
-                    <div slot="title">Recent Activity</div>
-                    <div slot="subtitle">Latest page views from visitors</div>
-
-                    <div style={{ padding: '16px' }}>
-                      {recentActivities.map((activity, index) => (
-                        <div
-                          key={index}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                            padding: '12px 0',
-                            borderBottom: index < recentActivities.length - 1
-                              ? '1px solid var(--calcite-ui-border-3)'
-                              : 'none'
-                          }}
-                        >
-                          <div style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            backgroundColor: 'var(--calcite-ui-foreground-2)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0
-                          }}>
-                            <calcite-icon
-                              icon={activity.icon}
-                              scale="s"
-                            ></calcite-icon>
-                          </div>
-                          <div style={{ flex: 1 }}>
-                            <p style={{
-                              margin: '0 0 4px 0',
-                              fontSize: '14px',
-                              color: 'var(--calcite-ui-text-1)'
-                            }}>
-                              {activity.text}
-                            </p>
-                            <p style={{
-                              margin: 0,
-                              fontSize: '12px',
-                              color: 'var(--calcite-ui-text-3)'
-                            }}>
-                              {activity.time} • {activity.device} • {activity.browser} • {activity.location}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </calcite-card>
-                </div>
-              )}
             </>
           )}
         </div>

@@ -9,13 +9,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .admin-page-header h1 {
     margin: 0 0 8px 0;
     font-size: 28px;
     font-weight: 600;
+    color: var(--calcite-ui-text-1);
 }
 
 .admin-page-header p {

@@ -153,18 +153,41 @@ export default function Hero({ setPage }) {
 
             <div className="event-notification-grid">
               <div className="event-notification-image">
-                <img
-                  src={notification.image}
-                  alt={notification.title}
-                  onError={(e) => {
-                    e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
-                  }}
-                />
+                {(() => {
+                  const imageSrc = notification.image
+                    ? (notification.image.startsWith('/uploads/')
+                      ? `${API_URL}${notification.image}`
+                      : notification.image)
+                    : null;
+
+                  return imageSrc ? (
+                    <img
+                      src={imageSrc}
+                      alt={notification.title}
+                      onError={(e) => {
+                        e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
+                      }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      background: 'linear-gradient(135deg, #0079c1 0%, #005a87 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: '48px'
+                    }}>
+                      <calcite-icon icon="calendar" scale="l"></calcite-icon>
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className="event-notification-text">
                 <div className="event-notification-header">
-                  <calcite-icon icon="まつり" scale="s"></calcite-icon>
+                  <calcite-icon icon="calendar" scale="s"></calcite-icon>
                   <span className="event-notification-badge">
                     {notification.badge || 'Upcoming Event'}
                   </span>

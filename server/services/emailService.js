@@ -12,11 +12,26 @@ const transporter = nodemailer.createTransport({
 });
 
 // Send notification to admin when new message received
-exports.sendNewMessageNotification = async (messageData) => {
+exports.sendNewMessageNotification = async (messageData, emailSettings = {}) => {
     try {
+        // Use configured recipient email or fallback to EMAIL_USER
+        const primaryRecipient = emailSettings.recipientEmail || process.env.EMAIL_USER || 'info@gislk.com';
+
+        // Build recipient list starting with primary recipient
+        const recipients = [primaryRecipient];
+
+        // Add CC emails if provided
+        if (emailSettings.ccEmails && Array.isArray(emailSettings.ccEmails)) {
+            emailSettings.ccEmails.forEach(email => {
+                if (email && email.trim() && !recipients.includes(email.trim())) {
+                    recipients.push(email.trim());
+                }
+            });
+        }
+
         const mailOptions = {
             from: `"GIS Solutions Contact" <${process.env.EMAIL_USER}>`,
-            to: process.env.EMAIL_USER,
+            to: recipients.join(', '),
             subject: `New Contact Message from ${messageData.name}`,
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

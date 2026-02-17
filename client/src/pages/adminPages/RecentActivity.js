@@ -183,14 +183,30 @@ export default function RecentActivity() {
   ]);
 
   useEffect(() => {
-    // fetchActivityData();
+    fetchActivityData();
   }, [timeFilter]);
 
   const fetchActivityData = async () => {
     try {
       setLoading(true);
-      const response = await API.get(`/admin/activity?time=${timeFilter}`);
-      // setActivities(response.data.activities);
+      const response = await API.get('/analytics/dashboard-stats'); // Reuse dashboard stats for recent activity
+
+      if (response.data.success && response.data.data.recentActivity) {
+        const mapped = response.data.data.recentActivity.map((act, idx) => ({
+          id: `analytics-${idx}`,
+          type: 'page-view',
+          action: 'visited',
+          description: `Visitor viewed: ${act.page}`,
+          user: act.browser || 'Unknown Browser',
+          timestamp: act.location || 'Unknown Location',
+          time: new Date(act.time).toLocaleTimeString(),
+          icon: 'browser',
+          color: act.device === 'Mobile' ? '#f89927' : '#0079c1',
+          severity: 'info',
+          device: act.device
+        }));
+        setActivities(mapped);
+      }
     } catch (err) {
       console.error('Error fetching activity data:', err);
     } finally {
@@ -216,7 +232,7 @@ export default function RecentActivity() {
   };
 
   const getSeverityColor = (severity) => {
-    switch(severity) {
+    switch (severity) {
       case 'critical': return '#dc3545';
       case 'warning': return '#ffa500';
       case 'info': return '#0079c1';
@@ -228,13 +244,13 @@ export default function RecentActivity() {
     <calcite-shell>
       <AdminNavbar />
       <AdminSidebar />
-      
+
       <div style={{ padding: '24px', height: '100%', overflow: 'auto', background: 'var(--calcite-ui-background)' }}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
           {/* Header */}
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
             alignItems: 'center',
             marginBottom: '24px',
             flexWrap: 'wrap',
@@ -270,8 +286,8 @@ export default function RecentActivity() {
           </div>
 
           {/* Stats Cards */}
-          <div style={{ 
-            display: 'grid', 
+          <div style={{
+            display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
             gap: '16px',
             marginBottom: '24px'
@@ -378,8 +394,8 @@ export default function RecentActivity() {
                             justifyContent: 'center',
                             flexShrink: 0
                           }}>
-                            <calcite-icon 
-                              icon={activity.icon} 
+                            <calcite-icon
+                              icon={activity.icon}
                               scale="s"
                               style={{ color: 'white' }}
                             ></calcite-icon>
@@ -393,10 +409,10 @@ export default function RecentActivity() {
                                   <calcite-chip scale="s" appearance="outline">
                                     {activity.type.charAt(0).toUpperCase() + activity.type.slice(1)}
                                   </calcite-chip>
-                                  <calcite-chip 
-                                    scale="s" 
+                                  <calcite-chip
+                                    scale="s"
                                     appearance="solid"
-                                    style={{ 
+                                    style={{
                                       '--calcite-chip-background-color': activity.color,
                                       color: 'white'
                                     }}
@@ -411,8 +427,8 @@ export default function RecentActivity() {
                                   by {activity.user} • {activity.timestamp}
                                 </div>
                               </div>
-                              <div style={{ 
-                                fontSize: '12px', 
+                              <div style={{
+                                fontSize: '12px',
                                 color: 'var(--calcite-ui-text-3)',
                                 whiteSpace: 'nowrap'
                               }}>
@@ -442,8 +458,8 @@ export default function RecentActivity() {
                     Activity Summary
                   </h3>
                   {activitySummary.map((item, index) => (
-                    <div key={index} style={{ 
-                      display: 'flex', 
+                    <div key={index} style={{
+                      display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       padding: '12px',
@@ -461,8 +477,8 @@ export default function RecentActivity() {
                           alignItems: 'center',
                           justifyContent: 'center'
                         }}>
-                          <calcite-icon 
-                            icon={item.icon} 
+                          <calcite-icon
+                            icon={item.icon}
                             scale="s"
                             style={{ color: 'white' }}
                           ></calcite-icon>

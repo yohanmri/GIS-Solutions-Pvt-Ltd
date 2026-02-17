@@ -112,14 +112,31 @@ export default function NotificationsList() {
                             </div>
 
                             <div className="notification-preview">
-                                <img
-                                    src={notification.image}
-                                    alt={notification.title}
-                                    className="notification-image"
-                                    onError={(e) => {
-                                        e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
-                                    }}
-                                />
+                                {notification.image ? (
+                                    <img
+                                        src={notification.image?.startsWith('/uploads/')
+                                            ? `${API_URL}${notification.image}`
+                                            : notification.image}
+                                        alt={notification.title}
+                                        className="notification-image"
+                                        onError={(e) => {
+                                            e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
+                                        }}
+                                    />
+                                ) : (
+                                    <div style={{
+                                        width: '100%',
+                                        height: '200px',
+                                        background: 'linear-gradient(135deg, #0079c1 0%, #005a87 100%)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        color: 'white',
+                                        fontSize: '48px'
+                                    }}>
+                                        <calcite-icon icon="calendar" scale="l"></calcite-icon>
+                                    </div>
+                                )}
                                 <div className="notification-content">
                                     <div className="notification-badge">{notification.badge}</div>
                                     <h3>{notification.title}</h3>

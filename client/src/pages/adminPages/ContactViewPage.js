@@ -3,68 +3,72 @@ import { useNavigate } from 'react-router-dom';
 import AdminNavbar from '../../components/adminComponents/AdminNavbar';
 import AdminSidebar from '../../components/adminComponents/AdminSidebar';
 import { adminAPI as API } from '../../api/axios';
+
+// Import Calcite Components
 import '@esri/calcite-components/components/calcite-shell';
 import '@esri/calcite-components/components/calcite-button';
-import '@esri/calcite-components/components/calcite-card';
-import '@esri/calcite-components/components/calcite-chip';
+import '@esri/calcite-components/components/calcite-icon';
+import '@esri/calcite-components/components/calcite-loader';
 import '@esri/calcite-components/components/calcite-input';
 import '@esri/calcite-components/components/calcite-select';
 import '@esri/calcite-components/components/calcite-option';
-import '@esri/calcite-components/components/calcite-modal';
-import '@esri/calcite-components/components/calcite-label';
-import '@esri/calcite-components/components/calcite-input-text';
 import '@esri/calcite-components/components/calcite-text-area';
 import '@esri/calcite-components/components/calcite-notice';
-import '@esri/calcite-components/components/calcite-action';
-import '@esri/calcite-components/components/calcite-list';
-import '@esri/calcite-components/components/calcite-list-item';
-import '@esri/calcite-components/components/calcite-loader';
-import '@esri/calcite-components/components/calcite-icon';
+import '@esri/calcite-components/components/calcite-chip';
 
+import '../../styles/adminStyles/contactView.css';
 
 export default function ContactViewPage() {
-  const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
-  const [filterService, setFilterService] = useState('all');
-  const [viewMode, setViewMode] = useState('card');
+  const [activeTab, setActiveTab] = useState('all'); // all, new, read, replied
   const [selectedContact, setSelectedContact] = useState(null);
-  const [detailModalOpen, setDetailModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [replyModalOpen, setReplyModalOpen] = useState(false);
 
-  // Use ref for reply text area
+  // Filters
+  const [filterService, setFilterService] = useState('all');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  // Email Config
+  const [emailConfig, setEmailConfig] = useState(null);
+  const [editingRecipient, setEditingRecipient] = useState(false);
+  const [newRecipient, setNewRecipient] = useState('');
+  const [newCcEmail, setNewCcEmail] = useState('');
+  const [configSaving, setConfigSaving] = useState(false);
+
+  // Reply
+  const [isReplyMode, setIsReplyMode] = useState(false);
   const replyTextAreaRef = useRef(null);
-
-  const services = [
-    'GIS Mapping & Cartography',
-    'Spatial Analysis',
-    'Remote Sensing',
-    'GIS Consulting',
-    'Custom Development',
-    'Data Management',
-    'Training',
-    'Other'
-  ];
 
   useEffect(() => {
     fetchContacts();
+    fetchEmailConfig();
   }, []);
 
   const fetchContacts = async () => {
     try {
       setLoading(true);
       const response = await API.get('/contact/messages');
-      setContacts(response.data || []);
+      const data = response.data || [];
+      setContacts(data);
       setError(null);
     } catch (err) {
       console.error('Error fetching contacts:', err);
-      setError('Failed to load contacts. Please try again.');
+      setError('Failed to load contacts');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchEmailConfig = async () => {
+    try {
+      const response = await API.get('/contact/email-config');
+      setEmailConfig(response.data);
+      setNewRecipient(response.data?.recipientEmail || '');
+    } catch (err) {
+      console.error('Error fetching email config:', err);
     }
   };
 
@@ -74,119 +78,131 @@ export default function ContactViewPage() {
       contact.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       contact.company?.toLowerCase().includes(searchQuery.toLowerCase());
 
-    const matchesStatus = filterStatus === 'all' || contact.status === filterStatus;
+    const matchesStatus = activeTab === 'all' || contact.status === activeTab;
     const matchesService = filterService === 'all' || contact.service === filterService;
 
-    return matchesSearch && matchesStatus && matchesService;
+    // Date filtering
+    let matchesDate = true;
+    if (startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      matchesDate = matchesDate && new Date(contact.createdAt) >= start;
+    }
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      matchesDate = matchesDate && new Date(contact.createdAt) <= end;
+    }
+
+    return matchesSearch && matchesStatus && matchesService && matchesDate;
   });
 
-  const handleViewDetail = (contact) => {
+  const handleSelectMessage = (contact) => {
     setSelectedContact(contact);
-    setDetailModalOpen(true);
+    setIsReplyMode(false);
+    if (contact.status === 'new') {
+      handleMarkAsRead(contact._id);
+    }
   };
 
-  const handleReply = (contact) => {
-    setSelectedContact(contact);
-    // Clear the text area using ref
-    if (replyTextAreaRef.current) {
-      replyTextAreaRef.current.value = '';
-    }
-    setReplyModalOpen(true);
+  const handleMarkAsRead = async (id) => {
+    try {
+      await API.put(`/contact/messages/${id}/status`, { status: 'read' });
+      setContacts(prev => prev.map(c => c._id === id ? { ...c, status: 'read' } : c));
+    } catch (err) { console.error(err); }
   };
 
   const handleSendReply = async () => {
-    // Get value from ref
     const replyContent = replyTextAreaRef.current?.value || '';
-
-    // Validation
-    if (!replyContent || !replyContent.trim()) {
-      alert('Please enter a reply message');
-      return;
-    }
+    if (!replyContent.trim()) return alert('Please enter a reply');
 
     try {
-      console.log('Sending reply:', { messageId: selectedContact._id, replyContent: replyContent.trim() });
-
+      setLoading(true);
       await API.post(`/contact/messages/${selectedContact._id}/reply`, {
         replyContent: replyContent.trim()
       });
-
-      setReplyModalOpen(false);
-      if (replyTextAreaRef.current) {
-        replyTextAreaRef.current.value = '';
-      }
+      setIsReplyMode(false);
       fetchContacts();
       alert('Reply sent successfully!');
     } catch (err) {
-      console.error('Error sending reply:', err);
-      const errorMsg = err.response?.data?.error || err.response?.data?.message || 'Failed to send reply. Please try again.';
-      alert(errorMsg);
+      alert('Failed to send reply');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleMarkAsRead = async (contactId) => {
-    try {
-      await API.put(`/contact/messages/${contactId}/status`, {
-        status: 'read'
-      });
-      fetchContacts();
-    } catch (err) {
-      console.error('Error marking as read:', err);
-    }
-  };
+  const handleDelete = async () => {
+    if (!selectedContact) return;
+    if (!window.confirm('Are you sure you want to delete this inquiry?')) return;
 
-  const handleDelete = (contact) => {
-    setSelectedContact(contact);
-    setDeleteModalOpen(true);
-  };
-
-  const confirmDelete = async () => {
     try {
+      setLoading(true);
       await API.delete(`/contact/messages/${selectedContact._id}`);
       setContacts(contacts.filter(c => c._id !== selectedContact._id));
-      setDeleteModalOpen(false);
       setSelectedContact(null);
     } catch (err) {
-      console.error('Error deleting contact:', err);
-      alert('Failed to delete contact. Please try again.');
+      alert('Failed to delete message');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'new': return 'blue';
-      case 'read': return 'yellow';
-      case 'replied': return 'green';
-      default: return 'gray';
+  const handleUpdateRecipient = async () => {
+    try {
+      console.log('Updating recipient to:', newRecipient);
+      setConfigSaving(true);
+      const res = await API.put('/contact/email-config', { recipientEmail: newRecipient });
+      console.log('Update response:', res.data);
+      setEmailConfig(res.data);
+      setEditingRecipient(false);
+      alert('Recipient email updated successfully');
+    } catch (err) {
+      console.error('Update error:', err);
+      alert('Update failed: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setConfigSaving(false);
     }
   };
 
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'new': return 'まるい-exclamation-mark-triangle';
-      case 'read': return 'check';
-      case 'replied': return 'まるい-check-circle';
-      default: return 'information';
+  const handleAddCc = async () => {
+    if (!newCcEmail || !newCcEmail.trim()) {
+      alert('Please enter a valid email address');
+      return;
+    }
+    try {
+      console.log('Adding CC email:', newCcEmail.trim());
+      setConfigSaving(true);
+      const res = await API.post('/contact/email-config/cc', { email: newCcEmail.trim() });
+      console.log('Add CC response:', res.data);
+      setEmailConfig(res.data);
+      setNewCcEmail('');
+      alert('CC email added successfully');
+    } catch (err) {
+      console.error('Add CC error:', err);
+      alert('Add CC failed: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setConfigSaving(false);
     }
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  const handleRemoveCc = async (email) => {
+    if (!window.confirm(`Remove ${email} from CC list?`)) return;
+    try {
+      setConfigSaving(true);
+      const res = await API.delete(`/contact/email-config/cc/${email}`);
+      setEmailConfig(res.data);
+      alert('CC email removed successfully');
+    } catch (err) {
+      alert('Remove CC failed: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setConfigSaving(false);
+    }
   };
 
   const getStats = () => {
     return {
       total: contacts.length,
       new: contacts.filter(c => c.status === 'new').length,
-      read: contacts.filter(c => c.status === 'read').length,
-      replied: contacts.filter(c => c.status === 'replied').length
     };
   };
 
@@ -197,540 +213,360 @@ export default function ContactViewPage() {
       <AdminNavbar />
       <AdminSidebar />
 
-      <div style={{ padding: '24px', height: '100%', overflow: 'auto' }}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          {/* Header */}
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '24px',
-            flexWrap: 'wrap',
-            gap: '16px'
-          }}>
-            <div>
-              <h1 style={{ margin: '0 0 8px 0', fontSize: '28px', fontWeight: '600' }}>
-                Contact Inquiries
-              </h1>
-              <p style={{ margin: 0, fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>
-                Manage customer inquiries and messages
-              </p>
-            </div>
-            <calcite-button
-              icon-start="refresh"
-              appearance="outline"
-              onClick={fetchContacts}
-            >
-              Refresh
-            </calcite-button>
-          </div>
+      <div className="contact-view-page">
+        <div className="contact-view-container">
+          <div className="contact-app-grid">
 
-          {error && (
-            <calcite-notice open icon="exclamation-mark-triangle" kind="danger" style={{ marginBottom: '20px' }}>
-              <div slot="title">Error</div>
-              <div slot="message">{error}</div>
-            </calcite-notice>
-          )}
+            {/* Column 1: Navigation */}
+            <div className="nav-sidebar">
+              <div className="user-profile-header">
+                <calcite-icon icon="user" scale="m" />
+                <b>admin@gis-solutions.lk</b>
+              </div>
 
-          {/* Stats Cards */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-            marginBottom: '24px'
-          }}>
-            <div style={{
-              padding: '20px',
-              background: 'var(--calcite-ui-foreground-1)',
-              borderRadius: '8px',
-              border: '1px solid var(--calcite-ui-border-2)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <calcite-icon icon="email" scale="l" style={{ color: '#2d5f8d' }} />
-                <div>
-                  <div style={{ fontSize: '24px', fontWeight: '600' }}>{stats.total}</div>
-                  <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>Total Inquiries</div>
+              <div className="folder-list">
+                <div className={`folder-item ${activeTab === 'all' ? 'active' : ''}`} onClick={() => setActiveTab('all')}>
+                  <calcite-icon icon="inbox" scale="s" />
+                  <span>Inbox</span>
+                  <span className="badge-count">{stats.total}</span>
+                </div>
+                <div className={`folder-item ${activeTab === 'new' ? 'active' : ''}`} onClick={() => setActiveTab('new')}>
+                  {/* Using envelope icon for New messages for better compatibility */}
+                  <calcite-icon icon="envelope" scale="s" />
+                  <span>New</span>
+                  {stats.new > 0 && <span className="badge-count" style={{ background: '#f89927' }}>{stats.new}</span>}
+                </div>
+                <div className={`folder-item ${activeTab === 'read' ? 'active' : ''}`} onClick={() => setActiveTab('read')}>
+                  {/* Using circle-check-mark for Read messages */}
+                  <calcite-icon icon="check-circle" scale="s" />
+                  <span>Read</span>
+                </div>
+                <div className={`folder-item ${activeTab === 'replied' ? 'active' : ''}`} onClick={() => setActiveTab('replied')}>
+                  {/* Using sharp-left icon for Replied messages as requested */}
+                  <calcite-icon icon="sharp-left" scale="s" />
+                  <span>Replied</span>
+                </div>
+                <div className="folder-item">
+                  <calcite-icon icon="trash" scale="s" />
+                  <span>Trash</span>
                 </div>
               </div>
-            </div>
 
-            <div style={{
-              padding: '20px',
-              background: 'var(--calcite-ui-foreground-1)',
-              borderRadius: '8px',
-              border: '1px solid var(--calcite-ui-border-2)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <calcite-icon icon="まるい-exclamation-mark-triangle" scale="l" style={{ color: '#0079c1' }} />
-                <div>
-                  <div style={{ fontSize: '24px', fontWeight: '600' }}>{stats.new}</div>
-                  <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>New Messages</div>
-                </div>
-              </div>
-            </div>
+              {/* Email Delivery Settings - Enhanced visibility with clear buttons */}
+              <div className="sidebar-settings">
+                <span className="settings-title">📧 Email Delivery</span>
 
-            <div style={{
-              padding: '20px',
-              background: 'var(--calcite-ui-foreground-1)',
-              borderRadius: '8px',
-              border: '1px solid var(--calcite-ui-border-2)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <calcite-icon icon="check" scale="l" style={{ color: '#f89927' }} />
-                <div>
-                  <div style={{ fontSize: '24px', fontWeight: '600' }}>{stats.read}</div>
-                  <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>Read</div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{
-              padding: '20px',
-              background: 'var(--calcite-ui-foreground-1)',
-              borderRadius: '8px',
-              border: '1px solid var(--calcite-ui-border-2)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <calcite-icon icon="まるい-check-circle" scale="l" style={{ color: '#35ac46' }} />
-                <div>
-                  <div style={{ fontSize: '24px', fontWeight: '600' }}>{stats.replied}</div>
-                  <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>Replied</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div style={{
-            display: 'flex',
-            gap: '12px',
-            marginBottom: '24px',
-            flexWrap: 'wrap',
-            alignItems: 'center'
-          }}>
-            <calcite-input
-              type="text"
-              placeholder="Search contacts..."
-              value={searchQuery}
-              onCalciteInputInput={(e) => setSearchQuery(e.target.value)}
-              icon="search"
-              clearable
-              style={{ flex: '1', minWidth: '250px' }}
-            />
-
-            <calcite-select
-              value={filterStatus}
-              onCalciteSelectChange={(e) => setFilterStatus(e.target.selectedOption.value)}
-              style={{ width: '150px' }}
-            >
-              <calcite-option value="all">All Status</calcite-option>
-              <calcite-option value="new">New</calcite-option>
-              <calcite-option value="read">Read</calcite-option>
-              <calcite-option value="replied">Replied</calcite-option>
-            </calcite-select>
-
-            <calcite-select
-              value={filterService}
-              onCalciteSelectChange={(e) => setFilterService(e.target.selectedOption.value)}
-              style={{ width: '200px' }}
-            >
-              <calcite-option value="all">All Services</calcite-option>
-              {services.map(service => (
-                <calcite-option key={service} value={service}>
-                  {service}
-                </calcite-option>
-              ))}
-            </calcite-select>
-
-            <div style={{ display: 'flex', gap: '4px', marginLeft: 'auto' }}>
-              <calcite-action
-                text="Card View"
-                icon="apps"
-                active={viewMode === 'card'}
-                onClick={() => setViewMode('card')}
-              ></calcite-action>
-              <calcite-action
-                text="List View"
-                icon="list"
-                active={viewMode === 'list'}
-                onClick={() => setViewMode('list')}
-              ></calcite-action>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: '16px' }}>
-            <calcite-chip>{filteredContacts.length} inquiries</calcite-chip>
-          </div>
-
-          {loading && (
-            <div style={{ textAlign: 'center', padding: '40px' }}>
-              <calcite-loader scale="l"></calcite-loader>
-              <p style={{ marginTop: '16px', color: 'var(--calcite-ui-text-3)' }}>
-                Loading contacts...
-              </p>
-            </div>
-          )}
-
-          {/* Card View */}
-          {!loading && viewMode === 'card' && (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '20px'
-            }}>
-              {filteredContacts.map(contact => (
-                <calcite-card key={contact._id}>
-                  <div slot="header-start" style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <calcite-chip
-                      scale="l"
-                      appearance="solid"
-                      kind={getStatusColor(contact.status)}
-                    >
-                      {contact.status || 'new'}
-                    </calcite-chip>
-                    {contact.service && (
-                      <calcite-chip scale="l" appearance="outline" icon="apps">
-                        {contact.service}
-                      </calcite-chip>
-                    )}
-                  </div>
-
-                  <span slot="heading">{contact.name}</span>
-                  <span slot="description">{contact.email}</span>
-
-                  <div style={{ marginTop: '12px', marginBottom: '12px' }}>
-                    {contact.company && (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        marginBottom: '8px',
-                        fontSize: '14px'
-                      }}>
-                        <calcite-icon icon="organization" scale="s" />
-                        <span>{contact.company}</span>
+                <div style={{ marginBottom: '20px' }}>
+                  <label style={{ fontSize: '12px', color: '#0079c1', fontWeight: '700', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Primary Recipient
+                  </label>
+                  {editingRecipient ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '6px' }}>
+                      <input
+                        type="email"
+                        value={newRecipient}
+                        onChange={e => setNewRecipient(e.target.value)}
+                        placeholder="admin@example.com"
+                        style={{
+                          padding: '8px 12px',
+                          border: '2px solid #0079c1',
+                          borderRadius: '4px',
+                          fontSize: '13px',
+                          width: '100%'
+                        }}
+                      />
+                      <div style={{ display: 'flex', gap: '6px' }}>
+                        <button
+                          onClick={handleUpdateRecipient}
+                          disabled={configSaving}
+                          style={{
+                            flex: 1,
+                            padding: '8px 12px',
+                            background: '#0079c1',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: configSaving ? 'not-allowed' : 'pointer',
+                            opacity: configSaving ? 0.6 : 1
+                          }}
+                        >
+                          {configSaving ? 'Saving...' : '✓ Save'}
+                        </button>
+                        <button
+                          onClick={() => { setEditingRecipient(false); setNewRecipient(emailConfig?.recipientEmail || ''); }}
+                          style={{
+                            flex: 1,
+                            padding: '8px 12px',
+                            background: '#fff',
+                            color: '#666',
+                            border: '2px solid #ddd',
+                            borderRadius: '4px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          ✕ Cancel
+                        </button>
                       </div>
-                    )}
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      fontSize: '13px',
-                      color: 'var(--calcite-ui-text-3)'
-                    }}>
-                      <calcite-icon icon="clock" scale="s" />
-                      <span>{formatDate(contact.createdAt || Date.now())}</span>
                     </div>
-                  </div>
-
-                  <div style={{
-                    padding: '12px',
-                    background: 'var(--calcite-ui-foreground-2)',
-                    borderRadius: '4px',
-                    fontSize: '14px',
-                    maxHeight: '80px',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis'
-                  }}>
-                    {contact.message?.substring(0, 150)}
-                    {contact.message?.length > 150 && '...'}
-                  </div>
-
-                  <div slot="footer-end" style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                    <calcite-button
-                      appearance="outline"
-                      icon-start="まるい-information"
-                      scale="s"
-                      onClick={() => handleViewDetail(contact)}
-                    >
-                      View
-                    </calcite-button>
-                    <calcite-button
-                      appearance="outline"
-                      icon-start="email"
-                      scale="s"
-                      onClick={() => handleReply(contact)}
-                    >
-                      Reply
-                    </calcite-button>
-                    <calcite-button
-                      appearance="outline"
-                      kind="danger"
-                      icon-start="trash"
-                      scale="s"
-                      onClick={() => handleDelete(contact)}
-                    >
-                      Delete
-                    </calcite-button>
-                  </div>
-                </calcite-card>
-              ))}
-            </div>
-          )}
-
-          {/* List View */}
-          {!loading && viewMode === 'list' && (
-            <calcite-list>
-              {filteredContacts.map(contact => (
-                <calcite-list-item
-                  key={contact._id}
-                  label={contact.name}
-                  description={`${contact.email} • ${contact.service || 'No service specified'}`}
-                  value={contact._id}
-                >
-                  <calcite-chip
-                    slot="content-start"
-                    scale="l"
-                    kind={getStatusColor(contact.status)}
-                  >
-                    {contact.status || 'new'}
-                  </calcite-chip>
-
-                  <div slot="content-end" style={{
-                    display: 'flex',
-                    gap: '8px',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '13px',
-                      color: 'var(--calcite-ui-text-3)',
-                      marginRight: '12px'
-                    }}>
-                      {formatDate(contact.createdAt || Date.now())}
-                    </span>
-                    <calcite-button
-                      appearance="outline"
-                      icon-start="まるい-information"
-                      scale="s"
-                      onClick={() => handleViewDetail(contact)}
-                    >
-                      View
-                    </calcite-button>
-                    <calcite-button
-                      appearance="outline"
-                      icon-start="email"
-                      scale="s"
-                      onClick={() => handleReply(contact)}
-                    >
-                      Reply
-                    </calcite-button>
-                    <calcite-button
-                      appearance="outline"
-                      kind="danger"
-                      icon-start="trash"
-                      scale="s"
-                      onClick={() => handleDelete(contact)}
-                    >
-                      Delete
-                    </calcite-button>
-                  </div>
-                </calcite-list-item>
-              ))}
-            </calcite-list>
-          )}
-
-          {!loading && filteredContacts.length === 0 && (
-            <calcite-notice open icon="exclamation-mark-triangle" kind="warning">
-              <div slot="title">No contacts found</div>
-              <div slot="message">Try adjusting your filters or search terms</div>
-            </calcite-notice>
-          )}
-        </div>
-      </div>
-
-      {/* Detail Modal */}
-      <calcite-modal
-        open={detailModalOpen}
-        onCalciteModalClose={() => setDetailModalOpen(false)}
-        width-scale="m"
-      >
-        <div slot="header">Contact Details</div>
-        <div slot="content" style={{ padding: '20px' }}>
-          {selectedContact && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                paddingBottom: '16px',
-                borderBottom: '1px solid var(--calcite-ui-border-2)'
-              }}>
-                <div>
-                  <h3 style={{ margin: '0 0 8px 0' }}>{selectedContact.name}</h3>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <calcite-chip scale="l" kind={getStatusColor(selectedContact.status)}>
-                      {selectedContact.status || 'new'}
-                    </calcite-chip>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <div style={{
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: 'var(--calcite-ui-text-3)',
-                  marginBottom: '8px'
-                }}>
-                  CONTACT INFORMATION
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <calcite-icon icon="email" scale="s" />
-                    <a href={`mailto:${selectedContact.email}`} style={{ color: '#2d5f8d' }}>
-                      {selectedContact.email}
-                    </a>
-                  </div>
-                  {selectedContact.company && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <calcite-icon icon="organization" scale="s" />
-                      <span>{selectedContact.company}</span>
+                  ) : (
+                    <div style={{ marginTop: '6px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#fff', padding: '10px 12px', borderRadius: '6px', border: '2px solid #e0e0e0', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                        <span style={{ fontSize: '13px', color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, fontWeight: '500' }}>{emailConfig?.recipientEmail || 'info@gislk.com'}</span>
+                      </div>
+                      <button
+                        onClick={() => setEditingRecipient(true)}
+                        style={{
+                          width: '100%',
+                          marginTop: '6px',
+                          padding: '8px 12px',
+                          background: '#f0f7ff',
+                          color: '#0079c1',
+                          border: '2px solid #0079c1',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: '600',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        ✏️ Edit Primary Email
+                      </button>
                     </div>
                   )}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <calcite-icon icon="clock" scale="s" />
-                    <span>{formatDate(selectedContact.createdAt || Date.now())}</span>
+                </div>
+
+                <div>
+                  <label style={{ fontSize: '12px', color: '#0079c1', fontWeight: '700', display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    CC Recipients
+                  </label>
+                  <div style={{ maxHeight: '140px', overflowY: 'auto', margin: '6px 0 12px 0', background: '#f8f9fa', padding: '8px', borderRadius: '6px', border: '1px solid #e0e0e0' }}>
+                    {emailConfig?.ccEmails?.map(email => (
+                      <div key={email} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff', fontSize: '12px', padding: '8px 10px', border: '1px solid #e0e0e0', marginBottom: '6px', borderRadius: '4px', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', flex: 1, fontWeight: '500' }}>{email}</span>
+                        <button
+                          onClick={() => handleRemoveCc(email)}
+                          style={{
+                            padding: '4px 8px',
+                            background: '#fff',
+                            color: '#d32f2f',
+                            border: '1px solid #d32f2f',
+                            borderRadius: '3px',
+                            fontSize: '11px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            marginLeft: '8px'
+                          }}
+                        >
+                          ✕ Remove
+                        </button>
+                      </div>
+                    ))}
+                    {(!emailConfig?.ccEmails || emailConfig.ccEmails.length === 0) && (
+                      <span style={{ fontSize: '12px', color: '#999', fontStyle: 'italic', display: 'block', padding: '12px 8px', textAlign: 'center' }}>No CC recipients added</span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '10px' }}>
+                    <input
+                      type="email"
+                      placeholder="Enter CC email address..."
+                      value={newCcEmail}
+                      onChange={e => setNewCcEmail(e.target.value)}
+                      onKeyPress={(e) => { if (e.key === 'Enter') handleAddCc(); }}
+                      style={{
+                        padding: '8px 12px',
+                        border: '2px solid #ddd',
+                        borderRadius: '4px',
+                        fontSize: '13px',
+                        width: '100%'
+                      }}
+                    />
+                    <button
+                      onClick={handleAddCc}
+                      disabled={configSaving}
+                      style={{
+                        padding: '8px 12px',
+                        background: '#0079c1',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                        cursor: configSaving ? 'not-allowed' : 'pointer',
+                        opacity: configSaving ? 0.6 : 1
+                      }}
+                    >
+                      {configSaving ? 'Adding...' : '+ Add CC Email'}
+                    </button>
                   </div>
                 </div>
               </div>
+            </div>
 
-              {selectedContact.service && (
-                <div>
-                  <div style={{
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    color: 'var(--calcite-ui-text-3)',
-                    marginBottom: '8px'
-                  }}>
-                    SERVICE INTERESTED IN
+            {/* Column 2: Message List */}
+            <div className="message-list-column">
+              <div className="list-toolbar">
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+                  <div style={{ flex: 1 }}>
+                    <div className="search-box-wrapper" style={{ border: '1px solid #ccc' }}>
+                      <calcite-icon icon="search" scale="s" />
+                      <input
+                        type="text"
+                        className="search-input-minimal"
+                        placeholder="Search messages..."
+                        value={searchQuery}
+                        onChange={e => setSearchQuery(e.target.value)}
+                      />
+                    </div>
                   </div>
-                  <calcite-chip icon="apps">
-                    {selectedContact.service}
-                  </calcite-chip>
+                  <button className="toolbar-button" style={{ minWidth: '40px', padding: '6px 12px' }} onClick={fetchContacts}>
+                    <calcite-icon icon="refresh" scale="s" />
+                    <span>Refresh</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Scroll area with filters */}
+              <div className="list-scroll-area">
+                <div style={{ padding: '12px 16px', background: '#fbfbfb', borderBottom: '1px solid #f0f0f0' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                    <calcite-select scale="s" value={filterService} onCalciteSelectChange={e => setFilterService(e.target.selectedOption.value)} style={{ flex: 1 }}>
+                      <calcite-option value="all">All Services</calcite-option>
+                      <calcite-option value="GIS Mapping & Cartography">GIS Mapping</calcite-option>
+                      <calcite-option value="Spatial Analysis">Spatial Analysis</calcite-option>
+                      <calcite-option value="Remote Sensing">Remote Sensing</calcite-option>
+                    </calcite-select>
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '4px', alignItems: 'center', marginBottom: '8px' }}>
+                    <input type="date" style={{ fontSize: '11px', border: '1px solid #ccc', borderRadius: '4px', padding: '4px', flex: 1 }} value={startDate} onChange={e => setStartDate(e.target.value)} />
+                    <span style={{ fontSize: '11px' }}>to</span>
+                    <input type="date" style={{ fontSize: '11px', border: '1px solid #ccc', borderRadius: '4px', padding: '4px', flex: 1 }} value={endDate} onChange={e => setEndDate(e.target.value)} />
+                  </div>
+
+                  <div className="tiny-stats">
+                    <span className="tiny-stat-item">Total: <b>{stats.total}</b></span>
+                    <span className="tiny-stat-item">New: <b style={{ color: stats.new > 0 ? '#f89927' : 'inherit' }}>{stats.new}</b></span>
+                  </div>
+                </div>
+
+                {loading && <div style={{ padding: '20px', textAlign: 'center' }}><calcite-loader active scale="m"></calcite-loader></div>}
+                {!loading && filteredContacts.map(contact => (
+                  <div
+                    key={contact._id}
+                    className={`message-item ${selectedContact?._id === contact._id ? 'selected' : ''} ${contact.status === 'new' ? 'unread' : ''}`}
+                    onClick={() => handleSelectMessage(contact)}
+                  >
+                    <div className="message-item-top">
+                      <span className="message-sender">{contact.name}</span>
+                      <span>{new Date(contact.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div className="message-subject">
+                      {contact.status === 'new' && <span className="unread-dot"></span>}
+                      {contact.service || 'General Inquiry'}
+                    </div>
+                    <div className="message-preview">
+                      {contact.message}
+                    </div>
+                  </div>
+                ))}
+                {!loading && filteredContacts.length === 0 && (
+                  <div style={{ padding: '40px', textAlign: 'center', color: '#999', fontSize: '13px' }}>
+                    No messages found
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Column 3: Detail View */}
+            <div className="detail-column">
+              {selectedContact ? (
+                <>
+                  <div className="detail-toolbar">
+                    <button className="toolbar-button" onClick={() => setIsReplyMode(true)}>
+                      <calcite-icon icon="chevron-left" scale="s" />
+                      <span>Reply</span>
+                    </button>
+                    <button className="toolbar-button" onClick={() => { setIsReplyMode(true); if (replyTextAreaRef.current) replyTextAreaRef.current.value = 'Reply All: '; }}>
+                      <calcite-icon icon="chevrons-left" scale="s" />
+                      <span>Reply all</span>
+                    </button>
+                    <button className="toolbar-button" onClick={handleDelete}>
+                      <calcite-icon icon="trash" scale="s" />
+                      <span>Delete</span>
+                    </button>
+                  </div>
+
+                  <div className="detail-content">
+                    <div className="message-header">
+                      <h2 className="message-title">{selectedContact.service || 'Inquiry regarding GIS Solutions'}</h2>
+                      <div className="sender-info-row">
+                        <div className="sender-avatar" style={{ border: '1px solid #ccc' }}>
+                          <calcite-icon icon="user" scale="l" />
+                        </div>
+                        <div className="sender-text">
+                          <h4 style={{ color: '#1a1a1a' }}>{selectedContact.name}</h4>
+                          <p>From: <span style={{ color: '#0079c1' }}>{selectedContact.email}</span> • {new Date(selectedContact.createdAt).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="message-body" style={{ color: '#333' }}>
+                      {selectedContact.message}
+                      {selectedContact.company && (
+                        <div style={{ marginTop: '24px', fontSize: '14px', color: '#666', borderTop: '1px solid #eee', paddingTop: '12px' }}>
+                          <b>Company:</b> {selectedContact.company}
+                        </div>
+                      )}
+                    </div>
+
+                    {selectedContact.replies && selectedContact.replies.length > 0 && (
+                      <div style={{ marginTop: '40px', borderTop: '2px solid #eee', paddingTop: '20px' }}>
+                        <h4 style={{ fontSize: '15px', marginBottom: '16px', fontWeight: 'bold' }}>Communication History</h4>
+                        {selectedContact.replies.map((reply, idx) => (
+                          <div key={idx} style={{ background: '#f5f5f5', padding: '16px', borderRadius: '8px', marginBottom: '16px', borderLeft: '4px solid #35ac46' }}>
+                            <div style={{ fontSize: '11px', color: '#777', marginBottom: '8px', display: 'flex', justifyContent: 'space-between' }}>
+                              <span>Sent by Admin</span>
+                              <span>{new Date(reply.repliedAt).toLocaleString()}</span>
+                            </div>
+                            <div style={{ fontSize: '14px', lineHeight: '1.5', color: '#222' }}>{reply.replyContent}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {isReplyMode && (
+                      <div className="reply-comp-box" style={{ marginTop: '32px' }}>
+                        <calcite-label style={{ fontWeight: 'bold' }}>
+                          Compose Reply to {selectedContact.email}
+                          <calcite-text-area
+                            ref={replyTextAreaRef}
+                            rows="8"
+                            placeholder="Type your reply here..."
+                            style={{ marginTop: '8px', width: '100%', minHeight: '150px', resize: 'vertical' }}
+                          />
+                        </calcite-label>
+                        <div style={{ display: 'flex', gap: '8px', marginTop: '16px', flexWrap: 'wrap' }}>
+                          <calcite-button scale="m" onClick={handleSendReply} loading={loading}>Send Reply</calcite-button>
+                          <calcite-button scale="m" appearance="outline" onClick={() => setIsReplyMode(false)}>Cancel</calcite-button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="empty-detail">
+                  <calcite-icon icon="envelope" scale="l" style={{ opacity: 0.1, width: '120px', height: '120px' }} />
+                  <p style={{ marginTop: '16px', fontSize: '16px' }}>Select a message to view its contents</p>
                 </div>
               )}
+            </div>
 
-              <div>
-                <div style={{
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  color: 'var(--calcite-ui-text-3)',
-                  marginBottom: '8px'
-                }}>
-                  MESSAGE
-                </div>
-                <div style={{
-                  padding: '16px',
-                  background: 'var(--calcite-ui-foreground-2)',
-                  borderRadius: '4px',
-                  lineHeight: '1.6'
-                }}>
-                  {selectedContact.message}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        <calcite-button
-          slot="primary"
-          kind="brand"
-          icon-start="email"
-          onClick={() => {
-            setDetailModalOpen(false);
-            handleReply(selectedContact);
-          }}
-        >
-          Reply to Inquiry
-        </calcite-button>
-        <calcite-button
-          slot="secondary"
-          appearance="outline"
-          icon-start="check"
-          onClick={() => {
-            handleMarkAsRead(selectedContact._id);
-            setDetailModalOpen(false);
-          }}
-        >
-          Mark as Read
-        </calcite-button>
-      </calcite-modal>
-
-      {/* Reply Modal */}
-      <calcite-modal
-        open={replyModalOpen}
-        onCalciteModalClose={() => setReplyModalOpen(false)}
-        width-scale="m"
-      >
-        <div slot="header">Reply to {selectedContact?.name}</div>
-        <div slot="content" style={{ padding: '20px' }}>
-          <div style={{ marginBottom: '16px' }}>
-            <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)', marginBottom: '8px' }}>
-              To: {selectedContact?.email}
-            </div>
-            <div style={{ fontSize: '14px', color: 'var(--calcite-ui-text-3)' }}>
-              Re: {selectedContact?.service || 'General Inquiry'}
-            </div>
           </div>
-
-          <calcite-label>
-            Your Reply Message *
-            <calcite-text-area
-              ref={replyTextAreaRef}
-              rows="8"
-              placeholder="Type your reply here..."
-            />
-          </calcite-label>
         </div>
-        <calcite-button
-          slot="primary"
-          kind="brand"
-          icon-start="send"
-          onClick={handleSendReply}
-        >
-          Send Reply
-        </calcite-button>
-        <calcite-button
-          slot="secondary"
-          appearance="outline"
-          icon-start="x"
-          onClick={() => setReplyModalOpen(false)}
-        >
-          Cancel
-        </calcite-button>
-      </calcite-modal>
-
-      {/* Delete Confirmation Modal */}
-      <calcite-modal
-        open={deleteModalOpen}
-        onCalciteModalClose={() => setDeleteModalOpen(false)}
-        width-scale="s"
-      >
-        <div slot="header">Delete Contact</div>
-        <div slot="content" style={{ padding: '20px' }}>
-          <calcite-notice open icon="exclamation-mark-triangle" kind="danger">
-            <div slot="title">Are you sure?</div>
-            <div slot="message">
-              This will permanently delete the inquiry from "{selectedContact?.name}". This action cannot be undone.
-            </div>
-          </calcite-notice>
-        </div>
-        <calcite-button
-          slot="primary"
-          kind="danger"
-          icon-start="trash"
-          onClick={confirmDelete}
-        >
-          Delete Contact
-        </calcite-button>
-        <calcite-button
-          slot="secondary"
-          appearance="outline"
-          icon-start="x"
-          onClick={() => setDeleteModalOpen(false)}
-        >
-          Cancel
-        </calcite-button>
-      </calcite-modal>
+      </div>
     </calcite-shell>
   );
 }

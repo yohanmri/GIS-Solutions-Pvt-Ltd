@@ -1,0 +1,240 @@
+[
+    {
+        "id": "climate",
+        "title": "Climate & Environmental Solutions",
+        "shortTitle": "Climate & Environment",
+        "navImage": "https://trainingassets.esri.com/assets/banner/6983b8ff801b6cc1926bd41e/gis-for-climate-action_mooc-1600.png",
+        "heroImage": "https://trainingassets.esri.com/assets/banner/6983b8ff801b6cc1926bd41e/gis-for-climate-action_mooc-1600.png",
+        "challenge": "Organizations struggle to monitor environmental change, carbon emissions, and land-use impacts accurately due to fragmented and non-spatial data systems.",
+        "solution": "We deliver GIS-powered climate and environmental monitoring platforms that integrate spatial data, analytics, and dashboards to support environmental compliance and sustainable decision-making.",
+        "subSections": [
+            {
+                "title": "Climate & Environmental Monitoring Solutions",
+                "problem": "Limited visibility into environmental change and climate impact.",
+                "capabilities": [
+                    "Land-use and land-cover change analysis",
+                    "Spatial carbon and emission tracking",
+                    "Map-based monitoring dashboards",
+                    "Compliance-ready reporting (MRV, sustainability frameworks)"
+                ],
+                "idealFor": [
+                    "Government agencies",
+                    "Environmental projects",
+                    "Forestry & agriculture programs",
+                    "Climate-focused initiatives"
+                ]
+            },
+            {
+                "title": "Environmental Impact & Compliance Solutions",
+                "problem": "Environmental Impact Assessments (EIA) and compliance reporting are manual, slow, and difficult to validate spatially.",
+                "capabilities": [
+                    "Impact zone and buffer analysis",
+                    "Environmental monitoring dashboards",
+                    "Automated spatial reporting for compliance"
+                ],
+                "idealFor": [
+                    "Regulatory authorities",
+                    "Development projects",
+                    "Infrastructure and energy initiatives"
+                ]
+            },
+            {
+                "title": "Agriculture & Plantation Intelligence Solutions",
+                "problem": "Plantations lack spatial visibility into productivity, disease spread, and land performance.",
+                "capabilities": [
+                    "Field- and tree-level GIS management",
+                    "Yield prediction and trend analysis",
+                    "Disease and risk mapping",
+                    "Harvest and resource planning"
+                ],
+                "idealFor": [
+                    "Plantation management (tea, coconut, rubber)",
+                    "Agricultural programs",
+                    "Sustainability initiatives"
+                ]
+            }
+        ],
+        "outcome": "Improved environmental governance, accurate reporting, and data-driven sustainability planning.",
+        "cta": "Request a Climate & Environmental GIS Consultation"
+    },
+    {
+        "id": "incident",
+        "title": "Incident & Operations Solutions",
+        "shortTitle": "Incident & Operations",
+        "navImage": "https://trainingassets.esri.com/assets/banner/6983b7cc161fc09423302d13/march-2026-lts-web-banner.jpg",
+        "heroImage": "https://trainingassets.esri.com/assets/banner/6983b7cc161fc09423302d13/march-2026-lts-web-banner.jpg",
+        "challenge": "Incidents are often managed without spatial intelligence, leading to delayed response, poor coordination, and limited insight into operational trends.",
+        "solution": "We build location-based incident and operations management systems that provide real-time situational awareness and operational intelligence.",
+        "subSections": [
+            {
+                "title": "Spatial Incident & Operations Management Solutions",
+                "capabilities": [
+                    "Real-time incident mapping",
+                    "Hotspot and trend analysis",
+                    "Incident categorization and prioritization",
+                    "Historical incident analytics"
+                ]
+            },
+            {
+                "title": "Resource & Response Coordination Solutions",
+                "capabilities": [
+                    "Resource deployment visualization",
+                    "Operational coverage analysis",
+                    "Response time optimization"
+                ]
+            },
+            {
+                "title": "Emergency & Disaster Management Solutions",
+                "capabilities": [
+                    "Multi-agency coordination dashboards",
+                    "Risk and vulnerability overlays",
+                    "Situation awareness mapping"
+                ],
+                "idealFor": [
+                    "Disaster management authorities",
+                    "Utilities and infrastructure operators",
+                    "Local authorities",
+                    "Emergency response organizations"
+                ]
+            }
+        ],
+        "outcome": "Faster response times, improved coordination, and better operational decisions.",
+        "cta": "Discuss an Incident Management Solution"
+    },
+    {
+        "id": "weather",
+        "title": "Weather & Risk Intelligence Solutions",
+        "shortTitle": "Weather & Risk",
+        "navImage": "https://trainingassets.esri.com/assets/banner/6983b82845b6c08210fcc584/span-banner.jpg",
+        "heroImage": "https://trainingassets.esri.com/assets/banner/6983b82845b6c08210fcc584/span-banner.jpg",
+        "challenge": "Weather and risk data exist, but without spatial visualization they are difficult to interpret and act upon.",
+        "solution": "We develop GIS-enabled weather and risk intelligence platforms that transform complex meteorological data into actionable spatial insights.",
+        "subSections": [
+            {
+                "title": "Geospatial Weather Visualization Platforms",
+                "capabilities": [
+                    "Layer-based weather visualization",
+                    "Time-based weather analysis",
+                    "Interactive map dashboards"
+                ]
+            },
+            {
+                "title": "Risk & Hazard Intelligence Solutions",
+                "capabilities": [
+                    "Flood, landslide, and hazard zoning",
+                    "Exposure and vulnerability analysis",
+                    "Scenario-based risk mapping"
+                ]
+            },
+            {
+                "title": "Early Warning & Public Information Systems",
+                "capabilities": [
+                    "Forecast overlays and alerts",
+                    "Public-facing dashboards",
+                    "Internal operational views"
+                ],
+                "idealFor": [
+                    "Meteorological agencies",
+                    "Disaster risk reduction organizations",
+                    "Infrastructure planners",
+                    "Public information services"
+                ]
+            }
+        ],
+        "outcome": "Improved preparedness, clearer risk communication, and informed planning.",
+        "cta": "Explore Weather & Risk Intelligence Platforms"
+    },
+    {
+        "id": "infrastructure",
+        "title": "Infrastructure & Urban Solutions",
+        "shortTitle": "Infrastructure & Urban",
+        "navImage": "https://trainingassets.esri.com/assets/banner/69617ee06c797c1db206ee2a/eapp2025-banner.jpg",
+        "heroImage": "https://trainingassets.esri.com/assets/banner/69617ee06c797c1db206ee2a/eapp2025-banner.jpg",
+        "challenge": "Infrastructure, land, and urban data are scattered across departments, limiting effective planning and management.",
+        "solution": "We deliver integrated infrastructure and urban GIS platforms that unify assets, land, services, and risks into a single decision-support environment.",
+        "subSections": [
+            {
+                "title": "Asset & Infrastructure Intelligence Solutions",
+                "useCases": [
+                    "Roads, bridges, pipelines",
+                    "Utilities and telecom infrastructure"
+                ],
+                "capabilities": [
+                    "Spatial asset inventories",
+                    "Condition and lifecycle mapping",
+                    "Risk and exposure analysis"
+                ]
+            },
+            {
+                "title": "Land & Property Intelligence Solutions",
+                "capabilities": [
+                    "Parcel mapping and ownership layers",
+                    "Zoning and planning visualization",
+                    "Land-use change detection"
+                ]
+            },
+            {
+                "title": "Smart City & Local Authority Dashboards",
+                "capabilities": [
+                    "Multi-department GIS dashboards",
+                    "Complaints, permits, and services mapping",
+                    "Integrated urban analytics"
+                ]
+            }
+        ],
+        "outcome": "Smarter infrastructure management, coordinated urban planning, and resilient development.",
+        "cta": "Plan an Infrastructure GIS Solution"
+    },
+    {
+        "id": "case-management",
+        "title": "Case Management Solutions",
+        "shortTitle": "Case Management",
+        "navImage": "/images/solutions/case-nav.jpg",
+        "heroImage": "/images/solutions/case-hero.jpg",
+        "challenge": "Organizations often deal with fragmented, manual, or non-spatial case workflows that slow down response times and reduce accountability. Without geospatial context, cases cannot be prioritized effectively—leading to inefficiencies and operational blind spots.",
+        "solution": "Our GIS-powered Case Management System provides a centralized platform for logging, tracking, prioritizing, and resolving cases, enriched with real-time mapping and spatial analytics. It transforms case handling into a transparent, coordinated, and data-driven process.",
+        "subSections": [
+            {
+                "title": "Case Management & Geospatial Tracking Solutions",
+                "problem": "Cases are logged inconsistently, making routing, monitoring, and follow-up difficult.",
+                "capabilities": [
+                    "Real-time case mapping and geospatial assignment",
+                    "Automated workflows, SLAs, dashboards, and notifications",
+                    "Multi-channel case intake (mobile, web, internal)",
+                    "Role-based review and approval workflows"
+                ],
+                "idealFor": [
+                    "Local authorities",
+                    "Utilities & public services",
+                    "Regulatory bodies",
+                    "Customer service & field operations teams"
+                ]
+            },
+            {
+                "title": "Context-Rich Case Intelligence & Integration Solutions",
+                "problem": "Case handlers lack contextual information such as location risks, environmental conditions, or nearby incidents.",
+                "capabilities": [
+                    "Integration with incident, environmental, or urban datasets",
+                    "GIS overlays for hotspots, historical patterns, and sensitive zones",
+                    "Automated prioritization based on spatial context"
+                ]
+            },
+            {
+                "title": "Accountability, Reporting & Compliance Solutions",
+                "problem": "Organizations need auditability, reporting, and performance monitoring across teams and regions.",
+                "capabilities": [
+                    "End-to-end audit trails",
+                    "SLA monitoring and escalation",
+                    "Case progress analytics",
+                    "Exportable compliance and operational reports"
+                ]
+            },
+            {
+                "title": "Outcome",
+                "description": "Faster resolutions, improved accountability, and smarter oversight powered by spatial intelligence."
+            }
+        ],
+        "outcome": "Faster resolutions, improved accountability, and smarter oversight powered by spatial intelligence.",
+        "cta": "Demo our Case Management System"
+    }
+]

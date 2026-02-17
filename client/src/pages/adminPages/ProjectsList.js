@@ -100,7 +100,7 @@ export default function ProjectsList() {
             <div className="admin-page">
                 <div className="admin-page-header">
                     <div>
-                        <h1>App Projects</h1>
+                        <h1>All Projects</h1>
                         <p>Manage your success stories and project showcases</p>
                     </div>
                     <calcite-button

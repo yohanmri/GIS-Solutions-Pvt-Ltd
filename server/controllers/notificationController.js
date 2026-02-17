@@ -51,6 +51,33 @@ exports.getNotificationById = async (req, res) => {
 // Create notification
 exports.createNotification = async (req, res) => {
     try {
+        // Parse JSON fields if they were sent as strings (from FormData)
+        const parsedBody = { ...req.body };
+
+        // Handle buttons - check if it's already an object or needs parsing
+        if (parsedBody.buttons) {
+            if (typeof parsedBody.buttons === 'string') {
+                try {
+                    parsedBody.buttons = JSON.parse(parsedBody.buttons);
+                } catch (e) {
+                    console.error('Error parsing buttons:', e);
+                    parsedBody.buttons = [];
+                }
+            }
+        }
+
+        // Handle displayTimes - check if it's already an array or needs parsing
+        if (parsedBody.displayTimes) {
+            if (typeof parsedBody.displayTimes === 'string') {
+                try {
+                    parsedBody.displayTimes = JSON.parse(parsedBody.displayTimes);
+                } catch (e) {
+                    console.error('Error parsing displayTimes:', e);
+                    parsedBody.displayTimes = [];
+                }
+            }
+        }
+
         // Map serviceType to serviceModel
         const serviceModelMap = {
             'professional': 'ProfessionalService',
@@ -58,15 +85,24 @@ exports.createNotification = async (req, res) => {
         };
 
         const notificationData = {
-            ...req.body,
-            serviceModel: serviceModelMap[req.body.serviceType],
-            createdBy: req.admin._id
+            ...parsedBody,
+            serviceModel: serviceModelMap[parsedBody.serviceType]
         };
 
+        // Handle image upload
+        if (req.file) {
+            notificationData.image = `/uploads/${req.file.filename}`;
+        }
+
+        // Only add createdBy if admin is authenticated
+        if (req.admin && req.admin._id) {
+            notificationData.createdBy = req.admin._id;
+        }
+
         // If serviceType is event, set eventId and navigateTo
-        if (req.body.serviceType === 'event' && req.body.serviceId) {
-            notificationData.eventId = req.body.serviceId;
-            notificationData.navigateTo = `/services?event=${req.body.serviceId}`;
+        if (parsedBody.serviceType === 'event' && parsedBody.serviceId) {
+            notificationData.eventId = parsedBody.serviceId;
+            notificationData.navigateTo = `/services?event=${parsedBody.serviceId}`;
         }
 
         const notification = new Notification(notificationData);
@@ -74,6 +110,7 @@ exports.createNotification = async (req, res) => {
 
         res.status(201).json(notification);
     } catch (error) {
+        console.error('Error creating notification:', error);
         res.status(400).json({ message: 'Error creating notification', error: error.message });
     }
 };
@@ -81,24 +118,56 @@ exports.createNotification = async (req, res) => {
 // Update notification
 exports.updateNotification = async (req, res) => {
     try {
+        // Parse JSON fields if they were sent as strings (from FormData)
+        const parsedBody = { ...req.body };
+
+        // Handle buttons - check if it's already an object or needs parsing
+        if (parsedBody.buttons) {
+            if (typeof parsedBody.buttons === 'string') {
+                try {
+                    parsedBody.buttons = JSON.parse(parsedBody.buttons);
+                } catch (e) {
+                    console.error('Error parsing buttons:', e);
+                    parsedBody.buttons = [];
+                }
+            }
+        }
+
+        // Handle displayTimes - check if it's already an array or needs parsing
+        if (parsedBody.displayTimes) {
+            if (typeof parsedBody.displayTimes === 'string') {
+                try {
+                    parsedBody.displayTimes = JSON.parse(parsedBody.displayTimes);
+                } catch (e) {
+                    console.error('Error parsing displayTimes:', e);
+                    parsedBody.displayTimes = [];
+                }
+            }
+        }
+
         // Map serviceType to serviceModel if serviceType is being updated
-        if (req.body.serviceType) {
+        if (parsedBody.serviceType) {
             const serviceModelMap = {
                 'professional': 'ProfessionalService',
                 'event': 'Event'
             };
-            req.body.serviceModel = serviceModelMap[req.body.serviceType];
+            parsedBody.serviceModel = serviceModelMap[parsedBody.serviceType];
 
             // If serviceType is event, set eventId and navigateTo
-            if (req.body.serviceType === 'event' && req.body.serviceId) {
-                req.body.eventId = req.body.serviceId;
-                req.body.navigateTo = `/services?event=${req.body.serviceId}`;
+            if (parsedBody.serviceType === 'event' && parsedBody.serviceId) {
+                parsedBody.eventId = parsedBody.serviceId;
+                parsedBody.navigateTo = `/services?event=${parsedBody.serviceId}`;
             }
+        }
+
+        // Handle image upload
+        if (req.file) {
+            parsedBody.image = `/uploads/${req.file.filename}`;
         }
 
         const notification = await Notification.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            parsedBody,
             { new: true, runValidators: true }
         );
 

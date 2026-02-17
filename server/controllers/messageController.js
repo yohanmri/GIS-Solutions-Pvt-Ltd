@@ -34,9 +34,24 @@ exports.createMessage = async (req, res) => {
         const message = new Message(req.body);
         await message.save();
 
-        // Send notification email to admin
+        // Fetch email configuration for CC recipients
+        const EmailConfig = require('../models/EmailConfig');
+        let emailSettings = {};
         try {
-            await emailService.sendNewMessageNotification(req.body);
+            const emailConfig = await EmailConfig.findOne({ isActive: true });
+            if (emailConfig) {
+                emailSettings = {
+                    recipientEmail: emailConfig.recipientEmail,
+                    ccEmails: emailConfig.ccEmails || []
+                };
+            }
+        } catch (configError) {
+            console.error('Error fetching email config:', configError);
+        }
+
+        // Send notification email to admin (and CC recipients)
+        try {
+            await emailService.sendNewMessageNotification(req.body, emailSettings);
             // Send confirmation email to user
             await emailService.sendConfirmationEmail(req.body);
         } catch (emailError) {

@@ -153,14 +153,57 @@ export default function NotificationAdd() {
             setSaving(true);
             const token = localStorage.getItem('adminToken');
 
+            // Create FormData object
+            const submitData = new FormData();
+
+            // Append basic fields
+            if (formData.title) submitData.append('title', formData.title);
+            if (formData.description) submitData.append('description', formData.description);
+            if (formData.badge) submitData.append('badge', formData.badge);
+            if (formData.startDate) submitData.append('startDate', formData.startDate);
+            if (formData.endDate) submitData.append('endDate', formData.endDate);
+            if (formData.isActive !== undefined) submitData.append('isActive', formData.isActive);
+            if (formData.serviceType) submitData.append('serviceType', formData.serviceType);
+
+            // Append optional fields only if they have values
+            if (formData.serviceId && formData.serviceId.trim() !== '') {
+                submitData.append('serviceId', formData.serviceId);
+            }
+
+            // Handle image file
+            if (imageFile) {
+                submitData.append('image', imageFile);
+            } else if (formData.image && !isEdit) {
+                // Should match the backend field name 'image'
+                submitData.append('image', formData.image);
+            }
+
+            // Handle complex objects (buttons, timeSlots) as JSON strings if backend expects them, 
+            // OR simpler approach: if backend uses body-parser for non-file fields, loop/index them.
+            // Assuming backend handles JSON parsing of text fields or we need to stringify arrays
+            if (formData.buttons && formData.buttons.length > 0) {
+                // Filter empty links
+                const validButtons = formData.buttons.filter(btn => btn.link && btn.link.trim() !== '');
+                if (validButtons.length > 0) {
+                    submitData.append('buttons', JSON.stringify(validButtons));
+                }
+            }
+
+            if (formData.displayTimes && formData.displayTimes.length > 0) {
+                submitData.append('displayTimes', JSON.stringify(formData.displayTimes));
+            }
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+
             if (isEdit) {
-                await axios.put(`${API_URL}/api/notifications/${id}`, formData, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                await axios.put(`${API_URL}/api/notifications/${id}`, submitData, config);
             } else {
-                await axios.post(`${API_URL}/api/notifications`, formData, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                await axios.post(`${API_URL}/api/notifications`, submitData, config);
             }
 
             navigate('/admin/notifications');
@@ -239,7 +282,7 @@ export default function NotificationAdd() {
                                 </calcite-label>
 
                                 <calcite-label>
-                                    Notification Image
+                                    Notification Image (Optional)
                                     <input
                                         type="file"
                                         accept="image/*"
@@ -248,24 +291,49 @@ export default function NotificationAdd() {
                                             width: '100%',
                                             padding: '8px',
                                             border: '1px solid var(--calcite-ui-border-1)',
-                                            borderRadius: '4px'
+                                            borderRadius: '4px',
+                                            cursor: 'pointer'
                                         }}
                                     />
-                                    {imagePreview && (
-                                        <div style={{ marginTop: '8px' }}>
+                                    <div style={{ fontSize: '12px', color: '#6a6a6a', marginTop: '4px' }}>
+                                        Upload an image for the notification (max 5MB)
+                                    </div>
+                                </calcite-label>
+
+                                {/* Image Preview */}
+                                {(imagePreview || formData.image) && (
+                                    <div style={{ marginTop: '12px' }}>
+                                        <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                                            Image Preview:
+                                        </div>
+                                        <div style={{
+                                            width: '200px',
+                                            height: '150px',
+                                            border: '2px solid var(--calcite-ui-border-1)',
+                                            borderRadius: '8px',
+                                            overflow: 'hidden',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: '#f8f9fa'
+                                        }}>
                                             <img
-                                                src={imagePreview}
-                                                alt="Preview"
+                                                src={imagePreview || (formData.image?.startsWith('/uploads/')
+                                                    ? `${API_URL}${formData.image}`
+                                                    : formData.image)}
+                                                alt="Notification Preview"
                                                 style={{
-                                                    maxWidth: '200px',
-                                                    maxHeight: '150px',
-                                                    borderRadius: '4px',
+                                                    width: '100%',
+                                                    height: '100%',
                                                     objectFit: 'cover'
+                                                }}
+                                                onError={(e) => {
+                                                    e.target.src = "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-storymaps/assets/arcgis-storymaps.jpg";
                                                 }}
                                             />
                                         </div>
-                                    )}
-                                </calcite-label>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Service Linking */}

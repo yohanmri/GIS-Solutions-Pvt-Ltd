@@ -4,6 +4,7 @@ const contactInfoController = require('../controllers/contactInfoController');
 const messageController = require('../controllers/messageController');
 const departmentalContactController = require('../controllers/departmentalContactController');
 const socialLinkController = require('../controllers/socialLinkController');
+const emailConfigController = require('../controllers/emailConfigController');
 
 // Contact Info Routes
 router.get('/info', contactInfoController.getContactInfo);
@@ -27,5 +28,12 @@ router.get('/social', socialLinkController.getAllSocialLinks);
 router.post('/social', socialLinkController.createSocialLink);
 router.put('/social/:id', socialLinkController.updateSocialLink);
 router.delete('/social/:id', socialLinkController.deleteSocialLink);
+
+// Email Configuration Routes
+router.get('/email-config', emailConfigController.getEmailConfig);
+router.put('/email-config', emailConfigController.updateEmailConfig);
+router.post('/email-config/cc', emailConfigController.addCcEmail);
+router.delete('/email-config/cc/:email', emailConfigController.removeCcEmail);
+router.delete('/email-config', emailConfigController.deleteEmailConfig);
 
 module.exports = router;

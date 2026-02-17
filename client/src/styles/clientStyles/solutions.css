@@ -1,0 +1,382 @@
+/* Solutions Page - Esri Style */
+
+.solutions-page-wrapper {
+    font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f8f8f8;
+}
+
+/* ===== HERO SECTION ===== */
+.solutions-hero-section {
+    position: relative;
+    margin-top: 4%;
+    height: 370px;
+    background: linear-gradient(135deg, #2b5ca8 0%, #6b4c9a 50%, #c94e8f 100%);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 10px,
+            rgba(255, 255, 255, 0.02) 10px,
+            rgba(255, 255, 255, 0.02) 20px),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-content-wrapper {
+    position: relative;
+
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    padding: 0 2rem;
+}
+
+.hero-text-content {
+    text-align: left;
+    color: white;
+    margin-top: 8%;
+    max-width: 700px;
+
+    margin-bottom: 0;
+}
+
+.hero-text-content h1 {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    font-weight: 300;
+    max-width: 600px;
+    margin-bottom: 2rem;
+}
+
+.hero-cta {
+    --calcite-button-background-color: #0079c1;
+    --calcite-button-text-color: white;
+    margin-top: 1rem;
+}
+
+/* Thumbnail Navigation - Inside Hero */
+.thumbnail-nav-wrapper {
+    position: absolute;
+    bottom: -33px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.thumbnail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 2rem;
+}
+
+.thumbnail-item {
+    width: 176px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.thumbnail-item:hover {
+    transform: none;
+}
+
+.thumbnail-item.active {
+    box-shadow: 0 0 0 3px rgb(255, 255, 255);
+}
+
+.thumbnail-image {
+    height: 66px;
+    background-color: #e0e0e0;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    filter: grayscale(1);
+    transition: filter 0.2s ease;
+}
+
+.thumbnail-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.thumbnail-item:hover .thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-item.active .thumbnail-overlay {
+    background: rgba(0, 121, 193, 0.2);
+}
+
+.thumbnail-item:hover .thumbnail-image,
+.thumbnail-item.active .thumbnail-image {
+    filter: none;
+}
+
+/* ===== MAIN CONTENT ===== */
+.solutions-main-content {
+    padding: 3rem 2rem 4rem 2rem;
+    background: #f8f8f8;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.solution-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.solution-header h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 300;
+    color: #2b2b2b;
+    margin-bottom: 1rem;
+}
+
+/* Challenge & Solution Cards */
+.challenge-solution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.cs-card {
+    --calcite-card-border-color: #e0e0e0;
+}
+
+.challenge-card {
+    --calcite-card-accent-color: #d83020;
+}
+
+.solution-card {
+    --calcite-card-accent-color: #35ac46;
+}
+
+/* Subsections Grid */
+.subsections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.subsection-card {
+    --calcite-card-border-color: #e0e0e0;
+    --calcite-card-accent-color: #0079c1;
+}
+
+.subsection-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.subsection-problem {
+    font-style: italic;
+    color: #6a6a6a;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-left: 3px solid #0079c1;
+    border-radius: 4px;
+}
+
+.subsection-list h4 {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6a6a6a;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+.subsection-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.subsection-list ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+.subsection-list ul li calcite-icon {
+    color: #0079c1;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+/* Outcome Section */
+.outcome-section {
+    margin-bottom: 4rem;
+}
+
+.outcome-section calcite-card {
+    --calcite-card-accent-color: #35ac46;
+    text-align: center;
+}
+
+/* Framework Section */
+.shared-framework-section {
+    background: white;
+    padding: 4rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.shared-framework-section h2 {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 300;
+    color: #2b2b2b;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.framework-intro {
+    text-align: center;
+    font-size: 1.125rem;
+    color: #6a6a6a;
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+    line-height: 1.6;
+}
+
+.framework-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.framework-step-card {
+    --calcite-card-border-color: #e0e0e0;
+    text-align: center;
+    position: relative;
+}
+
+.step-number {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 32px;
+    height: 32px;
+    background: #0079c1;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+}
+
+/* Why Choose Us */
+.why-choose-section {
+    border-top: 1px solid #e0e0e0;
+    padding-top: 3rem;
+}
+
+.why-choose-section h3 {
+    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
+    font-weight: 300;
+    color: #2b2b2b;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.why-choose-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.why-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.why-item:hover {
+    background: #f0f8ff;
+    transform: translateX(4px);
+}
+
+.why-item calcite-icon {
+    color: #35ac46;
+    flex-shrink: 0;
+}
+
+.why-item span {
+    font-size: 1rem;
+    color: #2b2b2b;
+    line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .thumbnail-container {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 0 1rem;
+    }
+
+    .thumbnail-item {
+        min-width: 150px;
+    }
+
+    .challenge-solution-grid,
+    .subsections-grid,
+    .framework-steps,
+    .why-choose-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .solutions-main-content {
+        padding: 2rem 1rem;
+    }
+}

@@ -16,7 +16,7 @@ const notificationSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        required: false
     },
 
     // Service Linking
@@ -27,12 +27,12 @@ const notificationSchema = new mongoose.Schema({
     },
     serviceId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: false,
         refPath: 'serviceModel'
     },
     serviceModel: {
         type: String,
-        required: true,
+        required: false,
         enum: ['ProfessionalService', 'Event']
     },
 
@@ -78,7 +78,7 @@ const notificationSchema = new mongoose.Schema({
         },
         link: {
             type: String,
-            required: true
+            required: false
         },
         type: {
             type: String,
