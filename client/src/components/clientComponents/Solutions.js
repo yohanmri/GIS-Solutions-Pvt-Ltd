@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '@esri/calcite-components/components/calcite-button';
 import '@esri/calcite-components/components/calcite-icon';
 import '@esri/calcite-components/components/calcite-notice';
@@ -59,9 +59,43 @@ const TAB_ICONS = ['map', 'layers', 'grid', 'dashboard', 'document'];
 export default function Solutions() {
   const [activeTab, setActiveTab] = useState(solutionsData[0].id);
   const [activeSubTab, setActiveSubTab] = useState(0);
+  const [autoPlaying, setAutoPlaying] = useState(true);
+  const timerRef = useRef(null);
+
+  // Auto-rotate every 5 seconds while autoPlaying
+  useEffect(() => {
+    if (!autoPlaying) return;
+    const ids = solutionsData.slice(0, 4).map(s => s.id);
+    timerRef.current = setInterval(() => {
+      setActiveTab(prev => {
+        const idx = ids.indexOf(prev);
+        return ids[(idx + 1) % ids.length];
+      });
+      setActiveSubTab(0);
+    }, 5000);
+    return () => clearInterval(timerRef.current);
+  }, [autoPlaying]);
+
+  const handleThumbnailClick = (id) => {
+    setAutoPlaying(false);          // stop auto-rotate on manual click
+    clearInterval(timerRef.current);
+    setActiveTab(id);
+    setActiveSubTab(0);
+  };
 
   const activeData = solutionsData.find(s => s.id === activeTab) || solutionsData[0];
   const theme = activeData.designTheme || 'green';
+
+  // Update hero background whenever active solution changes
+  const heroRef = useRef(null);
+  useEffect(() => {
+    if (!heroRef.current) return;
+    if (activeData.heroImage) {
+      heroRef.current.style.setProperty('background', `url('${activeData.heroImage}') center / cover no-repeat`, 'important');
+    } else {
+      heroRef.current.style.setProperty('background', `linear-gradient(135deg, #1b5e35 0%, #2d7d46 100%)`, 'important');
+    }
+  }, [activeData.heroImage]);
 
   const themeConfig = {
     green: { accent: '#2d7d46', light: '#e8f5eb', dark: '#1b5e35' },
@@ -78,21 +112,47 @@ export default function Solutions() {
 
       {/* ═══ HERO — clean image, no overlay ═══ */}
       <section
-        key={`hero-${activeData.id}`}
+        ref={heroRef}
         className="solutions-hero-section"
-        ref={el => {
-          if (el && activeData.heroImage) {
-            el.style.setProperty('background', `url('${activeData.heroImage}') center / cover no-repeat`, 'important');
-          } else if (el) {
-            el.style.setProperty('background', `linear-gradient(135deg, ${tc.dark} 0%, ${tc.accent} 100%)`, 'important');
-          }
-        }}
       >
         <div className="hero-content-wrapper">
           <div className="hero-text-content">
             <h1>{activeData.title}</h1>
             {activeData.subtitle && <p className="hero-subtitle">{activeData.subtitle}</p>}
           </div>
+
+          {/* Hero Right Arrow — cycles solutions */}
+          <button
+            className="hero-next-arrow"
+            onClick={() => {
+              const ids = solutionsData.slice(0, 4).map(s => s.id);
+              const idx = ids.indexOf(activeTab);
+              const next = ids[(idx + 1) % ids.length];
+              handleThumbnailClick(next);
+            }}
+            title="Next solution"
+          >
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              {/* Outer progress ring */}
+              <circle cx="22" cy="22" r="19" stroke="rgba(255,255,255,0.3)" strokeWidth="2" fill="none" />
+              {autoPlaying && (
+                <circle
+                  cx="22" cy="22" r="19"
+                  stroke="white" strokeWidth="2" fill="none"
+                  strokeDasharray="119.4"
+                  strokeDashoffset="0"
+                  strokeLinecap="round"
+                  style={{
+                    transformOrigin: '22px 22px',
+                    transform: 'rotate(-90deg)',
+                    animation: 'thumbnail-progress 5s linear infinite'
+                  }}
+                />
+              )}
+              {/* Arrow */}
+              <polyline points="17,13 27,22 17,31" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            </svg>
+          </button>
 
           {/* Thumbnail Nav */}
           <div className="thumbnail-nav-wrapper">
@@ -101,7 +161,7 @@ export default function Solutions() {
                 <button
                   key={solution.id}
                   className={`thumbnail-item ${activeTab === solution.id ? 'active' : ''}`}
-                  onClick={() => { setActiveTab(solution.id); setActiveSubTab(0); }}
+                  onClick={() => handleThumbnailClick(solution.id)}
                   style={activeTab === solution.id ? { boxShadow: `0 0 0 3px ${tc.accent}` } : {}}
                 >
                   <div
@@ -110,6 +170,7 @@ export default function Solutions() {
                   >
                     <div className="thumbnail-overlay" />
                     <span className="thumbnail-label">{solution.shortTitle || solution.title}</span>
+
                   </div>
                 </button>
               ))}
@@ -163,7 +224,6 @@ export default function Solutions() {
                   <p>{activeData.solution}</p>
                 </>
               )}
-              <div className="esri-split-arrow">→ Learn how we deliver results</div>
             </div>
           </section>
         )}

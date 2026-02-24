@@ -132,6 +132,41 @@
     text-overflow: ellipsis;
 }
 
+/* ── Hero next arrow — right side of hero ── */
+.hero-next-arrow {
+    position: absolute;
+    right: 24px;
+    bottom: -28px;
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.45);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s ease, transform 0.2s ease;
+    padding: 0;
+}
+
+.hero-next-arrow:hover {
+    background: rgba(0, 0, 0, 0.65);
+    transform: scale(1.08);
+}
+
+@keyframes thumbnail-progress {
+    from {
+        stroke-dashoffset: 119.4;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
 /* ═══════════════════════════════════════════════
    MAIN CONTENT WRAPPER
 ═══════════════════════════════════════════════ */
