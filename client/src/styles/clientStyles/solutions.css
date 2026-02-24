@@ -1,19 +1,20 @@
-/* Solutions Page - Esri Style */
+/* ============================================================
+   Solutions Page — Esri-inspired Design System
+   ============================================================ */
 
 .solutions-page-wrapper {
     font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #f8f8f8;
+    background: #fff;
+    color: #2b2b2b;
 }
 
-/* ===== HERO SECTION ===== */
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
 .solutions-hero-section {
     position: relative;
     margin-top: 4%;
     height: 370px;
-    background: linear-gradient(135deg, #2b5ca8 0%, #6b4c9a 50%, #c94e8f 100%);
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: overlay;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,23 +23,16 @@
 
 .hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background:
-        repeating-linear-gradient(45deg,
-            transparent,
-            transparent 10px,
-            rgba(255, 255, 255, 0.02) 10px,
-            rgba(255, 255, 255, 0.02) 20px),
+        repeating-linear-gradient(45deg, transparent, transparent 10px,
+            rgba(255, 255, 255, 0.02) 10px, rgba(255, 255, 255, 0.02) 20px),
         radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
     pointer-events: none;
 }
 
 .hero-content-wrapper {
     position: relative;
-
     z-index: 2;
     width: 100%;
     height: 100%;
@@ -47,36 +41,27 @@
 }
 
 .hero-text-content {
-    text-align: left;
     color: white;
     margin-top: 8%;
     max-width: 700px;
-
-    margin-bottom: 0;
 }
 
 .hero-text-content h1 {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
     font-weight: 300;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .hero-subtitle {
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 2vw, 1.2rem);
     line-height: 1.6;
     font-weight: 300;
     max-width: 600px;
-    margin-bottom: 2rem;
+    opacity: 0.9;
 }
 
-.hero-cta {
-    --calcite-button-background-color: #0079c1;
-    --calcite-button-text-color: white;
-    margin-top: 1rem;
-}
-
-/* Thumbnail Navigation - Inside Hero */
+/* ── Thumbnail Nav ── */
 .thumbnail-nav-wrapper {
     position: absolute;
     bottom: -33px;
@@ -97,48 +82,22 @@
 .thumbnail-item {
     width: 176px;
     cursor: pointer;
-    transition: all 0.3s ease;
     border: none;
     border-radius: 0;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-.thumbnail-item:hover {
-    transform: none;
-}
-
-.thumbnail-item.active {
-    box-shadow: 0 0 0 3px rgb(255, 255, 255);
+    padding: 0;
+    background: none;
 }
 
 .thumbnail-image {
     height: 66px;
-    background-color: #e0e0e0;
+    background-color: #ccc;
     background-size: cover;
     background-position: center;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     filter: grayscale(1);
     transition: filter 0.2s ease;
-}
-
-.thumbnail-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-}
-
-.thumbnail-item:hover .thumbnail-overlay {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.thumbnail-item.active .thumbnail-overlay {
-    background: rgba(0, 121, 193, 0.2);
 }
 
 .thumbnail-item:hover .thumbnail-image,
@@ -146,237 +105,536 @@
     filter: none;
 }
 
-/* ===== MAIN CONTENT ===== */
-.solutions-main-content {
-    padding: 3rem 2rem 4rem 2rem;
-    background: #f8f8f8;
+.thumbnail-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    transition: background 0.3s ease;
 }
 
-.content-container {
+.thumbnail-item:hover .thumbnail-overlay {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.thumbnail-label {
+    position: absolute;
+    bottom: 4px;
+    left: 6px;
+    right: 6px;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ═══════════════════════════════════════════════
+   MAIN CONTENT WRAPPER
+═══════════════════════════════════════════════ */
+.solutions-main-content {
+    padding-top: 60px;
+    /* space for thumbnails that hang out of hero */
+}
+
+/* ═══════════════════════════════════════════════
+   1. THREE-COL FEATURE STRIP
+═══════════════════════════════════════════════ */
+.esri-strip-section {
+    background: #fff;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.esri-strip-inner {
     max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0;
+}
+
+.esri-strip-col {
+    text-align: center;
+    padding: 52px 40px 44px;
+    border-right: 1px solid #e4e4e4;
+    border-top: 4px solid transparent;
+    cursor: pointer;
+    transition: background 0.2s ease, border-top-color 0.2s ease;
+}
+
+.esri-strip-col:last-child {
+    border-right: none;
+}
+
+.esri-strip-col:hover {
+    background: #fafafa;
+}
+
+.esri-strip-col.active {
+    background: #fafafa;
+}
+
+.esri-strip-col h3 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 12px;
+}
+
+.esri-strip-col p {
+    font-size: 0.9375rem;
+    color: #555;
+    line-height: 1.65;
+    max-width: 280px;
     margin: 0 auto;
 }
 
-.solution-header {
-    margin-bottom: 3rem;
-    text-align: center;
-}
-
-.solution-header h2 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 300;
-    color: #2b2b2b;
-    margin-bottom: 1rem;
-}
-
-/* Challenge & Solution Cards */
-.challenge-solution-grid {
+/* ═══════════════════════════════════════════════
+   2. SPLIT SECTION (image + colored panel)
+═══════════════════════════════════════════════ */
+.esri-split-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+    grid-template-columns: 1fr 1fr;
+    min-height: 440px;
 }
 
-.cs-card {
-    --calcite-card-border-color: #e0e0e0;
+.esri-split-image {
+    background-size: cover;
+    background-position: center;
+    min-height: 380px;
 }
 
-.challenge-card {
-    --calcite-card-accent-color: #d83020;
-}
-
-.solution-card {
-    --calcite-card-accent-color: #35ac46;
-}
-
-/* Subsections Grid */
-.subsections-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.subsection-card {
-    --calcite-card-border-color: #e0e0e0;
-    --calcite-card-accent-color: #0079c1;
-}
-
-.subsection-content {
+.esri-split-panel {
+    padding: 64px 56px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    justify-content: center;
+    color: white;
 }
 
-.subsection-problem {
-    font-style: italic;
-    color: #6a6a6a;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-left: 3px solid #0079c1;
-    border-radius: 4px;
+.esri-split-panel h2 {
+    font-size: 1.75rem;
+    font-weight: 300;
+    margin-bottom: 14px;
+    line-height: 1.3;
 }
 
-.subsection-list h4 {
+.esri-split-panel p {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    opacity: 0.92;
+}
+
+.esri-split-divider {
+    width: 48px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    margin: 24px 0;
+}
+
+.esri-split-arrow {
+    margin-top: 28px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    opacity: 0.85;
+    letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════════════
+   3. KEY SOLUTION AREAS (tabs)
+═══════════════════════════════════════════════ */
+.esri-tabs-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 2rem;
+}
+
+.esri-section-title {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 300;
+    color: #151515;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.esri-section-sub {
+    text-align: center;
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 760px;
+    margin: 0 auto 40px;
+}
+
+/* Tab buttons */
+.esri-tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #e4e4e4;
+    margin-bottom: 0;
+    gap: 0;
+    overflow-x: auto;
+}
+
+.esri-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 24px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
     font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #6a6a6a;
-    margin-bottom: 0.75rem;
+    font-weight: 500;
+    color: #555;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s ease, border-bottom-color 0.2s ease;
+    font-family: inherit;
+}
+
+.esri-tab-btn:hover {
+    color: #2b2b2b;
+}
+
+.esri-tab-btn.active {
     font-weight: 600;
 }
 
-.subsection-list ul {
+/* Tab content */
+.esri-tab-content {
+    background: #fafafa;
+    border: 1px solid #e4e4e4;
+    border-top: none;
+}
+
+.esri-problem-bar {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 20px 28px;
+    background: #fffbf0;
+    border-left: 4px solid #f0ad4e;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+.esri-problem-bar strong {
+    display: block;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    color: #2b2b2b;
+}
+
+.esri-problem-bar p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: #444;
+}
+
+.esri-tab-body {
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Block label */
+.esri-block h4 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+}
+
+/* Capabilities card grid */
+.esri-cap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.esri-cap-card {
+    background: white;
+    border: 1px solid #e4e4e4;
+    border-top: 3px solid;
+    border-radius: 2px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s ease;
+}
+
+.esri-cap-card:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.esri-cap-card p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    color: #444;
+}
+
+/* Use cases list */
+.esri-usecases-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
 }
 
-.subsection-list ul li {
+.esri-usecases-list li {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-    line-height: 1.6;
+    gap: 10px;
+    padding: 12px 14px;
+    background: white;
+    border: 1px solid #e4e4e4;
+    border-radius: 2px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #2b2b2b;
 }
 
-.subsection-list ul li calcite-icon {
-    color: #0079c1;
-    margin-top: 2px;
+.esri-uc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
     flex-shrink: 0;
+    margin-top: 5px;
 }
 
-/* Outcome Section */
-.outcome-section {
-    margin-bottom: 4rem;
+/* Chip row */
+.esri-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.outcome-section calcite-card {
-    --calcite-card-accent-color: #35ac46;
+.esri-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+}
+
+/* ═══════════════════════════════════════════════
+   4. PROJECT SHOWCASE
+═══════════════════════════════════════════════ */
+.esri-showcase-section {
+    background: #f3f3f3;
+    padding: 64px 2rem;
+}
+
+/* ═══════════════════════════════════════════════
+   5. OUTCOME BAND (full-width dark)
+═══════════════════════════════════════════════ */
+.esri-outcome-band {
+    padding: 80px 2rem;
     text-align: center;
 }
 
-/* Framework Section */
-.shared-framework-section {
-    background: white;
-    padding: 4rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+.esri-outcome-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    color: white;
 }
 
-.shared-framework-section h2 {
+.esri-outcome-inner h2 {
     font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 300;
-    color: #2b2b2b;
-    text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 20px;
 }
 
-.framework-intro {
-    text-align: center;
-    font-size: 1.125rem;
-    color: #6a6a6a;
-    max-width: 800px;
-    margin: 0 auto 3rem auto;
-    line-height: 1.6;
+.esri-outcome-inner p {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    opacity: 0.88;
 }
 
-.framework-steps {
+/* ═══════════════════════════════════════════════
+   6. FRAMEWORK STEPS
+═══════════════════════════════════════════════ */
+.esri-framework-section {
+    padding: 80px 2rem;
+    background: white;
+    border-top: 1px solid #e4e4e4;
+}
+
+.esri-steps-row {
+    max-width: 1100px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 4rem;
-}
-
-.framework-step-card {
-    --calcite-card-border-color: #e0e0e0;
-    text-align: center;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
     position: relative;
 }
 
-.step-number {
+/* connector line between steps */
+.esri-steps-row::before {
+    content: '';
     position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: #e4e4e4;
+    z-index: 0;
+}
+
+.esri-step-item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 12px;
+    gap: 12px;
+}
+
+.esri-step-num {
     width: 32px;
     height: 32px;
-    background: #0079c1;
+    border-radius: 50%;
     color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.esri-step-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.esri-step-item p {
+    font-size: 0.8125rem;
+    color: #444;
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   7. WHY CHOOSE US
+═══════════════════════════════════════════════ */
+.esri-why-section {
+    padding: 80px 2rem;
+    background: #fafafa;
+    border-top: 1px solid #e4e4e4;
+}
+
+.esri-why-grid {
+    max-width: 1100px;
+    margin: 40px auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.esri-why-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: white;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.esri-why-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+.esri-why-icon {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    font-size: 0.875rem;
-}
-
-/* Why Choose Us */
-.why-choose-section {
-    border-top: 1px solid #e0e0e0;
-    padding-top: 3rem;
-}
-
-.why-choose-section h3 {
-    font-size: clamp(1.5rem, 2.5vw, 1.875rem);
-    font-weight: 300;
-    color: #2b2b2b;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.why-choose-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-}
-
-.why-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.why-item:hover {
-    background: #f0f8ff;
-    transform: translateX(4px);
-}
-
-.why-item calcite-icon {
-    color: #35ac46;
     flex-shrink: 0;
 }
 
-.why-item span {
-    font-size: 1rem;
+.esri-why-item span {
+    font-size: 0.9375rem;
+    font-weight: 500;
     color: #2b2b2b;
-    line-height: 1.5;
+    line-height: 1.4;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .thumbnail-container {
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding: 0 1rem;
-    }
-
-    .thumbnail-item {
-        min-width: 150px;
-    }
-
-    .challenge-solution-grid,
-    .subsections-grid,
-    .framework-steps,
-    .why-choose-grid {
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .esri-strip-inner {
         grid-template-columns: 1fr;
     }
 
-    .solutions-main-content {
-        padding: 2rem 1rem;
+    .esri-strip-col {
+        border-right: none;
+        border-bottom: 1px solid #e4e4e4;
+        padding: 32px 24px;
+    }
+
+    .esri-split-section {
+        grid-template-columns: 1fr;
+    }
+
+    .esri-split-image {
+        min-height: 240px;
+    }
+
+    .esri-steps-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .esri-steps-row::before {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .thumbnail-container {
+        overflow-x: auto;
+        justify-content: flex-start;
+    }
+
+    .esri-steps-row {
+        grid-template-columns: 1fr;
+    }
+
+    .esri-split-panel {
+        padding: 40px 24px;
+    }
+
+    .esri-tabs-section {
+        padding: 40px 1rem;
     }
 }

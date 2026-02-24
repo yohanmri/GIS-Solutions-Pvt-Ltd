@@ -1,0 +1,139 @@
+/* Project Showcase Component - Calcite Card Style */
+
+.project-showcase-wrapper {
+    margin: 4rem 0;
+}
+
+.project-showcase-wrapper.theme-green {
+    --calcite-ui-brand: #35ac46;
+}
+
+.project-showcase-wrapper.theme-blue {
+    --calcite-ui-brand: #0079c1;
+}
+
+.project-showcase-wrapper.theme-red {
+    --calcite-ui-brand: #d83020;
+}
+
+.project-showcase-wrapper.theme-orange {
+    --calcite-ui-brand: #f0ad4e;
+}
+
+.project-showcase-card {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid var(--calcite-ui-brand);
+}
+
+.showcase-heading {
+    padding: 0.5rem 0;
+}
+
+.showcase-heading calcite-chip {
+    --calcite-ui-brand: var(--calcite-ui-brand);
+}
+
+.showcase-description {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 0;
+    padding: 0;
+}
+
+.showcase-image {
+    position: relative;
+    min-height: 350px;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+.image-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(53, 172, 70, 0.2) 0%,
+            rgba(53, 172, 70, 0.05) 100%);
+}
+
+.theme-blue .image-gradient {
+    background: linear-gradient(135deg,
+            rgba(0, 121, 193, 0.2) 0%,
+            rgba(0, 121, 193, 0.05) 100%);
+}
+
+.theme-red .image-gradient {
+    background: linear-gradient(135deg,
+            rgba(216, 48, 32, 0.2) 0%,
+            rgba(216, 48, 32, 0.05) 100%);
+}
+
+.theme-orange .image-gradient {
+    background: linear-gradient(135deg,
+            rgba(240, 173, 78, 0.2) 0%,
+            rgba(240, 173, 78, 0.05) 100%);
+}
+
+.showcase-details {
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+}
+
+.showcase-details h3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #151515;
+    margin: 0 0 1rem 0;
+    line-height: 1.25;
+}
+
+.project-description {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: #4a4a4a;
+    margin-bottom: 2rem;
+}
+
+.project-highlights h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6a6a6a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 1rem 0;
+}
+
+.project-highlights calcite-list {
+    margin-top: 1rem;
+}
+
+.project-highlights calcite-list-item calcite-icon {
+    color: var(--calcite-ui-brand);
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .showcase-description {
+        grid-template-columns: 1fr;
+    }
+
+    .showcase-image {
+        min-height: 280px;
+    }
+
+    .showcase-details {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .showcase-details h3 {
+        font-size: 1.5rem;
+    }
+
+    .project-description {
+        font-size: 1rem;
+    }
+}

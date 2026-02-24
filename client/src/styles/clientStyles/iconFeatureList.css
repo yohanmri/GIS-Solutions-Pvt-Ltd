@@ -1,0 +1,47 @@
+/* Icon Feature List - Calcite Block Style */
+
+.icon-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 0;
+}
+
+.icon-feature-list calcite-block {
+    --calcite-ui-brand: #35ac46;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+}
+
+.icon-feature-list calcite-block::part(icon) {
+    color: #35ac46;
+}
+
+.icon-feature-list calcite-list {
+    margin-top: 1rem;
+}
+
+.icon-feature-list calcite-list-item {
+    --calcite-ui-text-3: #2b2b2b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .feature-item {
+        grid-template-columns: 60px 1fr;
+        gap: 1.25rem;
+    }
+
+    .feature-icon {
+        width: 52px;
+        height: 52px;
+    }
+
+    .feature-icon calcite-icon {
+        --calcite-icon-size: 28px;
+    }
+
+    .feature-content h3 {
+        font-size: 1.25rem;
+    }
+}

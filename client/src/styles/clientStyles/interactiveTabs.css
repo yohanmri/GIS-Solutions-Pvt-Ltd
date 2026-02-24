@@ -1,0 +1,106 @@
+/* Interactive Tabs - Calcite Style */
+
+.interactive-tabs-wrapper {
+    margin: 4rem 0;
+}
+
+.interactive-tabs-wrapper calcite-tabs {
+    --calcite-ui-brand: #35ac46;
+}
+
+.content-container.theme-blue .interactive-tabs-wrapper calcite-tabs {
+    --calcite-ui-brand: #0079c1;
+}
+
+.content-container.theme-red .interactive-tabs-wrapper calcite-tabs {
+    --calcite-ui-brand: #d83020;
+}
+
+.content-container.theme-orange .interactive-tabs-wrapper calcite-tabs {
+    --calcite-ui-brand: #f0ad4e;
+}
+
+.tab-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.tab-content-wrapper {
+    padding: 2rem;
+    background: #ffffff;
+    min-height: 400px;
+}
+
+/* Calcite Notice Styling */
+calcite-notice {
+    margin: 1.5rem 0;
+}
+
+/* Ideal For Chips */
+.ideal-for-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.ideal-for-chips calcite-chip {
+    --calcite-ui-brand: #35ac46;
+}
+
+.content-container.theme-blue .ideal-for-chips calcite-chip {
+    --calcite-ui-brand: #0079c1;
+}
+
+.content-container.theme-red .ideal-for-chips calcite-chip {
+    --calcite-ui-brand: #d83020;
+}
+
+.content-container.theme-orange .ideal-for-chips calcite-chip {
+    --calcite-ui-brand: #f0ad4e;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .tab-navigation {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-button {
+        min-width: 120px;
+        padding: 1rem 1.5rem 0.75rem 1.5rem;
+    }
+
+    .tab-content {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .tab-button {
+        min-width: 100px;
+        padding: 0.75rem 1rem 0.5rem 1rem;
+    }
+
+    .tab-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .tab-icon calcite-icon {
+        --calcite-icon-size: 24px;
+    }
+
+    .tab-label {
+        font-size: 0.875rem;
+    }
+
+    .tab-content {
+        padding: 1.5rem;
+    }
+}

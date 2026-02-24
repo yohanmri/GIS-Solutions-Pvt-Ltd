@@ -5,6 +5,7 @@
         "shortTitle": "Climate & Environment",
         "navImage": "https://trainingassets.esri.com/assets/banner/6983b8ff801b6cc1926bd41e/gis-for-climate-action_mooc-1600.png",
         "heroImage": "https://trainingassets.esri.com/assets/banner/6983b8ff801b6cc1926bd41e/gis-for-climate-action_mooc-1600.png",
+        "solutionImage": "/assets/client-solutions-page/climate_solution.jpg",
         "challenge": "Organizations struggle to monitor environmental change, carbon emissions, and land-use impacts accurately due to fragmented and non-spatial data systems.",
         "solution": "We deliver GIS-powered climate and environmental monitoring platforms that integrate spatial data, analytics, and dashboards to support environmental compliance and sustainable decision-making.",
         "subSections": [
@@ -55,7 +56,18 @@
             }
         ],
         "outcome": "Improved environmental governance, accurate reporting, and data-driven sustainability planning.",
-        "cta": "Request a Climate & Environmental GIS Consultation"
+        "cta": "Request a Climate & Environmental GIS Consultation",
+        "designTheme": "green",
+        "projectShowcase": {
+            "title": "MRV System for Environment Ministry, Sri Lanka",
+            "description": "GIS-powered Monitoring, Reporting & Verification platform for tracking carbon emissions, land-use changes, and environmental compliance across Sri Lanka's protected areas and forestry programs.",
+            "highlights": [
+                "Real-time forest cover monitoring",
+                "Automated MRV reporting dashboards",
+                "Spatial carbon accounting tools"
+            ],
+            "image": "https://www.esri.com/content/dam/esrisites/en-us/arcgis/products/arcgis-living-atlas/assets/forest-monitoring.jpg"
+        }
     },
     {
         "id": "incident",
@@ -63,6 +75,7 @@
         "shortTitle": "Incident & Operations",
         "navImage": "https://trainingassets.esri.com/assets/banner/6983b7cc161fc09423302d13/march-2026-lts-web-banner.jpg",
         "heroImage": "https://trainingassets.esri.com/assets/banner/6983b7cc161fc09423302d13/march-2026-lts-web-banner.jpg",
+        "solutionImage": "/assets/client-solutions-page/insident_operation.jpg",
         "challenge": "Incidents are often managed without spatial intelligence, leading to delayed response, poor coordination, and limited insight into operational trends.",
         "solution": "We build location-based incident and operations management systems that provide real-time situational awareness and operational intelligence.",
         "subSections": [
@@ -99,7 +112,18 @@
             }
         ],
         "outcome": "Faster response times, improved coordination, and better operational decisions.",
-        "cta": "Discuss an Incident Management Solution"
+        "cta": "Discuss an Incident Management Solution",
+        "designTheme": "red",
+        "projectShowcase": {
+            "title": "Emergency Response System for Urban Operations",
+            "description": "Real-time incident management platform integrating multiple agencies for coordinated emergency response and resource deployment across metropolitan areas.",
+            "highlights": [
+                "Live incident mapping and tracking",
+                "Multi-agency coordination dashboards",
+                "Hotspot analysis and predictive analytics"
+            ],
+            "image": "https://www.esri.com/content/dam/esrisites/en-us/common/imagery/emergency-management.jpg"
+        }
     },
     {
         "id": "weather",
@@ -107,6 +131,7 @@
         "shortTitle": "Weather & Risk",
         "navImage": "https://trainingassets.esri.com/assets/banner/6983b82845b6c08210fcc584/span-banner.jpg",
         "heroImage": "https://trainingassets.esri.com/assets/banner/6983b82845b6c08210fcc584/span-banner.jpg",
+        "solutionImage": "/assets/client-solutions-page/weather_risk_solution.jpg",
         "challenge": "Weather and risk data exist, but without spatial visualization they are difficult to interpret and act upon.",
         "solution": "We develop GIS-enabled weather and risk intelligence platforms that transform complex meteorological data into actionable spatial insights.",
         "subSections": [
@@ -142,7 +167,18 @@
             }
         ],
         "outcome": "Improved preparedness, clearer risk communication, and informed planning.",
-        "cta": "Explore Weather & Risk Intelligence Platforms"
+        "cta": "Explore Weather & Risk Intelligence Platforms",
+        "designTheme": "blue",
+        "projectShowcase": {
+            "title": "National Weather Intelligence Dashboard",
+            "description": "Integrated weather visualization and risk assessment platform providing real-time meteorological data, early warnings, and hazard mapping for disaster preparedness agencies.",
+            "highlights": [
+                "Interactive weather layer visualization",
+                "Flood and landslide risk mapping",
+                "Public-facing early warning system"
+            ],
+            "image": "https://www.esri.com/content/dam/esrisites/en-us/common/imagery/weather-analysis.jpg"
+        }
     },
     {
         "id": "infrastructure",
@@ -150,6 +186,7 @@
         "shortTitle": "Infrastructure & Urban",
         "navImage": "https://trainingassets.esri.com/assets/banner/69617ee06c797c1db206ee2a/eapp2025-banner.jpg",
         "heroImage": "https://trainingassets.esri.com/assets/banner/69617ee06c797c1db206ee2a/eapp2025-banner.jpg",
+        "solutionImage": "/assets/client-solutions-page/infrastructure.jpg",
         "challenge": "Infrastructure, land, and urban data are scattered across departments, limiting effective planning and management.",
         "solution": "We deliver integrated infrastructure and urban GIS platforms that unify assets, land, services, and risks into a single decision-support environment.",
         "subSections": [
@@ -183,7 +220,18 @@
             }
         ],
         "outcome": "Smarter infrastructure management, coordinated urban planning, and resilient development.",
-        "cta": "Plan an Infrastructure GIS Solution"
+        "cta": "Plan an Infrastructure GIS Solution",
+        "designTheme": "orange",
+        "projectShowcase": {
+            "title": "Smart City Asset Management Platform",
+            "description": "Comprehensive infrastructure intelligence system for municipal authorities, integrating asset inventories, maintenance schedules, and urban planning data into a unified GIS platform.",
+            "highlights": [
+                "Complete asset lifecycle management",
+                "Multi-department coordination dashboards",
+                "Predictive maintenance analytics"
+            ],
+            "image": "https://www.esri.com/content/dam/esrisites/en-us/common/imagery/smart-city-infrastructure.jpg"
+        }
     },
     {
         "id": "case-management",

@@ -1,0 +1,96 @@
+/* Full Width Image Section - Esri Style */
+
+.full-width-image-section {
+    position: relative;
+    min-height: 500px;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4rem 0;
+    overflow: hidden;
+}
+
+.full-width-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+            rgba(21, 21, 21, 0.75) 0%,
+            rgba(21, 21, 21, 0.6) 100%);
+}
+
+.full-width-image-section.light .full-width-overlay {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.85) 0%,
+            rgba(255, 255, 255, 0.9) 100%);
+}
+
+.full-width-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 4rem 2rem;
+}
+
+.full-width-content h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.full-width-image-section.light .full-width-content h2 {
+    color: #151515;
+}
+
+.full-width-content p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.full-width-image-section.light .full-width-content p {
+    color: #4a4a4a;
+}
+
+.full-width-content calcite-button {
+    --calcite-button-background-color: #35ac46;
+    --calcite-button-border-color: #35ac46;
+    --calcite-button-text-color: #ffffff;
+    margin-top: 1rem;
+}
+
+.full-width-content calcite-button:hover {
+    --calcite-button-background-color: #2d9139;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .full-width-image-section {
+        min-height: 400px;
+    }
+
+    .full-width-content {
+        padding: 3rem 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .full-width-image-section {
+        min-height: 350px;
+    }
+
+    .full-width-content {
+        padding: 2rem 1rem;
+    }
+}
